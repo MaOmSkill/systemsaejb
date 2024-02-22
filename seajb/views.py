@@ -1,10 +1,14 @@
 import sweetify
+from django.db.models import Q
+from django.utils import timezone
+from django.core.paginator import Paginator
 from reportlab.pdfgen import canvas
+from django.urls import reverse
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib import messages 
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from .models import Brigada, Batallones, Armas, Municiones, Personas
-from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm
+from .models import Brigada, Batallones, Armas, Municiones, Personas,Abastecimiento, Producto, Historial
+from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm,AbastecimientoForm, ProductoForm, HistorialForm
 
 
 # tabla principal editar , eliminar y crear brigadas
@@ -93,7 +97,7 @@ def info(request, unidad_id):
            nueva_compania = formularios.save()
            id = nueva_compania.segundo.id
            messages.success(request, "Se registro el Arma correctamente")
-           return redirect('info', unidad_id=id)
+           return redirect('infor', unidad_id=id)
     else:
         formularios = ArmaForm()
     
@@ -103,7 +107,7 @@ def info(request, unidad_id):
            nueva_compania = form.save()
            id = nueva_compania.tercero.id
            messages.success(request, "Se registro la Munición correctamente")
-           return redirect('info', unidad_id=id)
+           return redirect('infor', unidad_id=id)
        else:
            sweetify.error(request, 'Faltaron campos por rellenar', timer=5000)
     else:
@@ -169,6 +173,87 @@ def pdf(request,pdf_id):
 
 #ABASTECIMIENTO VISTAS DE ABASTACIMIENTO CREAR BORRAR, VER, FORMULARIO ENTRE OTROS
 def abas_index(request):
-    return render(request, 'abastecimiento/abas_index.html')
+    abas = Abastecimiento.objects.all()
+    if request.method == 'POST':
+        formularios = AbastecimientoForm(request.POST)
+        if formularios.is_valid():
+            formularios.save()
+            messages.success(request, "Se registro el Abastecimiento correctamente")
+            return redirect('abastecimiento')
+    else:
+        formularios = AbastecimientoForm()
+    context = {'abas':abas, 'formulario':formularios}
+    return render(request, 'abastecimiento/abas_index.html', context)
 
+def modificar_abas(request, id):
+    edicion = Abastecimiento.objects.get(id=id)
+    if request.method == 'POST':
+        formularios = AbastecimientoForm(request.POST, instance=edicion)
+        if formularios.is_valid():
+            formularios.save()
+            return redirect('abastecimiento')
+    else:
+        formularios = AbastecimientoForm(instance=edicion)
+    return render(request, 'abastecimiento/modificar_abas.html', {'formulario': formularios})
+
+def eliminar_abas(request, id):
+    try:
+        registro = Abastecimiento.objects.get(id=id)
+        registro.delete()
+        messages.success(request, "Registro eliminado correctamente.")
+        return redirect('abastecimiento')
+    except Brigada.DoesNotExist:
+        messages.error(request, "El registro no existe.")
+    return redirect('abastecimiento')
+
+def abas_info(request, id):
+    abas = Abastecimiento.objects.filter(id=id)
+    cuarto = Abastecimiento.objects.get(id=id)
+    producto = Producto.objects.filter(cuarto=cuarto)
+    
+    if request.method == 'POST':
+        formularios = ProductoForm(request.POST)
+        if formularios.is_valid():
+            nuevo_producto = formularios.save()
+            id = nuevo_producto.cuarto.id
+            return redirect('info', id=id)
+    else:
+        formularios = ProductoForm()
+        
+    return render(request, 'abastecimiento/abas_info.html', {'formulario': formularios,'producto': producto, 'abas':abas})
+
+def agregar_historial(request, id):
+    producto= Producto.objects.get(id=id)
+    if request.method == 'POST':
+        formu = HistorialForm(request.POST)
+        if formu.is_valid():
+            accion = formu.cleaned_data['accion']
+            monto = formu.cleaned_data['monto']
+            if accion == 'sumar':
+                producto.cantidad += monto
+            else:
+                producto.cantidad -= monto
+            producto.save()
+            historial = Historial(producto=producto, accion=accion, monto=monto)
+            historial.save()
+            return redirect(reverse('info', args=[producto.cuarto.id]))
+    else:
+        formu = HistorialForm()
+    return render(request, 'abastecimiento/agregar_historial.html', {'formu': formu, 'producto':producto})
+
+def modificar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    if request.method == 'POST':
+        formularios = ProductoForm(request.POST, instance=producto)
+        if formularios.is_valid():
+            formularios.save()
+            return redirect(reverse('info', args=[producto.cuarto.id]))
+    else:
+        formularios = ProductoForm(instance=producto)
+    return render(request, 'abastecimiento/modificar_producto.html', {'formulario': formularios, 'producto':producto})
+
+def eliminar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    producto.delete()
+    return redirect('principal')
 

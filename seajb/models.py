@@ -1,7 +1,8 @@
 from django.db import models
+from django.utils import timezone
 import random
 
-# Create your models here.
+#  aqui va las tablas de Brigadas, Batallones y Unidades, Armas de las base de datos del saejb
 
 class Brigada(models.Model):
     code = models.CharField(max_length=100, unique=True)
@@ -77,7 +78,7 @@ class Armas(models.Model):
         
 
 class Municiones(models.Model):
-    tipoM = models.CharField(max_length=100, verbose_name='Muncion')
+    tipoM = models.CharField(max_length=100, verbose_name='Carga Basica')
     serialAG = models.CharField(max_length=100, verbose_name='Serial Asignado')
     fechaAG = models.CharField(max_length=100, verbose_name='Fecha de Asignación')
     cantidadM = models.CharField(max_length=100, verbose_name='Cantidad')
@@ -87,6 +88,8 @@ class Municiones(models.Model):
     
     def __str__(self):
         return self.tipoM, self.serialAG, self.fechaAG, self.cantidadM, self.lote, self.tercero
+    
+# aqui va las tablas de Personal con Armamento de las base de datos del saejb   
 
 class Personas(models.Model):
     code = models.CharField(max_length=100, unique=True)
@@ -137,3 +140,46 @@ class Personas(models.Model):
                 self.telefono,
                 self.correo)
         
+        
+# aqui va las tablas de abastecimiento de las base de datos del saejb
+
+class Abastecimiento(models.Model):
+    code = models.CharField(max_length=100, unique=True)
+    nombreAbas = models.CharField(max_length=100, verbose_name="Nombre del Punto")
+    descripcion = models.CharField(max_length=100, verbose_name="Descripción")
+    fecha_entrada = models.DateTimeField(auto_now_add=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = self.generar_serial()
+        super().save(*args, **kwargs)
+    
+    @staticmethod
+    def generar_serial():
+        prefix = 'ABAS' 
+        suffix = ''.join(str(random.randint(0, 9)) for _ in range(6))
+        return f'{prefix}{suffix}'
+
+    def __str__(self):
+        return self.nombreAbas, self.descripcion     
+
+class Producto(models.Model):
+    nombre = models.CharField(max_length=100, verbose_name='Nombre')
+    cantidad = models.IntegerField(default=0)
+    cuarto = models.ForeignKey(Abastecimiento, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre
+
+class Historial(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(default=timezone.now)
+    accion = models.CharField(max_length=10, choices=[('sumar', 'Sumar'), ('restar', 'Restar')])
+    monto = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.producto.nombre} - {self.accion} - {self.monto}"
+
+    
+    
+

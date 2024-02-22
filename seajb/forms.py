@@ -1,5 +1,5 @@
 from django import forms
-from .models import Brigada, Batallones, Armas, Municiones, Personas
+from .models import Brigada, Batallones, Armas, Municiones, Personas ,Abastecimiento ,Producto, Historial
 
 
 class BrigadaForm(forms.ModelForm):
@@ -76,3 +76,26 @@ class PersonaForm(forms.ModelForm):
                   'direccion',
                   'telefono', 
                   'correo']
+        
+ 
+class AbastecimientoForm(forms.ModelForm):
+    class Meta:
+        model = Abastecimiento
+        fields = ['nombreAbas', 'descripcion']
+        
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = ['nombre', 'cantidad', 'cuarto']
+
+class HistorialForm(forms.Form):
+    producto = forms.ModelChoiceField(queryset=Producto.objects.all())
+    accion = forms.ChoiceField(choices=[('sumar', 'Sumar'), ('restar', 'Restar')])
+    monto = forms.IntegerField()
+    
+    class Meta:
+        model = Historial
+        fields = ['producto', 'accion', 'monto']
+    
+
+    

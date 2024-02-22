@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block titulo %} Principal {% endblock %} 
+
+{% block seccion %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h5 class="m-0">Panel de Edicion</h5>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Abastecimiento</a></li>
+          <li class="breadcrumb-item active">Edicion</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="card card-primary w-25">
+        <div class="card-header border-0">
+            <div class="d-flex justify-content-between">
+                <h3 class="card-title">Editar Abastecimiento</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <form action="" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="nombreAbas" class="form-label">{{formulario.nombreAbas.label}} </label>
+                        <input type="text" class="form-control" name="nombreAbas" id="nombreAbas" placeholder="Nombre">
+                        {% for error in formulario.errors.nombreAbas %}
+                          <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="descripcion" class="form-label">{{formulario.descripcion.label}} </label>
+                        <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
+                        {% for error in formulario.errors.descripcion %}
+                          <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary float-left" value="Guardar">
+                            <button type="button" id="cerrarBoton" class="btn btn-secondary" data-dismiss="modal" onclick="history.back()">Cerrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock%}

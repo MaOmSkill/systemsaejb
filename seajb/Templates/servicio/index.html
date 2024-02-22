@@ -25,14 +25,15 @@
 
 
 {% block contenido %}
-<div class="card card-primary w-100">
+<div class="card card-primary">
    <div class="card-header border-0">
       <div class="d-flex justify-content-between">
         <h3 class="card-title"></h3>
         <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#modalBrigada">Agregar Brigada</a>
       </div>
     </div>
-    <div class="card-body">
+
+    <div class="card-body table-responsive">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -85,22 +86,6 @@
 
 
 {% block js %}
-
-<script>
-  $(document).on('click', '.btn-editar', function() {
-    var id = $(this).data('id');
-  
-    $.ajax({
-      url: '/editar/' + id,
-      method: 'GET',
-      success: function(response) {
-        $('#editar-form-container').html(response);
-        $('#editar-modal').modal('show');
-      }
-    });
-  });
-</script>
-
 <script>
   $(document).ready(function() {
     $(".btn-danger").click(function() {

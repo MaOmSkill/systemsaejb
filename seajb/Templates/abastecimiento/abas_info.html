@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block titulo %} PRODUCTO {% endblock %} 
+
+{% block seccion %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h5 class="m-0">Panel de Producto</h5>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Información</a></li>
+          <li class="breadcrumb-item active">Producto</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block contenido %}
+
+<div class="card card-primary w-100">
+  <div class="card-header border-0">
+    <div class="d-flex justify-content-between">
+      <h3 class="card-title"></h3>
+      <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#modalProducto">+-MATERIAL</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <table id="example1" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>N°</th>
+          <th>Nombre</th>
+          <th>Cantidad</th>
+          <th>acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tabla in  producto %}
+        <tr>
+          <td>{{tabla.id}}  </td>
+          <td>{{tabla.nombre}}  </td>
+          <td>{{tabla.cantidad}}  </td>
+          <td>
+            <a href="{% url 'historial' tabla.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
+            <a href="{% url 'modificar' tabla.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
+            <a href="#" class="btn btn-danger btn-xs"><i class="fas fa-solid fa-file-pdf"></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <div class="modal fade" id="modalProducto" tabindex="1" aria-labelledby="tituloProductoModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+            <div class="modal-header bg-primary ">
+                <h5 class="modal-title" id="tituloProductoModal">Formulario de las Armas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% include "abastecimiento/agregar_producto.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

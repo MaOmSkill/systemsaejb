@@ -1,0 +1,36 @@
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label for="producto">{{formu.producto.label}} </label>
+        <select class="form-control" id="producto" name="producto">
+          <option value="{{producto.id}}">{{producto.id}} - {{producto.nombre}} </option>
+        </select>
+        {% for error in formu.producto.errors %}
+        <span class="error-message">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="form-group col-md-12">
+        <label for="accion">{{formu.accion.label}} </label>
+        <select class="form-control" id="accion" name="accion">
+          <option value="0">-----Seleccione-----</option>
+          <option value="sumar">Sumar</option>
+          <option value="restar">Restar</option>
+        </select>
+        {% for error in formu.accion.errors %}
+        <span class="error-message">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="form-group col-md-12">
+        <label for="monto" class="form-label">{{formu.monto.label}}</label>
+        <input type="number" class="form-control" name="monto" id="monto">
+      </div>
+      {% for error in formu.monto.errors %}
+      <span class="error-message">{{ error }}</span>
+      {% endfor %}
+      <div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary float-left" value="Guardar">
+          <button type="button" id="cerrarBoton" class="btn btn-secondary" data-dismiss="modal" onclick="history.back()">Cerrar</button>
+        </div>
+      </form>

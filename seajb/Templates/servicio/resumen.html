@@ -49,7 +49,7 @@
             <tbody>
                 {% for tabla in datos  %}
                 <tr>
-                    <<td>{{tabla.fecha|date:"d/m/Y"}}</td>
+                    <td>{{tabla.fecha|date:"d/m/Y"}}</td>
                     <td> </td>
                     <td>{{tabla.nombreB}}</td>
                     <td>{{tabla.comandante}}</td>
@@ -78,7 +78,7 @@
                         <td>{{datos.nombreB}} </td>
                         <td>{{datos.nombreB}} </td>
                         <td>
-                            <a href="{%url 'info' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
+                            <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
                         </td>
                     </tr>
                     {% endfor %}

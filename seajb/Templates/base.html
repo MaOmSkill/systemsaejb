@@ -22,6 +22,7 @@
    <link rel="stylesheet" href="/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
    <!-- Theme style -->
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -63,7 +64,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item menu-open">
-            <a href="{% url 'personas' %}" class="nav-link">
+            <a href="{% url 'personas'  %}" class="nav-link">
               <i class="nav-icon fas fa-user-edit"></i>
               <p>
                 Personal
@@ -142,18 +143,18 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": true, "autoWidth": true,
+      "responsive": false, "lengthChange": true, "autoWidth": true,
       // "buttons": ["excel", "pdf"],
       language: {
-                "pageLength": 5,
+                "pageLength":     "",
                 "decimal":        "",
                 "emptyTable":     "No hay datos",
-                "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
-                "infoFiltered":   "(Filtro de _MAX_ total registros)",
+                "info":           "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+                "infoEmpty":      "Mostrando 0 a 0 de 0 Registros",
+                "infoFiltered":   "(Filtro de _MAX_ total Registros)",
                 "infoPostFix":    "",
                 "thousands":      ",",
-                "lengthMenu":     "Mostrar _MENU_ registros",
+                "lengthMenu":     "Mostrar _MENU_ Registros",
                 "loadingRecords": "Cargando...",
                 "processing":     "Procesando...",
                 "search":         "Buscar:",
@@ -178,16 +179,16 @@
       "ordering": true,
       "info": true,
       "autoWidth": true,
-      "responsive": true,
+      "responsive": false,
       language: {
                 "decimal":        "",
                 "emptyTable":     "No hay datos",
-                "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
-                "infoFiltered":   "(Filtro de _MAX_ total registros)",
+                "info":           "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+                "infoEmpty":      "Mostrando 0 a 0 de 0 Registros",
+                "infoFiltered":   "(Filtro de _MAX_ total Registros)",
                 "infoPostFix":    "",
                 "thousands":      ",",
-                "lengthMenu":     "Mostrar _MENU_ registros",
+                "lengthMenu":     "Mostrar _MENU_ Registros",
                 "loadingRecords": "Cargando...",
                 "processing":     "Procesando...",
                 "search":         "Buscar:",

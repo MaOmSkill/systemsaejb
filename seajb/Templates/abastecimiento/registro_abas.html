@@ -1,0 +1,23 @@
+<form action="" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label for="nombreAbas" class="form-label">{{formulario.nombreAbas.label}} </label>
+            <input type="text" class="form-control" name="nombreAbas" id="nombreAbas" placeholder="Nombre">
+            {% for error in formulario.errors.nombreAbas %}
+            <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group col-md-12">
+            <label for="descripcion" class="form-label">{{formulario.descripcion.label}} </label>
+            <textarea class="form-control" name="descripcion" id="descripcion" rows="3" placeholder="Describe Espeficiamente lo que consiste este Punto de Abastecimiento"></textarea>
+            {% for error in formulario.errors.descripcion %}
+            <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+    <div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-primary float-left" value="Guardar">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+</form>
