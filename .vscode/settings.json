@@ -4,5 +4,6 @@
     },
     "auto-close-tag.disableOnLanguage": [
         
-    ]
+    ],
+    "editor.accessibilityPageSize": 18
 }
