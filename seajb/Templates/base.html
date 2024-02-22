@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}  {% endblock %}</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="/static/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+   <!-- overlayScrollbars -->
+   <link rel="stylesheet" href="/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+   <!-- Theme style -->
+  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+
+  
+  <div class="wrapper">
+    <!-- Preloader -->
+  {% comment %} <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__wobble" src="/static/dist/img/logo1.png" alt="SAEJB" height="150" width="150">
+  </div> {% endcomment %}
+  
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'servicio' %}" class="nav-link">Inicio</a>
+      </li>
+    </ul>
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+     
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+   <a href="#" class="brand-link">
+      <img src="/static/dist/img/logo.jpeg" alt="SAEJB" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light float-left"><b>SAEJB</b></span>
+    </a>
+
+    <div class="sidebar">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item menu-open">
+            <a href="{% url 'personas' %}" class="nav-link">
+              <i class="nav-icon fas fa-user-edit"></i>
+              <p>
+                Personal
+              </p>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item menu-open">
+            <a href="{% url 'abastecimiento' %}" class="nav-link">
+              <i class="nav-icon fas fa-poo-storm "></i>
+              <p>
+                Abastecimiento
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    {% block seccion %} {% endblock %}
+
+    <div class="content">
+      <div class="container-fluid">
+        {% block contenido %}   {% endblock %}
+      </div>
+    </div>
+  </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <strong>&copy; 2024 <a href="#">Dirección  de Tecnologia de la Información y Comunicaciones</a></strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 0.0.1
+    </div>
+  </footer>
+</div>
+
+<!-- jQuery -->
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="/static/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/plugins/jszip/jszip.min.js"></script>
+<script src="/static/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/dist/js/adminlte.min.js"></script>
+
+
+{% block js %}   {% endblock %}
+ 
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": true, "autoWidth": true,
+      // "buttons": ["excel", "pdf"],
+      language: {
+                "pageLength": 5,
+                "decimal":        "",
+                "emptyTable":     "No hay datos",
+                "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
+                "infoFiltered":   "(Filtro de _MAX_ total registros)",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "Buscar:",
+                "zeroRecords":    "No se encontraron coincidencias",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Ultimo",
+                    "next":       "Próximo",
+                    "previous":   "Anterior",
+                       },
+                "aria": {
+                    "sortAscending":  ": Activar orden de columna ascendente",
+                    "sortDescending": ": Activar orden de columna desendente",
+                    }
+            }
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+      "responsive": true,
+      language: {
+                "decimal":        "",
+                "emptyTable":     "No hay datos",
+                "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
+                "infoFiltered":   "(Filtro de _MAX_ total registros)",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "Buscar:",
+                "zeroRecords":    "No se encontraron coincidencias",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Ultimo",
+                    "next":       "Próximo",
+                    "previous":   "Anterior",
+                       },
+                "aria": {
+                    "sortAscending":  ": Activar orden de columna ascendente",
+                    "sortDescending": ": Activar orden de columna desendente",
+                    }
+            }
+  
+    }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+
+    
+});
+</script>
+{% if messages%}
+  {% for m in messages %}
+  <script> 
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 5000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: "success",
+      title: "{{m}}"
+    });
+
+
+  </script>
+  {%endfor%}
+{% endif%}
+{% load sweetify %}
+{% sweetify %}
+</body>
+</html>

@@ -1,0 +1,54 @@
+<form action="" id="formulario" enctype="multipart/form-data"  method="post">
+{% csrf_token %}
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <label for="nombreB" class="form-label">Brigada</label>
+    <input type="text" class="form-control" name="nombreB" id="nombreB" value="{{ formulario.nombreB.value|default_if_none:'' }}" placeholder="Brigada">
+    {% for error in formulario.nombreB.errors %}
+      <span class="error-message">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+  <label for="ubicacionB" class="form-label"> {{formulario.ubicacionB.label}} </label>
+  <input type="text" class="form-control" name="ubicacionB" id="ubicacionB" value="{{ formulario.ubicacionB.value|default_if_none:'' }}" placeholder="ubicacion" >
+  {% for error in formulario.ubicacionB.errors %}
+  <span class="error-message">{{ error }}</span>
+  {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+    <label for="comandante" class="form-label">{{formulario.comandante.label}}</label>
+    <input type="text" class="form-control" name="comandante" id="comandante" value="{{ formulario.comandante.value|default_if_none:'' }}" placeholder="Comandante">
+    {% for error in formulario.errors.comandante %}
+      <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+  <label for="telefono" class="form-label">{{formulario.telefono.label}} </label>
+  <input type="text" class="form-control" name="telefono" id="telefono" value="{{ formulario.telefono.value|default_if_none:'' }}" placeholder="Telefono" >
+  {% for error in formulario.errors.telefono %}
+      <span class="error">{{ error }}</span>
+  {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+    <label for="correo" class="form-label">{{formulario.correo.label}}</label>
+    <input type="text" class="form-control" name="correo" id="correo" value="{{ formulario.correo.value|default_if_none:'' }}" placeholder="Correo Electronico">
+    {% for error in formulario.errors.correo %}
+      <span class="error">{{ error }}</span>
+  {% endfor %}
+  </div>
+</div>
+
+
+<div class="modal-footer">
+<button type="{% url 'servicio' %}" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+<input type="submit" class="btn btn-primary float-left" value="Guardar">
+</div>
+</form> 
+
+
+

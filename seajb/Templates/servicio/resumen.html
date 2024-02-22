@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+
+{% block titulo %} Principal {% endblock %} 
+
+
+{% block seccion %}
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h5 class="m-0">Panel de Brigadas</h5>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Información</a></li>
+            <li class="breadcrumb-item active">Unidades</li>
+            <li class="breadcrumb-item active">Armamento</li>
+            <li class="breadcrumb-item active">Municiones</li>
+            <li class="breadcrumb-item active">Personas</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+{% endblock %}
+
+
+{% block contenido %}
+<div class="card card-primary w-100">
+   <div class="card-header border-0">
+      <div class="d-flex justify-content-between">
+        <h3 class="card-title"></h3>
+        <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#exampleModal">Agregar Unidad</a>
+      </div>
+    </div>
+    <div class="card-body">
+        <table id="" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Serial</th>
+                    <th>Brigada</th>
+                    <th>Comandante</th>
+                    <th>Telefono</th>
+                    <th>Correo Electronico</th>
+                  </tr>
+            </thead>
+            <tbody>
+                {% for tabla in datos  %}
+                <tr>
+                    <<td>{{tabla.fecha|date:"d/m/Y"}}</td>
+                    <td> </td>
+                    <td>{{tabla.nombreB}}</td>
+                    <td>{{tabla.comandante}}</td>
+                    <td>{{tabla.telefono}}</td>
+                    <td>{{tabla.correo}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>fecha</th>
+                        <th>Unidad</th>
+                        <th>Serial</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for datos in   servicios %}
+                    <tr>
+                      <td>{{datos.fecha|date:"d/m/Y"}}</td>
+                        <td>{{datos.nombreB}} </td>
+                        <td>{{datos.nombreB}} </td>
+                        <td>
+                            <a href="{%url 'info' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary ">
+          <h5 class="modal-title" id="exampleModalLabel">Formulario de la Unidad</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {% include 'batallon/batallon_f.html' %}
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

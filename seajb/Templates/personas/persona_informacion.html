@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+
+{% block titulo %} Resumen de la Unidad {% endblock %} 
+
+
+{% block seccion %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h5 class="m-0">Panel de Información</h5>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Información</a></li>
+          <li class="breadcrumb-item active">Armamento</li>
+          <li class="breadcrumb-item active">Municiones</li>
+          <li class="breadcrumb-item active">Personas</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block contenido %}
+<div class="card card-primary w-100">
+   <div class="card-header border-0">
+      <div class="d-flex justify-content-between">
+        <h3 class="card-title"></h3>
+      </div>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Fecha Creado</th>
+                    <th>Codigo</th>
+                    <th>Grado</th>
+                    <th>Nombres y Apellidos</th>
+                    <th>Cedula</th>
+                    <th>Promocion</th>
+                    <th>Año</th>
+                  </tr>
+            </thead>
+            <tbody>
+               {% for datos in registropersona %}
+                <tr>
+                    <td>{{datos.fecha}} </td>
+                    <td>codigo</td>
+                    <td>{{datos.grado}} </td>
+                    <td>{{datos.datos}} </td>
+                    <td>{{datos.cedula}} </td>
+                    <td>{{datos.promocion}} </td>
+                    <td>{{datos.ano}} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <thead>
+              <tr>
+                  <th>Unidad</th>
+                  <th>Arma</th>
+                  <th>Serial de Arma</th>
+                  <th>Serial de Asignación</th>
+                  <th>Direccion</th>
+                  <th>Telefono</th>
+                  <th>Correo Electronico</th>
+                </tr>
+          </thead>
+          <tbody>
+            {% for datos in registropersona %}
+             <tr>
+                 <td>{{datos.unidad}} </td>
+                 <td>{{datos.armaA}} </td>
+                 <td>{{datos.serialA}} </td>
+                 <td>{{datos.serialAG}} </td>
+                 <td>{{datos.direccion}} </td>
+                 <td>{{datos.telefono}} </td>
+                 <td>{{datos.correo}} </td>
+             </tr>
+             {% endfor %}
+         </tbody>
+
+
+
+
+
+
+        </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
