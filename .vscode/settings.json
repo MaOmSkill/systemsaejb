@@ -5,5 +5,5 @@
     "auto-close-tag.disableOnLanguage": [
         
     ],
-    "editor.accessibilityPageSize": 18
+    "editor.accessibilityPageSize": 10,
 }
