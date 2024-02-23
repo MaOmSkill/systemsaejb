@@ -169,8 +169,6 @@ def pdf(request,pdf_id):
     p.save()
     return response
 
-
-
 #ABASTECIMIENTO VISTAS DE ABASTACIMIENTO CREAR BORRAR, VER, FORMULARIO ENTRE OTROS
 def abas_index(request):
     abas = Abastecimiento.objects.all()

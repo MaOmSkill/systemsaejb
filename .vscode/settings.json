@@ -6,4 +6,9 @@
         
     ],
     "editor.accessibilityPageSize": 10,
+    "editor.fontSize": 18,
+    "files.autoSave": "afterDelay",
+    "editor.tabSize": 2,
+    "editor.wordWrap": "on",
+    "editor.defaultFormatter": "batisteo.vscode-django",
 }
