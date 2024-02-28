@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Envio de Paquetes {% endblock %}
+
+{% block seccion %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h5 class="m-0">Panel de Control de Envios</h5>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Información</a></li>
+          <li class="breadcrumb-item active">Envios</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+  <div class="card card-primary card-outline w-25">
+    <div class="card-header">
+        <h3 class="card-title m-0">Formulario de Envio</h3>
+    </div>
+    <div class="card-body">
+      {% include 'inventario/inventario_f_envio.html' %}
+    </div>
+  </div>
+</div>
+{% endblock%}

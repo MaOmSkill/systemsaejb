@@ -1,163 +1,176 @@
 <form action="" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    
+  {% csrf_token %}
+
   <div class="form-row">
 
-      <div class="form-group col-md-6">
-        <label for="categoria">Categoria</label>
-        <select class="form-control"  name="categoria" id="categoria">
-            <option value="0">---Seleccionar---</option>
-            <option value="Comando">Ofic Comando</option>
-            <option value="Tecnico">Ofic Tecnico</option>
-            <option value="Tecnico">Ofic Tropa</option>
-            <option value="Asimilado">Ofic Asimilado</option>
-            <option value="Asimilado">Tropa Profesional</option>
-            <option value="Funcionario">Funcionario</option>
-            <option value="Escolta">Escolta</option>
-            <option value="Civil">Civil</option>
-            <option value="Caso Especial">Caso Especial</option>
-           </select>
-      </div>
-
-      <div class="form-group col-md-6">
-        <label for="grado">Grado</label>
-        <select class="form-control"  name="grado" id="grado" >
-            <option value="0">---Seleccionar---</option>
-            <option value="GJ">GJ</option>
-            <option value="MG">MG</option>
-            <option value="GD">GD</option>
-            <option value="GB">GB</option>
-            <option value="CNEL">CNEL</option>
-            <option value="TCNEL">TCNEL</option>
-            <option value="MAYOR">MAYOR</option>
-            <option value="CAPITAN">CAPITAN</option>
-            <option value="PTTE">PTTE</option>
-            <option value="TTE">TTE</option>
-            <option value="0">--TROPA--</option>
-            <option value="SS">SS</option>
-            <option value="SA">SA</option>
-            <option value="SM1">SM1</option>
-            <option value="SM2">SM2</option>
-            <option value="SM3">SM3</option>
-            <option value="S1">S1</option>
-            <option value="S2">S2</option>
-            <option value="">CIVIL</option>
-           </select>
-      </div>
-
-        <div class="form-group col-md-6">
-          <label for="promocion" class="form-label">{{formulario.promocion.label}}</label>
-          <input type="text" class="form-control" name="promocion" id="promocion" value="{{ formulario.promocion.value|default_if_none:'' }}" placeholder="Promoción">
-        </div>
-
-          <div class="form-group col-md-6">
-            <label for="ano" class="form-label">{{formulario.ano.label}}</label>
-            <input type="text" class="form-control" name="ano" id="ano" value="{{ formulario.ano.value|default_if_none:'' }}" placeholder="Año">
-            {% for error in formulario.errors.ano %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="unidad" class="form-label">{{formulario.unidad.label}}</label>
-            <input type="text" class="form-control" name="unidad" id="unidad" value="{{ formulario.unidad.value|default_if_none:'' }}"  placeholder="Unidad">
-            {% for error in formulario.errors.unidad %}
-            <span class="error">{{ error }}</span>
-           {% endfor %}
-          </div>
-    
-          <div class="form-group col-md-12">
-            <label for="datos" class="form-label">{{formulario.datos.label}} </label>
-            <input type="text" class="form-control" name="datos" id="datos" value="{{ formulario.datos.value|default_if_none:'' }}" placeholder="Nombres y Apellidos">
-            {% for error in formulario.errors.datos %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-
-          <div class="form-group col-md-4">
-            <label for="cedula" class="form-label">{{formulario.cedula.label}}</label>
-            <input type="text" class="form-control" name="cedula" id="cedula" value="{{ formulario.cedula.value|default_if_none:'' }}" placeholder="Cedula">
-            {% for error in formulario.errors.cedula %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-
-          <div class="form-group col-md-8">
-            <label for="armaA" class="form-label">{{formulario.armaA.label}}</label>
-            <input type="text" class="form-control" name="armaA" id="armaA" value="{{ formulario.armaA.value|default_if_none:'' }}" placeholder="Arma">
-            {% for error in formulario.errors.armaA %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-
-          <div class="form-group col-md-6">
-            <label for="serialA" class="form-label">{{formulario.serialA.label}}</label>
-            <input type="text" class="form-control" name="serialA" id="serialA" value="{{ formulario.serialA.value|default_if_none:'' }}" placeholder="Serial del Arma">
-            {% for error in formulario.errors.serialA %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-
-          <div class="form-group col-md-6">
-            <label for="serialAG" class="form-label">{{formulario.serialAG.label}}</label>
-            <input type="text" class="form-control" name="serialAG" id="serialAG" value="{{ formulario.serialAG.value|default_if_none:'' }}" placeholder="Serial de Asignación">
-            {% for error in formulario.errors.serialAG %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-          
-          <div class="form-group col-md-6">
-            <label for="cargadores" class="form-label">{{formulario.cargadores.label}}</label>
-            <input type="text" class="form-control" name="cargadores" id="cargadores" value="{{ formulario.cargadores.value|default_if_none:'' }}" placeholder="500">
-            {% for error in formulario.errors.cargadores %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-
-          <div class="form-group col-md-6">
-            <label for="municiones" class="form-label">{{formulario.municiones.label}}</label>
-            <input type="text" class="form-control" name="municiones" id="municiones" value="{{ formulario.municiones.value|default_if_none:'' }}" placeholder="500">
-            {% for error in formulario.errors.municiones %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-
-      
-          <div class="form-group col-md-6">
-            <label for="fechaAG" class="form-label">Fecha de Asignación</label>
-            <input type="date" class="form-control" name="fechaAG" id="fechaAG" value="{{ formulario.fechaAG.value|default_if_none:'' }}" placeholder="Fecha de Asignación">
-            {% for error in formulario.errors.fechaAG %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div> 
-
-          <div class="form-group col-md-6">
-            <label for="telefono" class="form-label">{{formulario.telefono.label}}</label>
-            <input type="text" class="form-control" name="telefono" id="telefono" value="{{ formulario.telefono.value|default_if_none:'' }}" placeholder="Telefono">
-            {% for error in formulario.errors.telefono %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
-
-          <div class="form-group col-md-8">
-            <label for="correo" class="form-label">{{formulario.correo.label}}</label>
-            <input type="text" class="form-control" name="correo" id="correo" value="{{ formulario.correo.value|default_if_none:'' }}" placeholder="Correo Electronico">
-            {% for error in formulario.errors.correo %}
-            <span class="error">{{ error }}</span>
-            {% endfor %}
-          </div>
-
-          <div class="form-group col-md-8">
-            <label for="direccion" class="form-label">{{formulario.direccion.label}}</label>
-            <input type="text" class="form-control" name="direccion" id="direccion" value="{{ formulario.direccion.value|default_if_none:'' }}" placeholder="Dirección Domiciliaria">
-            {% for error in formulario.errors.direccion %}
-            <span class="error">{{ error }}</span>
-          {% endfor %}
-          </div>
+    <div class="form-group col-md-6">
+      <label for="categoria">Categoria</label>
+      <select class="form-control" name="categoria" id="categoria">
+        <option value="0">---Seleccionar---</option>
+        <option value="Comando">Ofic Comando</option>
+        <option value="Tecnico">Ofic Tecnico</option>
+        <option value="Tecnico">Ofic Tropa</option>
+        <option value="Asimilado">Ofic Asimilado</option>
+        <option value="Asimilado">Tropa Profesional</option>
+        <option value="Funcionario">Funcionario</option>
+        <option value="Escolta">Escolta</option>
+        <option value="Civil">Civil</option>
+        <option value="Caso Especial">Caso Especial</option>
+      </select>
     </div>
-    
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-      <input type="submit" class="btn btn-primary float-left" value="Registrar">
-      </div>
-    </form>
+
+    <div class="form-group col-md-6">
+      <label for="grado">Grado</label>
+      <select class="form-control" name="grado" id="grado">
+        <option value="0">---Seleccionar---</option>
+        <option value="GJ">GJ</option>
+        <option value="MG">MG</option>
+        <option value="GD">GD</option>
+        <option value="GB">GB</option>
+        <option value="CNEL">CNEL</option>
+        <option value="TCNEL">TCNEL</option>
+        <option value="MAYOR">MAYOR</option>
+        <option value="CAPITAN">CAPITAN</option>
+        <option value="PTTE">PTTE</option>
+        <option value="TTE">TTE</option>
+        <option value="0">--TROPA--</option>
+        <option value="SS">SS</option>
+        <option value="SA">SA</option>
+        <option value="SM1">SM1</option>
+        <option value="SM2">SM2</option>
+        <option value="SM3">SM3</option>
+        <option value="S1">S1</option>
+        <option value="S2">S2</option>
+        <option value="">CIVIL</option>
+      </select>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="promocion" class="form-label">{{formulario.promocion.label}}</label>
+      <input type="text" class="form-control" name="promocion" id="promocion"
+        value="{{ formulario.promocion.value|default_if_none:'' }}" placeholder="Promoción">
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="ano" class="form-label">{{formulario.ano.label}}</label>
+      <input type="text" class="form-control" name="ano" id="ano" value="{{ formulario.ano.value|default_if_none:'' }}"
+        placeholder="Año">
+      {% for error in formulario.errors.ano %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="unidad" class="form-label">{{formulario.unidad.label}}</label>
+      <input type="text" class="form-control" name="unidad" id="unidad"
+        value="{{ formulario.unidad.value|default_if_none:'' }}" placeholder="Unidad">
+      {% for error in formulario.errors.unidad %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="datos" class="form-label">{{formulario.datos.label}} </label>
+      <input type="text" class="form-control" name="datos" id="datos"
+        value="{{ formulario.datos.value|default_if_none:'' }}" placeholder="Nombres y Apellidos">
+      {% for error in formulario.errors.datos %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-4">
+      <label for="cedula" class="form-label">{{formulario.cedula.label}}</label>
+      <input type="text" class="form-control" name="cedula" id="cedula"
+        value="{{ formulario.cedula.value|default_if_none:'' }}" placeholder="Cedula">
+      {% for error in formulario.errors.cedula %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-8">
+      <label for="armaA" class="form-label">{{formulario.armaA.label}}</label>
+      <input type="text" class="form-control" name="armaA" id="armaA"
+        value="{{ formulario.armaA.value|default_if_none:'' }}" placeholder="Arma">
+      {% for error in formulario.errors.armaA %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="serialA" class="form-label">{{formulario.serialA.label}}</label>
+      <input type="text" class="form-control" name="serialA" id="serialA"
+        value="{{ formulario.serialA.value|default_if_none:'' }}" placeholder="Serial del Arma">
+      {% for error in formulario.errors.serialA %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="serialAG" class="form-label">{{formulario.serialAG.label}}</label>
+      <input type="text" class="form-control" name="serialAG" id="serialAG"
+        value="{{ formulario.serialAG.value|default_if_none:'' }}" placeholder="Serial de Asignación">
+      {% for error in formulario.errors.serialAG %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="cargadores" class="form-label">{{formulario.cargadores.label}}</label>
+      <input type="text" class="form-control" name="cargadores" id="cargadores"
+        value="{{ formulario.cargadores.value|default_if_none:'' }}" placeholder="500">
+      {% for error in formulario.errors.cargadores %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="municiones" class="form-label">{{formulario.municiones.label}}</label>
+      <input type="text" class="form-control" name="municiones" id="municiones"
+        value="{{ formulario.municiones.value|default_if_none:'' }}" placeholder="500">
+      {% for error in formulario.errors.municiones %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="fechaAG" class="form-label">Fecha de Asignación</label>
+      <input type="date" class="form-control" name="fechaAG" id="fechaAG"
+        value="{{ formulario.fechaAG.value|default_if_none:'' }}" placeholder="Fecha de Asignación">
+      {% for error in formulario.errors.fechaAG %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="telefono" class="form-label">{{formulario.telefono.label}}</label>
+      <input type="text" class="form-control" name="telefono" id="telefono"
+        value="{{ formulario.telefono.value|default_if_none:'' }}" placeholder="Telefono">
+      {% for error in formulario.errors.telefono %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-8">
+      <label for="correo" class="form-label">{{formulario.correo.label}}</label>
+      <input type="text" class="form-control" name="correo" id="correo"
+        value="{{ formulario.correo.value|default_if_none:'' }}" placeholder="Correo Electronico">
+      {% for error in formulario.errors.correo %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-8">
+      <label for="direccion" class="form-label">{{formulario.direccion.label}}</label>
+      <input type="text" class="form-control" name="direccion" id="direccion"
+        value="{{ formulario.direccion.value|default_if_none:'' }}" placeholder="Dirección Domiciliaria">
+      {% for error in formulario.errors.direccion %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    <input type="submit" class="btn btn-primary float-left" value="Registrar">
+  </div>
+</form>

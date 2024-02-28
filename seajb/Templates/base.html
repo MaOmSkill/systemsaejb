@@ -42,7 +42,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{% url 'servicio' %}" class="nav-link">Inicio</a>
+        <a href="{% url 'principal' %}" class="nav-link">Inicio</a>
       </li>
     </ul>
     <!-- Right navbar links -->
@@ -62,6 +62,16 @@
 
     <div class="sidebar">
       <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item menu-open">
+          <a href="{% url 'servicio'  %}" class="nav-link">
+          <i class="nav-icon fas fa-campground"></i>
+            <p>
+              Brigadas
+            </p>
+          </a>
+        </li>
+      </ul>
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item menu-open">
             <a href="{% url 'personas'  %}" class="nav-link">
@@ -74,10 +84,30 @@
         </ul>
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item menu-open">
+            <a href="{% url 'inventario' %}" class="nav-link">
+              <i class="nav-icon fas fa-solid fa-clipboard-list"></i>
+              <p>
+                Inventario
+              </p>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item menu-open">
             <a href="{% url 'abastecimiento' %}" class="nav-link">
               <i class="nav-icon fas fa-poo-storm "></i>
               <p>
                 Abastecimiento
+              </p>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item menu-open">
+            <a href="{% url 'digital' %}" class="nav-link">
+              <i class="nav-icon fas fa-solid fa-image"></i>
+              <p>
+                Digitalización
               </p>
             </a>
           </li>

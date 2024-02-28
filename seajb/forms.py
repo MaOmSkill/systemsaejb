@@ -1,5 +1,5 @@
 from django import forms
-from .models import Brigada, Batallones, Armas, Municiones, Personas ,Abastecimiento ,Producto, Historial
+from .models import Brigada, Batallones, Armas, Municiones, Personas,BrigadaDigital, UnidadDigital, Abastecimiento , Producto, ProductoAbastecimiento
 
 
 class BrigadaForm(forms.ModelForm):
@@ -76,26 +76,33 @@ class PersonaForm(forms.ModelForm):
                   'direccion',
                   'telefono', 
                   'correo']
-        
- 
-class AbastecimientoForm(forms.ModelForm):
+      
+class BrigadaDigitalForm(forms.ModelForm):
     class Meta:
-        model = Abastecimiento
-        fields = ['nombreAbas', 'descripcion']
+        model= BrigadaDigital
+        fields = ['nombre']
+
+
+class UnidadDigitalForm(forms.ModelForm):
+    class Meta:
+        model= UnidadDigital
+        fields =['nombreU','descripcion','img', 'digital']
+        
+        
+        
+class EnviarProductoForm(forms.ModelForm):
+    class Meta:
+        model = ProductoAbastecimiento
+        fields = ['producto', 'abastecimiento', 'cantidad']
         
 class ProductoForm(forms.ModelForm):
-    class Meta:
+    class Meta: 
         model = Producto
-        fields = ['nombre', 'cantidad', 'cuarto']
-
-class HistorialForm(forms.Form):
-    producto = forms.ModelChoiceField(queryset=Producto.objects.all())
-    accion = forms.ChoiceField(choices=[('sumar', 'Sumar'), ('restar', 'Restar')])
-    monto = forms.IntegerField()
-    
-    class Meta:
-        model = Historial
-        fields = ['producto', 'accion', 'monto']
-    
+        fields = ['nombre', 'cantidad']
+        
+class AbastecimientoForm(forms.ModelForm):
+    class Meta: 
+        model = Abastecimiento
+        fields = ['nombre']
 
     

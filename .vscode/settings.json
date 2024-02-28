@@ -11,4 +11,7 @@
     "editor.tabSize": 2,
     "editor.wordWrap": "on",
     "editor.defaultFormatter": "batisteo.vscode-django",
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
 }

@@ -1,0 +1,50 @@
+<form action="" enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+  <div class="row">
+    <div class="form-group col-md-12">
+      <label for="digital">Brigada A Digitalizar</label>
+      <select class="form-control" id="digital" name="digital">
+        
+          <option value="{{digital.id}}">{{digital.id}} - {{digital.nombre}} </option>
+  
+      </select>
+      {% for error in formulario.errors.digital %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="nombreU" class="form-label">{{formulario.nombreU.label}} </label>
+      <input type="text" class="form-control" name="nombreU" id="nombreU" placeholder="Nombre">
+      {% for error in formulario.errors.nombreU %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="descripcion" class="form-label">{{formulario.descripcion.label}} </label>
+      <textarea class="form-control" name="descripcion" id="descripcion" rows="3"
+        placeholder="Describe el Material"></textarea>
+      {% for error in formulario.errors.descripcion %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="img" class="form-label">{{formulario.img.label}} </label>
+      <input type="file" name="img" id="img">
+      {% for error in formulario.errors.img %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    <input type="submit" class="btn btn-primary float-left" value="Registrar">
+  </div>
+
+</form>

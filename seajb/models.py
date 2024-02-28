@@ -139,47 +139,50 @@ class Personas(models.Model):
                 self.direccion,
                 self.telefono,
                 self.correo)
-        
-        
-# aqui va las tablas de abastecimiento de las base de datos del saejb
 
-class Abastecimiento(models.Model):
-    code = models.CharField(max_length=100, unique=True)
-    nombreAbas = models.CharField(max_length=100, verbose_name="Nombre del Punto")
-    descripcion = models.CharField(max_length=100, verbose_name="Descripción")
-    fecha_entrada = models.DateTimeField(auto_now_add=True)
-    
-    def save(self, *args, **kwargs):
-        if not self.code:
-            self.code = self.generar_serial()
-        super().save(*args, **kwargs)
-    
-    @staticmethod
-    def generar_serial():
-        prefix = 'ABAS' 
-        suffix = ''.join(str(random.randint(0, 9)) for _ in range(6))
-        return f'{prefix}{suffix}'
 
+# aqui digitalizacion de documentos antiguos saejb
+class BrigadaDigital(models.Model):
+    nombre = models.CharField(max_length=200, verbose_name="Nombre")
+    fecha_entrada = models.DateField(auto_now_add=True) 
+    
     def __str__(self):
-        return self.nombreAbas, self.descripcion     
+        return self.nombre
+    
+class UnidadDigital(models.Model):
+    nombreU = models.CharField(max_length=100 , verbose_name="Unidad")
+    descripcion = models.TextField(verbose_name="Descripcion",null=True)
+    img = models.ImageField(upload_to='imagenes/',verbose_name="Imagen", null=True)
+    fecha_entrada = models.DateField(auto_now_add=True) 
+    digital = models.ForeignKey(BrigadaDigital, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.nombreU, self.descripcion
+    
+    def delete(self, using=None, keep_parents=False):
+        self.img.storage.delete(self.img.name)
+        super().delete()
+        
+#  INVENTARIO saejb
 
 class Producto(models.Model):
-    nombre = models.CharField(max_length=100, verbose_name='Nombre')
+    nombre = models.CharField(max_length=255)
     cantidad = models.IntegerField(default=0)
-    cuarto = models.ForeignKey(Abastecimiento, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.nombre, self.cantidad
 
+class Abastecimiento(models.Model):
+    nombre = models.CharField(max_length=255)
+    productos = models.ManyToManyField(Producto, through='ProductoAbastecimiento')
+    
     def __str__(self):
         return self.nombre
 
-class Historial(models.Model):
+class ProductoAbastecimiento(models.Model):
+    movimiento = models.CharField(max_length=200)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    fecha = models.DateTimeField(default=timezone.now)
-    accion = models.CharField(max_length=10, choices=[('sumar', 'Sumar'), ('restar', 'Restar')])
-    monto = models.IntegerField()
-
+    abastecimiento = models.ForeignKey(Abastecimiento, on_delete=models.CASCADE)
+    cantidad = models.IntegerField(default=0)
     def __str__(self):
-        return f"{self.producto.nombre} - {self.accion} - {self.monto}"
-
-    
-    
-
+        return f'{self.producto.nombre}'

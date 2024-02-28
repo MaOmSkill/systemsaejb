@@ -1,0 +1,17 @@
+<form action="" enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="nombre" class="form-label">{{formulario.nombre.label}} </label>
+    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre">
+    {% for error in form.errors.nombre %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    <input type="submit" class="btn btn-primary float-left" value="Registrar">
+  </div>
+
+</form>

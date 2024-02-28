@@ -34,44 +34,21 @@
       <thead>
         <tr>
           <th>N°</th>
-          <th>Nombre</th>
+          <th>Nombre Prodcuto</th>
           <th>Cantidad</th>
-          <th>acciones</th>
         </tr>
       </thead>
       <tbody>
-        {% for tabla in  producto %}
+      {% for datos in producto %}
         <tr>
-          <td>{{tabla.id}}  </td>
-          <td>{{tabla.nombre}}  </td>
-          <td>{{tabla.cantidad}}  </td>
-          <td>
-            <a href="{% url 'historial' tabla.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
-            <a href="{% url 'modificar' tabla.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
-            <a href="#" class="btn btn-danger btn-xs"><i class="fas fa-solid fa-file-pdf"></i></a>
-          </td>
+          <td>{{datos.id}}</td>
+          <td>{{datos.movimiento}}</td>
+          <td>{{datos.cantidad}}</td>
         </tr>
-        {% endfor %}
+      {% endfor %}
       </tbody>
     </table>
   </div>
 </div>
-
-  <div class="modal fade" id="modalProducto" tabindex="1" aria-labelledby="tituloProductoModal" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-            <div class="modal-header bg-primary ">
-                <h5 class="modal-title" id="tituloProductoModal">Formulario de las Armas</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {% include "abastecimiento/agregar_producto.html" %}
-            </div>
-        </div>
-    </div>
-</div>
-
 
 {% endblock %}

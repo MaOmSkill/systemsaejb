@@ -33,24 +33,18 @@
       <thead>
         <tr>
           <th>N°</th>
-          <th>Serial</th>
-          <th>Entrada</th>
-          <th>Nombre del Punto</th>
-          <th>Descripcion</th>
-          <th>Acciones</th>
+          <th>NOMBRE DEL PUNTO</th>
+          <th>ACCIONES</th>
         </tr>
       </thead>
       <tbody>
-        {% for datos in abas %}
+        {% for datos in seña %}
         <tr>
           <td>{{datos.id}} </td>
-          <td>{{datos.code}} </td>
-          <td>{{datos.fecha_entrada}} </td>
-          <td>{{datos.nombreAbas}} </td>
-          <td>{{datos.descripcion}} </td>
+          <td>{{datos.nombre}} </td>
           <td>
-            <a href="{%url 'info' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
-            <a href="{% url 'editar_abas' datos.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
+            <a href="{% url 'info' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
+            <a href="#" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
             <a href="#" class="btn btn-danger btn-xs" data-id="{{ datos.id }}"><i class="fas fa-solid fa-trash"></i></a>
           </td>
         </tr>
@@ -70,7 +64,7 @@
         </button>
       </div>
       <div class="modal-body">
-        {% include "abastecimiento/registro_abas.html" %}
+      {% include "abastecimiento/abas_formulario.html" %}
       </div>
     </div>
   </div>

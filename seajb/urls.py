@@ -5,7 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     #vista principal de las brigadas, eliminar, editar y ver unidades
-    path("", views.servicio, name="servicio"),
+    path("", views.principal, name="principal"),
+    path("servicio/index", views.servicio, name="servicio"),
     path("servicio/editar/<int:brigada_id>", views.editar, name="editar"),
     path("eliminar/<int:id>", views.eliminar, name="eliminar"),
     path("servicio/resumen/<int:resumen_id>", views.resumen, name="resumen"),
@@ -21,14 +22,17 @@ urlpatterns = [
     # todos los documento generados
     path("personas/pdf/<int:pdf_id>", views.pdf, name="pdf"),
     
-    #rutas de abastacimiento nuevo flow
-    path('abastecimiento/abas_index', views.abas_index, name='abastecimiento'),
-    path('abastecimiento/eliminar_abas/<int:id>', views.eliminar_abas, name='eliminar_abas'),
-    path('abastecimiento/abas_info/<int:id>', views.abas_info, name='info'),
-    path('abastecimiento/modificar_abas/<int:id>', views.modificar_abas, name='editar_abas'),
-    path('abastecimiento/modificar_producto/<int:id>', views.modificar_producto, name='modificar'),
-    path('eliminar_producto/<int:id>', views.eliminar_producto, name='eliminar'),
-    path('abastecimiento/agregar_historial/<int:id>', views.agregar_historial, name='historial'),
+    #inventario
+    path("inventario/inventario_index", views.inventario_index, name="inventario"),
+    path("inventario/inventario_enviar", views.inventario_enviar, name="envio"),
+    path("abastecimiento/abas_index", views.abastecimiento, name="abastecimiento"),
+    path("abastecimiento/abas_info/<int:punto_id>", views.abas_info, name="info"),
+    
+     # rutas de digitalización
+     path('digital/digital_index', views.digital_index, name='digital'),
+     path('digital/digital_info/<int:digital_id>', views.digital_info, name='infodig'),
+     
+      
    
     
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

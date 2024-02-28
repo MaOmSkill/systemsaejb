@@ -7,9 +7,13 @@ from django.urls import reverse
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib import messages 
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from .models import Brigada, Batallones, Armas, Municiones, Personas,Abastecimiento, Producto, Historial
-from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm,AbastecimientoForm, ProductoForm, HistorialForm
+from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDigital, UnidadDigital, Abastecimiento,  Producto,ProductoAbastecimiento
+from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm
 
+
+
+def principal(request):
+    return render(request,'servicio/principal.html')
 
 # tabla principal editar , eliminar y crear brigadas
 
@@ -24,13 +28,14 @@ def servicio(request):
        else:
            sweetify.error(request, 'Faltaron campos por rellenar', timer=5000)
     else:
-        formularios = BrigadaForm() 
-    return render(request, 'servicio/index.html', {'servicios':servicio, 'formulario': formularios})
+        formularios = BrigadaForm()
+    context = {'servicios':servicio, 'formulario': formularios}
+    return render(request, 'servicio/index.html', context)
 
 def editar(request,brigada_id):
     elemento = Brigada.objects.get(id=brigada_id)
     if request.method == 'POST':
-        form = BrigadaForm(request.POST, instance=elemento)
+        form = BrigadaForm(request.POST or None , instance=elemento)
         if form.is_valid():
             form.save()
             messages.success(request, 'Se edito la Brigada con Exito')
@@ -169,89 +174,94 @@ def pdf(request,pdf_id):
     p.save()
     return response
 
-#ABASTECIMIENTO VISTAS DE ABASTACIMIENTO CREAR BORRAR, VER, FORMULARIO ENTRE OTROS
-def abas_index(request):
-    abas = Abastecimiento.objects.all()
+# digitalización
+
+def digital_index(request):
+    dital = BrigadaDigital.objects.all()
+    if request.method == 'POST':
+        formularios = BrigadaDigitalForm(request.POST or None)
+        if formularios.is_valid():
+            formularios.save()
+            return redirect('digital')
+    else:
+        formularios = BrigadaDigitalForm()
+    context = {'digitales': dital, 'formulario': formularios}
+    return render(request, 'digital/digital_index.html', context)
+
+
+    
+def digital_info(request,digital_id):
+    digital = BrigadaDigital.objects.get(pk=digital_id)
+    digitos = UnidadDigital.objects.filter(digital=digital)
+    if request.method == 'POST':
+        formularios = UnidadDigitalForm(request.POST or None, request.FILES or None)
+        if formularios.is_valid():
+            nuevo = formularios.save()
+            id = nuevo.digital.id
+            return redirect('infodig', digital_id=id)
+    else:
+        formularios = UnidadDigitalForm()
+    context = {'digital':digital, 'digito':digitos , 'formulario': formularios}
+    return render(request, 'digital/digital_info.html', context)
+
+#INVENTARIO
+def inventario_index(request):
+    inventario = Producto.objects.all()
+    if request.method == 'POST':
+        formularios = ProductoForm(request.POST)
+        if formularios.is_valid():
+            formularios.save()
+            messages.success(request, "Se registro el inventario correctamente")
+            return redirect('inventario')
+    else:
+        formularios = ProductoForm()
+    context = {'inventario':inventario, 'formulario':formularios}
+    return render(request, 'inventario/inventario_index.html', context)    
+
+def inventario_enviar(request):
+    producto = Producto.objects.all()
+    punto = Abastecimiento.objects.all()
+    if request.method == 'POST':
+        formularios = EnviarProductoForm(request.POST)
+        if formularios.is_valid():
+            producto = formularios.cleaned_data['producto']
+            abastecimiento = formularios.cleaned_data['abastecimiento']
+            cantidad = formularios.cleaned_data['cantidad']
+            
+            if producto.cantidad >= cantidad:
+                producto.cantidad -= cantidad
+                producto.save()
+                ProductoAbastecimiento.objects.create(
+                    producto=producto, 
+                    abastecimiento=abastecimiento,
+                    cantidad=cantidad, 
+                    movimiento = producto.nombre)
+                return redirect('envio')
+            else:
+                sweetify.error(request, 'No hay suficientes unidades', timer=5000)
+                return redirect('principal')
+            
+    else:
+        formularios = EnviarProductoForm()
+            
+    context = {'formulario':formularios, 'producto':producto, 'punto':punto}
+    return render(request, 'inventario/inventario_enviar.html', context)
+
+def abastecimiento(request):
+    seña = Abastecimiento.objects.all()
     if request.method == 'POST':
         formularios = AbastecimientoForm(request.POST)
         if formularios.is_valid():
             formularios.save()
-            messages.success(request, "Se registro el Abastecimiento correctamente")
+            messages.success(request, "Se registro el abastecimiento correctamente")
             return redirect('abastecimiento')
     else:
         formularios = AbastecimientoForm()
-    context = {'abas':abas, 'formulario':formularios}
+    context = {'seña':seña,  'formulario':formularios}
     return render(request, 'abastecimiento/abas_index.html', context)
 
-def modificar_abas(request, id):
-    edicion = Abastecimiento.objects.get(id=id)
-    if request.method == 'POST':
-        formularios = AbastecimientoForm(request.POST, instance=edicion)
-        if formularios.is_valid():
-            formularios.save()
-            return redirect('abastecimiento')
-    else:
-        formularios = AbastecimientoForm(instance=edicion)
-    return render(request, 'abastecimiento/modificar_abas.html', {'formulario': formularios})
-
-def eliminar_abas(request, id):
-    try:
-        registro = Abastecimiento.objects.get(id=id)
-        registro.delete()
-        messages.success(request, "Registro eliminado correctamente.")
-        return redirect('abastecimiento')
-    except Brigada.DoesNotExist:
-        messages.error(request, "El registro no existe.")
-    return redirect('abastecimiento')
-
-def abas_info(request, id):
-    abas = Abastecimiento.objects.filter(id=id)
-    cuarto = Abastecimiento.objects.get(id=id)
-    producto = Producto.objects.filter(cuarto=cuarto)
-    
-    if request.method == 'POST':
-        formularios = ProductoForm(request.POST)
-        if formularios.is_valid():
-            nuevo_producto = formularios.save()
-            id = nuevo_producto.cuarto.id
-            return redirect('info', id=id)
-    else:
-        formularios = ProductoForm()
-        
-    return render(request, 'abastecimiento/abas_info.html', {'formulario': formularios,'producto': producto, 'abas':abas})
-
-def agregar_historial(request, id):
-    producto= Producto.objects.get(id=id)
-    if request.method == 'POST':
-        formu = HistorialForm(request.POST)
-        if formu.is_valid():
-            accion = formu.cleaned_data['accion']
-            monto = formu.cleaned_data['monto']
-            if accion == 'sumar':
-                producto.cantidad += monto
-            else:
-                producto.cantidad -= monto
-            producto.save()
-            historial = Historial(producto=producto, accion=accion, monto=monto)
-            historial.save()
-            return redirect(reverse('info', args=[producto.cuarto.id]))
-    else:
-        formu = HistorialForm()
-    return render(request, 'abastecimiento/agregar_historial.html', {'formu': formu, 'producto':producto})
-
-def modificar_producto(request, id):
-    producto = Producto.objects.get(id=id)
-    if request.method == 'POST':
-        formularios = ProductoForm(request.POST, instance=producto)
-        if formularios.is_valid():
-            formularios.save()
-            return redirect(reverse('info', args=[producto.cuarto.id]))
-    else:
-        formularios = ProductoForm(instance=producto)
-    return render(request, 'abastecimiento/modificar_producto.html', {'formulario': formularios, 'producto':producto})
-
-def eliminar_producto(request, id):
-    producto = Producto.objects.get(id=id)
-    producto.delete()
-    return redirect('principal')
-
+def abas_info(request, punto_id):
+    abastecimiento = Abastecimiento.objects.get(id=punto_id)
+    producto = ProductoAbastecimiento.objects.filter(abastecimiento=abastecimiento)
+    context = {'producto':producto}
+    return render(request, 'abastecimiento/abas_info.html', context)
