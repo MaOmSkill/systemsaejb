@@ -7,8 +7,8 @@ from django.urls import reverse
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib import messages 
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDigital, UnidadDigital, Abastecimiento,  Producto,ProductoAbastecimiento
-from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm
+from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDigital, UnidadDigital, Abastecimiento,  Producto,ProductoAbastecimiento, ArmasDePersonas
+from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm, ArmasDePersonasForm
 
 
 
@@ -138,7 +138,7 @@ def persona_index(request):
            messages.success(request, "Se registro la Persona correctamente")
            return redirect('personas')
        else:
-           sweetify.error(request, 'Faltaron campos por rellenar', timer=5000)
+           sweetify.error(request, 'Faltaron campos por rellenar', timer=8000)
     else:
         formularios = PersonaForm()
     return render(request, 'personas/persona_index.html', {'personas':personas, 'formulario': formularios}) 
@@ -153,10 +153,28 @@ def personas_editar(request,personas_id):
     return render(request, 'personas/personas_editar.html', {'formulario': formularios})
 
 def persona_informacion(request, persona_id):
-    registropersona = Personas.objects.filter(id=persona_id)
-    return render(request, 'personas/persona_informacion.html', {'registropersona':registropersona})
+    
+    person = Personas.objects.get(id=persona_id)
+    humano = Personas.objects.filter(id=persona_id)
+    persona = ArmasDePersonas.objects.filter(persona = person)
+    
+    if request.method =='POST':
+        formularios = ArmasDePersonasForm(request.POST or None)
+        if formularios.is_valid():
+            persona = formularios.save()
+            id = persona.persona.id
+            messages.success(request, "Se Registro Nuevo Armamento Asignado correctamente")
+            return redirect('informacion', persona_id=id)
+        else:
+           sweetify.error(request, 'Faltaron campos por rellenar', timer=8000)
+    else:
+        formularios = ArmasDePersonasForm()
+    context = {'person':humano, 'formulario':formularios, 'persona':persona}
+    return render(request, 'personas/persona_informacion.html', context)
 
 
+
+# imprimir reportes de personas 
 def pdf(request,pdf_id):
     registros = Personas.objects.get(id=pdf_id)
     response = HttpResponse(content_type='application/pdf')
@@ -236,9 +254,10 @@ def inventario_enviar(request):
                     abastecimiento=abastecimiento,
                     cantidad=cantidad, 
                     movimiento = producto.nombre)
-                return redirect('envio')
+                sweetify.success(request, 'se envio el paquete correctamente para punto de abastecimiento', timer=7000)
+                return redirect('inventario')
             else:
-                sweetify.error(request, 'No hay suficientes unidades', timer=5000)
+                sweetify.error(request, 'No hay suficientes unidades', timer=8000)
                 return redirect('principal')
             
     else:

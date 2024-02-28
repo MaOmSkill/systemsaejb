@@ -1,0 +1,86 @@
+<form action="" enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+
+  <div class="form-row">
+
+    <div class="form-group col-md-12">
+      <label for="persona">Persona</label>
+      <select class="form-control" name="persona" id="persona">
+        {% for persona in person %}
+          <option value="{{persona.id}}">{{persona.id}} - {{persona.datos}} - {{persona.cedula}}</option>
+        {% endfor %}
+      </select>
+      {% for error in formulario.errors.persona %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="armas" class="form-label">{{formulario.armas.label}}</label>
+      <input type="text" class="form-control" name="armas" id="armas"
+        value="{{ formulario.armas.value|default_if_none:'' }}" placeholder="Armas">
+        {% for error in formulario.errors.armas %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="modelo" class="form-label">{{formulario.modelo.label}}</label>
+      <input type="text" class="form-control" name="modelo" id="modelo" value="{{ formulario.modelo.value|default_if_none:'' }}"
+        placeholder="modelo">
+      {% for error in formulario.errors.modelo %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="serial" class="form-label">{{formulario.serial.label}}</label>
+      <input type="text" class="form-control" name="serial" id="serial"
+        value="{{ formulario.serial.value|default_if_none:'' }}" placeholder="serial">
+      {% for error in formulario.errors.serial %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="serialag" class="form-label">{{formulario.serialag.label}} </label>
+      <input type="text" class="form-control" name="serialag" id="serialag"
+        value="{{ formulario.serialag.value|default_if_none:'' }}" placeholder="serialag">
+      {% for error in formulario.errors.serialag %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="fechag" class="form-label">{{formulario.fechag.label}}</label>
+      <input type="date" class="form-control" name="fechag" id="fechag"
+        value="{{ formulario.fechag.value|default_if_none:'' }}" placeholder="fechag">
+      {% for error in formulario.errors.fechag %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="cargadores" class="form-label">{{formulario.cargadores.label}}</label>
+      <input type="text" class="form-control" name="cargadores" id="cargadores"
+        value="{{ formulario.cargadores.value|default_if_none:'' }}" placeholder="cargadores">
+      {% for error in formulario.errors.cargadores %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="municiones" class="form-label">{{formulario.municiones.label}}</label>
+      <input type="text" class="form-control" name="municiones" id="municiones"
+        value="{{ formulario.municiones.value|default_if_none:'' }}" placeholder="municiones">
+      {% for error in formulario.errors.municiones %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    <input type="submit" class="btn btn-primary float-left" value="Registrar">
+  </div>
+</form>

@@ -5,7 +5,8 @@
 
     <div class="form-group col-md-6">
       <label for="categoria">Categoria</label>
-      <select class="form-control" name="categoria" id="categoria">
+      <select class="form-control" name="categoria" id="categoria"
+        value="{{ formulario.categoria.value|default_if_none:'' }}">
         <option value="0">---Seleccionar---</option>
         <option value="Comando">Ofic Comando</option>
         <option value="Tecnico">Ofic Tecnico</option>
@@ -14,14 +15,16 @@
         <option value="Asimilado">Tropa Profesional</option>
         <option value="Funcionario">Funcionario</option>
         <option value="Escolta">Escolta</option>
-        <option value="Civil">Civil</option>
         <option value="Caso Especial">Caso Especial</option>
       </select>
+      {% for error in formulario.errors.categoria %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
     </div>
 
     <div class="form-group col-md-6">
       <label for="grado">Grado</label>
-      <select class="form-control" name="grado" id="grado">
+      <select class="form-control" name="grado" id="grado" value="{{ formulario.grado.value|default_if_none:'' }}">
         <option value="0">---Seleccionar---</option>
         <option value="GJ">GJ</option>
         <option value="MG">MG</option>
@@ -43,6 +46,9 @@
         <option value="S2">S2</option>
         <option value="">CIVIL</option>
       </select>
+      {% for error in formulario.errors.grado %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
     </div>
 
     <div class="form-group col-md-6">
@@ -150,19 +156,19 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-8">
+    <div class="form-group col-md-6">
       <label for="correo" class="form-label">{{formulario.correo.label}}</label>
-      <input type="text" class="form-control" name="correo" id="correo"
+      <input type="mail" class="form-control" name="correo" id="correo"
         value="{{ formulario.correo.value|default_if_none:'' }}" placeholder="Correo Electronico">
       {% for error in formulario.errors.correo %}
       <span class="error">{{ error }}</span>
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-8">
+    <div class="form-group col-md-6">
       <label for="direccion" class="form-label">{{formulario.direccion.label}}</label>
-      <input type="text" class="form-control" name="direccion" id="direccion"
-        value="{{ formulario.direccion.value|default_if_none:'' }}" placeholder="Dirección Domiciliaria">
+      <textarea class="form-control" name="direccion" id="direccion" cols="30" rows="5"
+        value="{{ formulario.direccion.value|default_if_none:'' }}" placeholder="Dirección Domiciliaria"></textarea>
       {% for error in formulario.errors.direccion %}
       <span class="error">{{ error }}</span>
       {% endfor %}

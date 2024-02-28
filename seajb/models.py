@@ -140,7 +140,18 @@ class Personas(models.Model):
                 self.telefono,
                 self.correo)
 
-
+class ArmasDePersonas(models.Model):
+    armas = models.CharField(max_length=200, verbose_name="Armas Nuevas")
+    modelo = models.CharField(max_length=200, verbose_name="Modelo")
+    serial = models.CharField(max_length=200, verbose_name="Serial")
+    serialag = models.CharField(max_length=200, verbose_name="Serial de Asignación")
+    fechag =  models.CharField(max_length=200, verbose_name="Fecha")
+    cargadores =  models.CharField(max_length=200, verbose_name="Cargadores")
+    municiones =  models.CharField(max_length=200, verbose_name="Munciones")
+    persona = models.ForeignKey(Personas,  on_delete=models.CASCADE, blank=True, default=None)
+    def __str__(self):
+        return self.armas, self.modelo,self.serial,self.serialag,self.fechag,self.cargadores,self.municiones
+    
 # aqui digitalizacion de documentos antiguos saejb
 class BrigadaDigital(models.Model):
     nombre = models.CharField(max_length=200, verbose_name="Nombre")
@@ -167,10 +178,14 @@ class UnidadDigital(models.Model):
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=255)
+    serial = models.CharField(max_length=100, verbose_name='Serial')
+    modelo = models.CharField(max_length=100, verbose_name='Modelo')
+    descripcion = models.TextField(verbose_name="Descripción", null=True)
+    fecha_entrada = models.DateField(auto_now_add=True)
     cantidad = models.IntegerField(default=0)
     
     def __str__(self):
-        return self.nombre, self.cantidad
+        return self.nombre, self.cantidad, self.descripcion, self.serial, self.modelo
 
 class Abastecimiento(models.Model):
     nombre = models.CharField(max_length=255)

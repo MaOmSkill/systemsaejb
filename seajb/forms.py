@@ -1,5 +1,5 @@
 from django import forms
-from .models import Brigada, Batallones, Armas, Municiones, Personas,BrigadaDigital, UnidadDigital, Abastecimiento , Producto, ProductoAbastecimiento
+from .models import Brigada, Batallones, Armas, Municiones, Personas,BrigadaDigital, UnidadDigital, Abastecimiento , Producto, ProductoAbastecimiento, ArmasDePersonas
 
 
 class BrigadaForm(forms.ModelForm):
@@ -76,6 +76,11 @@ class PersonaForm(forms.ModelForm):
                   'direccion',
                   'telefono', 
                   'correo']
+        
+class ArmasDePersonasForm(forms.ModelForm):
+    class Meta:
+        model = ArmasDePersonas
+        fields = ['armas' , 'modelo', 'serial', 'serialag', 'fechag', 'cargadores', 'cargadores', 'municiones' , 'persona']
       
 class BrigadaDigitalForm(forms.ModelForm):
     class Meta:
@@ -98,7 +103,7 @@ class EnviarProductoForm(forms.ModelForm):
 class ProductoForm(forms.ModelForm):
     class Meta: 
         model = Producto
-        fields = ['nombre', 'cantidad']
+        fields = ['nombre', 'cantidad',  'descripcion', 'serial', 'modelo']
         
 class AbastecimientoForm(forms.ModelForm):
     class Meta: 

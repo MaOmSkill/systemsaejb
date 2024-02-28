@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block titulo %} Resumen de la Unidad {% endblock %} 
+{% block titulo %} Resumen de la Unidad {% endblock %}
 
 
 {% block seccion %}
@@ -14,8 +14,6 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="#">Información</a></li>
-          <li class="breadcrumb-item active">Armamento</li>
-          <li class="breadcrumb-item active">Municiones</li>
           <li class="breadcrumb-item active">Personas</li>
         </ol>
       </div>
@@ -26,70 +24,129 @@
 
 
 {% block contenido %}
-<div class="card card-primary w-100">
-   <div class="card-header border-0">
+<div class="row justify-content-center">
+  <div class="card card-primary card-outline">
+    <div class="card-header">
       <div class="d-flex justify-content-between">
-        <h3 class="card-title"></h3>
+        <h3 class="card-title m-0"></h3>
+        <a href="#" type="button" class="btn btn-success float-right btn-xs" data-toggle="modal" data-target="#modalNuevo"> Agregar</a>
       </div>
     </div>
-    <div class="card-body table-responsive p-0">
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Fecha Creado</th>
-                    <th>Codigo</th>
-                    <th>Grado</th>
-                    <th>Nombres y Apellidos</th>
-                    <th>Cedula</th>
-                    <th>Promocion</th>
-                    <th>Año</th>
-                  </tr>
-            </thead>
-            <tbody>
-               {% for datos in registropersona %}
-                <tr>
-                    <td>{{datos.fecha}} </td>
-                    <td>codigo</td>
-                    <td>{{datos.grado}} </td>
-                    <td>{{datos.datos}} </td>
-                    <td>{{datos.cedula}} </td>
-                    <td>{{datos.promocion}} </td>
-                    <td>{{datos.ano}} </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            <thead>
-              <tr>
-                  <th>Unidad</th>
-                  <th>Arma</th>
-                  <th>Serial de Arma</th>
-                  <th>Serial de Asignación</th>
-                  <th>Direccion</th>
-                  <th>Telefono</th>
-                  <th>Correo Electronico</th>
-                </tr>
-          </thead>
-          <tbody>
-            {% for datos in registropersona %}
-             <tr>
-                 <td>{{datos.unidad}} </td>
-                 <td>{{datos.armaA}} </td>
-                 <td>{{datos.serialA}} </td>
-                 <td>{{datos.serialAG}} </td>
-                 <td>{{datos.direccion}} </td>
-                 <td>{{datos.telefono}} </td>
-                 <td>{{datos.correo}} </td>
-             </tr>
-             {% endfor %}
-         </tbody>
+    <div class="card-body table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>CREACIÓN</th>
+            <th>CODIGO</th>
+            <th>GRADO</th>
+            <th>CATEGORIA</th>
+            <th>PROMOCIÓN</th>
+            <th>AÑO</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for datos in person %}
+          <tr>
+            <td>{{datos.fecha|date:"d/m/Y"}}</td>
+            <td>{{datos.code}}</td>
+            <td>{{datos.grado}} </td>
+            <td>{{datos.categoria}} </td>
+            <td>{{datos.promocion}} </td>
+            <td>{{datos.ano}} </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <thead>
+          <tr>
+            <th>NOMBRES Y APELLIDOS</th>
+            <th>CEDULA</th>
+            <th>CORREO</th>
+            <th>TELEFONO</th>
+            <th>DIRECCIÓN</th>
+            <th>UNIDAD</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for datos in person %}
+          <tr>
+            <td>{{datos.datos}}</td>
+            <td>{{datos.cedula}}</td>
+            <td>{{datos.correo}}</td>
+            <td>{{datos.telefono}}</td>
+            <td>{{datos.direccion}}</td>
+            <td>{{datos.unidad}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <thead>
+          <tr>
+            <th>TIPO DE ARMA</th>
+            <th>SERIAL DEL ARMA</th>
+            <th>SERIAL DE ASIGNACIÓN</th>
+            <th>FECHA DE ASIGNACIÓN</th>
+            <th>CARGADORES</th>
+            <th>CARGA BASICA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for datos in person %}
+          <tr>
+            <td>{{datos.armaA}}</td>
+            <td>{{datos.serialA}}</td>
+            <td>{{datos.serialAG}}</td>
+            <td>{{datos.fechaAG}}</td>
+            <td>{{datos.cargadores}}</td>
+            <td>{{datos.municiones}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-
-
-
-
-
-        </table>
+     <!-- la tabla de armas asignadas -->
+      <div class=" card-body table-responsive"> 
+      <table id="example1" class="table table-striped">
+        <thead>
+          <tr>
+            <th>ARMA</th>
+            <th>MODELO</th>
+            <th>SERIAL</th>
+            <th>SERIAL ASIGNACIÓN</th>
+            <th>FECHA DE ASIGNACIÓN</th>
+            <th>CARGADORES</th>
+            <th>CARGA BASICA</th>
+          </tr>
+        </thead>
+        <tbody> 
+        {% for persona in persona %}
+          <tr> 
+            <td>{{persona.armas}}  </td>
+            <td>{{persona.modelo}}  </td>
+            <td>{{persona.serial}}  </td>
+            <td>{{persona.serialag}}  </td>
+            <td>{{persona.fechag}}  </td>
+            <td>{{persona.cargadores}}  </td>
+            <td>{{persona.municiones}}  </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
     </div>
   </div>
 </div>
+
+  <div class="modal fade" id="modalNuevo" tabindex="-1" aria-labelledby="modalNuevoTitulo" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary ">
+          <h5 class="modal-title" id="modalNuevoTitulo">Agregar Nueva Armas</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% include "personas/persona_f_nuevo.html" %}
+        </div>
+      </div>
+    </div>
 {% endblock %}

@@ -24,10 +24,10 @@
 {% endblock %}
 
 {% block contenido %}
-<div class="card card-primary w-100">
-   <div class="card-header border-0">
+<div class="card card-primary card-outline">
+   <div class="card-header">
       <div class="d-flex justify-content-between">
-        <h3 class="card-title"></h3>
+        <h3 class="card-title m-0"></h3>
         <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#exampleModal">Agregar Persona</a>
       </div>
     </div>
@@ -40,10 +40,7 @@
                     <th>Grado</th>
                     <th>Nombres y Apellidos</th>
                     <th>Cedula</th>
-                    <th>Promoción</th>
                     <th>Año</th>
-                    <th>Arma</th>
-                    <th>Serial</th>
                     <th>Acciones</th>
                   </tr>
             </thead>
@@ -55,10 +52,7 @@
                     <td>{{datos.grado}}</td>
                     <td>{{datos.datos}} </td>
                     <td>{{datos.cedula}} </td>
-                    <td>{{datos.promocion}} </td>
                     <td>{{datos.ano}} </td>
-                    <td>{{datos.armaA}} </td>
-                    <td>{{datos.serialA}} </td>
                     <td>
                       <a href="{% url 'informacion' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
                       <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
@@ -86,4 +80,19 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block js %}
+<script>
+  $(document).ready(function () {
+    $("#armap").change(function () {
+      var valorSeleccionado = $(this).val();
+      if (valorSeleccionado == "no") {
+        $("#persona1").hide();
+      } else {
+        $("#persona1").show();
+      }
+    });
+  });
+</script>
 {% endblock %}

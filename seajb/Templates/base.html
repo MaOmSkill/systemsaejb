@@ -173,7 +173,7 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": false, "lengthChange": true, "autoWidth": true,
+      "responsive": false, "lengthChange": true, "autoWidth": true, 
       // "buttons": ["excel", "pdf"],
       language: {
                 "pageLength":     "",
@@ -211,6 +211,7 @@
       "autoWidth": true,
       "responsive": false,
       language: {
+                "pageLength":     "",
                 "decimal":        "",
                 "emptyTable":     "No hay datos",
                 "info":           "Mostrando _START_ a _END_ de _TOTAL_ Registros",
@@ -240,6 +241,7 @@
     
 });
 </script>
+
 {% if messages%}
   {% for m in messages %}
   <script> 
