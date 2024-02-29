@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 import random
 
 #  aqui va las tablas de Brigadas, Batallones y Unidades, Armas de las base de datos del saejb
@@ -90,13 +91,16 @@ class Municiones(models.Model):
         return self.tipoM, self.serialAG, self.fechaAG, self.cantidadM, self.lote, self.tercero
     
 # aqui va las tablas de Personal con Armamento de las base de datos del saejb   
-
+def validate_year(value):
+    if value < 1 or value > 9999:
+        raise ValidationError("El año debe estar entre 1 y 9999.")
+        
 class Personas(models.Model):
     code = models.CharField(max_length=100, unique=True)
     categoria= models.CharField(max_length=100, verbose_name='Categoria')
     grado = models.CharField(max_length=100, verbose_name='Grado')
     promocion = models.CharField(max_length=100, verbose_name='Promoción')
-    ano = models.CharField(max_length=100, verbose_name='Año')
+    anio = models.IntegerField(validators=[validate_year], verbose_name="Año")
     unidad = models.CharField(max_length=100, verbose_name='Unidad')
     datos = models.CharField(max_length=100, verbose_name='Nombres y Apellidos')
     cedula = models.CharField(max_length=100, verbose_name='Cedula')
@@ -121,12 +125,12 @@ class Personas(models.Model):
         prefix = 'SAPRS' 
         suffix = ''.join(str(random.randint(0, 9)) for _ in range(6))
         return f'{prefix}{suffix}'
-
+    
     def __str__(self):
         return (self.categoria,
                 self.grado,
                 self.promocion,
-                self.ano, 
+                self.anio, 
                 self.unidad, 
                 self.datos, 
                 self.cedula, 

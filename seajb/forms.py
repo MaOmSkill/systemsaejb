@@ -63,7 +63,7 @@ class PersonaForm(forms.ModelForm):
         fields = ['categoria',
                   'grado', 
                   'promocion', 
-                  'ano', 
+                  'anio', 
                   'unidad',
                   'datos',
                   'cedula',

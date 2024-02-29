@@ -20,7 +20,7 @@ urlpatterns = [
     path("persona/personas_editar/<int:personas_id>", views.personas_editar, name="personas_editar"),
     
     # todos los documento generados
-    path("personas/pdf/<int:pdf_id>", views.pdf, name="pdf"),
+    path("pdf", views.pdf, name="pdf"),
     
     #inventario
     path("inventario/inventario_index", views.inventario_index, name="inventario"),

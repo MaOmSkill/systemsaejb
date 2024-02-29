@@ -58,10 +58,10 @@
     </div>
 
     <div class="form-group col-md-6">
-      <label for="ano" class="form-label">{{formulario.ano.label}}</label>
-      <input type="text" class="form-control" name="ano" id="ano" value="{{ formulario.ano.value|default_if_none:'' }}"
+      <label for="anio" class="form-label">{{formulario.anio.label}}</label>
+      <input type="text" class="form-control" name="anio" id="anio" value="{{ formulario.anio.value|default_if_none:'' }}"
         placeholder="Año">
-      {% for error in formulario.errors.ano %}
+      {% for error in formulario.errors.anio %}
       <span class="error">{{ error }}</span>
       {% endfor %}
     </div>

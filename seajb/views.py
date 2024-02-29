@@ -1,12 +1,15 @@
-import sweetify
+import io, sweetify, os
 from django.db.models import Q
 from django.utils import timezone
+from django.template.loader import get_template
+from django.contrib.staticfiles import finders
+from xhtml2pdf import pisa
 from django.core.paginator import Paginator
-from reportlab.pdfgen import canvas
 from django.urls import reverse
-from django.shortcuts import render, redirect,  get_object_or_404
-from django.contrib import messages 
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.template.loader import render_to_string
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, FileResponse
 from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDigital, UnidadDigital, Abastecimiento,  Producto,ProductoAbastecimiento, ArmasDePersonas
 from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm, ArmasDePersonasForm
 
@@ -141,7 +144,8 @@ def persona_index(request):
            sweetify.error(request, 'Faltaron campos por rellenar', timer=8000)
     else:
         formularios = PersonaForm()
-    return render(request, 'personas/persona_index.html', {'personas':personas, 'formulario': formularios}) 
+    context = {'personas':personas, 'formulario': formularios}
+    return render(request, 'personas/persona_index.html', context) 
 
 def personas_editar(request,personas_id):
     personas = Personas.objects.get(id=personas_id)
@@ -171,26 +175,6 @@ def persona_informacion(request, persona_id):
         formularios = ArmasDePersonasForm()
     context = {'person':humano, 'formulario':formularios, 'persona':persona}
     return render(request, 'personas/persona_informacion.html', context)
-
-
-
-# imprimir reportes de personas 
-def pdf(request,pdf_id):
-    registros = Personas.objects.get(id=pdf_id)
-    response = HttpResponse(content_type='application/pdf')
-    
-    nombre = registros.cedula
-    response['Content-Disposition'] =f'attachment; filename="{nombre}.pdf"'
-    
-    p = canvas.Canvas(response)
-    
-    p.setFont("Helvetica", 12)
-    p.setFillColorRGB(0.14, 0.59, 0.74)
-    p.drawString(100, 100, "aprender esto")
-    
-    p.showPage()
-    p.save()
-    return response
 
 # digitalización
 
@@ -284,3 +268,23 @@ def abas_info(request, punto_id):
     producto = ProductoAbastecimiento.objects.filter(abastecimiento=abastecimiento)
     context = {'producto':producto}
     return render(request, 'abastecimiento/abas_info.html', context)
+
+
+
+# PDF IMPRIMIR REPORTES TODOS LOS PDDF
+def pdf(request):
+    prueba = Personas.objects.all()
+    try:
+        template = get_template('pdf.html')
+        context = {
+            'prueba': prueba,
+            
+            }
+        html = template.render(context)
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        return response
+    except:
+        return redirect('personas')

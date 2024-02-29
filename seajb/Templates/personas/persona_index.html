@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block titulo %} Principal {% endblock %} 
+{% block titulo %} Principal {% endblock %}
 
 {% block seccion %}
 <div class="content-header">
@@ -11,11 +11,9 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Brigadas</a></li>
-          <li class="breadcrumb-item active">Unidades</li>
+          <li class="breadcrumb-item"><a href="#">Lista</a></li>
+          <li class="breadcrumb-item active">Pdf</li>
           <li class="breadcrumb-item active">Personas</li>
-          <li class="breadcrumb-item active">Armamento</li>
-          <li class="breadcrumb-item active">Municiones</li>
         </ol>
       </div>
     </div>
@@ -25,45 +23,46 @@
 
 {% block contenido %}
 <div class="card card-primary card-outline">
-   <div class="card-header">
-      <div class="d-flex justify-content-between">
-        <h3 class="card-title m-0"></h3>
-        <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#exampleModal">Agregar Persona</a>
-      </div>
-    </div>
-    <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Codigo</th>
-                    <th>Grado</th>
-                    <th>Nombres y Apellidos</th>
-                    <th>Cedula</th>
-                    <th>Año</th>
-                    <th>Acciones</th>
-                  </tr>
-            </thead>
-            <tbody>
-              {% for datos in personas %}
-                <tr>
-                    <td>{{datos.fecha|date:"d/m/Y"}}</td>
-                    <td>{{datos.code}}</td>
-                    <td>{{datos.grado}}</td>
-                    <td>{{datos.datos}} </td>
-                    <td>{{datos.cedula}} </td>
-                    <td>{{datos.ano}} </td>
-                    <td>
-                      <a href="{% url 'informacion' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
-                      <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
-                      <a href="{% url 'pdf'    datos.id %}" class="btn btn-danger btn-xs"><i class="fas fa-solid fa-file-pdf"></i></a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <h3 class="card-title m-0">
+      <a href="{% url 'pdf' %}" class="btn btn-danger float-left btn-xs"><i class="fas fa-solid fa-file-pdf"></i> Lista de la Tabla</a>
+      </h3>
+      <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#exampleModal">AgregarPersona</a>
     </div>
   </div>
+  <div class="card-body">
+    <table id="example1" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Codigo</th>
+          <th>Grado</th>
+          <th>Nombres y Apellidos</th>
+          <th>Cedula</th>
+          <th>Año</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for datos in personas %}
+        <tr>
+          <td>{{datos.fecha|date:"d/m/Y"}}</td>
+          <td>{{datos.code}}</td>
+          <td>{{datos.grado}}</td>
+          <td>{{datos.datos}} </td>
+          <td>{{datos.cedula}} </td>
+          <td>{{datos.anio}} </td>
+          <td>
+            <a href="{% url 'informacion' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
+            <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -80,19 +79,5 @@
       </div>
     </div>
   </div>
-{% endblock %}
+  {% endblock %}
 
-{% block js %}
-<script>
-  $(document).ready(function () {
-    $("#armap").change(function () {
-      var valorSeleccionado = $(this).val();
-      if (valorSeleccionado == "no") {
-        $("#persona1").hide();
-      } else {
-        $("#persona1").show();
-      }
-    });
-  });
-</script>
-{% endblock %}

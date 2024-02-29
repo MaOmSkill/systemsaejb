@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listas de Personas con Armas</title>
+</head>
+
+<body>
+  <h1>Listas de Personas con Armas</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>N°</th>
+        <th>CODIGO</th>
+        <th>GRADO</th>
+        <th>CATEGORIA</th>
+        <th>NOMBRES Y APELLIDOS</th>
+        <th>CEDULA</th>
+        <th>AÑO</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for prueba in prueba %}
+      <tr>
+        <td>{{prueba.id}}</td>
+        <td>{{prueba.code}}</td>
+        <td>{{prueba.grado}}</td>
+        <td>{{prueba.categoria}}</td>
+        <td>{{prueba.datos}}</td>
+        <td>{{prueba.cedula}}</td>
+        <td>{{prueba.anio}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+
+</html>
