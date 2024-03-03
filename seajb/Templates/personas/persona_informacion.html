@@ -28,8 +28,10 @@
   <div class="card card-primary card-outline">
     <div class="card-header">
       <div class="d-flex justify-content-between">
-        <h3 class="card-title m-0"></h3>
-        <a href="#" type="button" class="btn btn-success float-right btn-xs" data-toggle="modal" data-target="#modalNuevo"> Agregar</a>
+        <h3 class="card-title m-0">
+          <a href="{% url 'pdf_dos' person.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+        </h3>
+        <a href="#" type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modalNuevo"><i class="fas fa-plus-square"></i></a>
       </div>
     </div>
     <div class="card-body table-responsive">
@@ -45,16 +47,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for datos in person %}
+         
           <tr>
-            <td>{{datos.fecha|date:"d/m/Y"}}</td>
-            <td>{{datos.code}}</td>
-            <td>{{datos.grado}} </td>
-            <td>{{datos.categoria}} </td>
-            <td>{{datos.promocion}} </td>
-            <td>{{datos.ano}} </td>
+            <td>{{person.fecha|date:"d/m/Y"}}</td>
+            <td>{{person.code}}</td>
+            <td>{{person.grado}} </td>
+            <td>{{person.categoria}} </td>
+            <td>{{person.promocion}} </td>
+            <td>{{person.anio}} </td>
           </tr>
-          {% endfor %}
+        
         </tbody>
         <thead>
           <tr>
@@ -67,16 +69,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for datos in person %}
+          
           <tr>
-            <td>{{datos.datos}}</td>
-            <td>{{datos.cedula}}</td>
-            <td>{{datos.correo}}</td>
-            <td>{{datos.telefono}}</td>
-            <td>{{datos.direccion}}</td>
-            <td>{{datos.unidad}}</td>
+            <td>{{person.datos}}</td>
+            <td>{{person.cedula}}</td>
+            <td>{{person.correo}}</td>
+            <td>{{person.telefono}}</td>
+            <td>{{person.direccion}}</td>
+            <td>{{person.unidad}}</td>
           </tr>
-          {% endfor %}
+        
         </tbody>
         <thead>
           <tr>
@@ -89,16 +91,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for datos in person %}
+         
           <tr>
-            <td>{{datos.armaA}}</td>
-            <td>{{datos.serialA}}</td>
-            <td>{{datos.serialAG}}</td>
-            <td>{{datos.fechaAG}}</td>
-            <td>{{datos.cargadores}}</td>
-            <td>{{datos.municiones}}</td>
+            <td>{{person.armaA}}</td>
+            <td>{{person.serialA}}</td>
+            <td>{{person.serialAG}}</td>
+            <td>{{person.fechaAG}}</td>
+            <td>{{person.cargadores}}</td>
+            <td>{{person.municiones}}</td>
           </tr>
-          {% endfor %}
+         
         </tbody>
       </table>
 
@@ -117,7 +119,7 @@
           </tr>
         </thead>
         <tbody> 
-        {% for persona in persona %}
+        {% for persona in armas %}
           <tr> 
             <td>{{persona.armas}}  </td>
             <td>{{persona.modelo}}  </td>

@@ -5,8 +5,7 @@
 
     <div class="form-group col-md-6">
       <label for="categoria">Categoria</label>
-      <select class="form-control" name="categoria" id="categoria"
-        value="{{ formulario.categoria.value|default_if_none:'' }}">
+      <select class="form-control" name="categoria" id="categoria">
         <option value="0">---Seleccionar---</option>
         <option value="Comando">Ofic Comando</option>
         <option value="Tecnico">Ofic Tecnico</option>
@@ -55,6 +54,9 @@
       <label for="promocion" class="form-label">{{formulario.promocion.label}}</label>
       <input type="text" class="form-control" name="promocion" id="promocion"
         value="{{ formulario.promocion.value|default_if_none:'' }}" placeholder="Promoción">
+        {% for error in formulario.errors.promocion %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group col-md-6">
@@ -177,6 +179,6 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-    <input type="submit" class="btn btn-primary float-left" value="Registrar">
+    <input type="submit" class="btn btn-primary float-left" value="GUARDAR">
   </div>
 </form>

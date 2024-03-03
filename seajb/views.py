@@ -1,4 +1,5 @@
 import io, sweetify, os
+from io import BytesIO
 from django.db.models import Q
 from django.utils import timezone
 from django.template.loader import get_template
@@ -57,7 +58,7 @@ def eliminar(request, id):
         registro.delete()
         messages.success(request, "Registro eliminado correctamente.")
     except Brigada.DoesNotExist:
-        messages.error(request, "El registro no existe.")
+        sweetify.error(request, 'Algo Salio Mal', timer=8000)
     return redirect('servicio')
      
 
@@ -65,7 +66,7 @@ def eliminar(request, id):
 # aqui con este codigo muestra el resumen completo de la brigada y puede crear unidades de esas brigada de acuerdo a su id agregado
         
 def resumen(request,resumen_id):
-    batallon = Brigada.objects.all()
+    batallon = Brigada.objects.filter(id=resumen_id)
     primero = Brigada.objects.get(id=resumen_id)
     servicio = Batallones.objects.filter(primero = primero)
     datos = Brigada.objects.filter(id=resumen_id)
@@ -117,7 +118,7 @@ def info(request, unidad_id):
            messages.success(request, "Se registro la Munición correctamente")
            return redirect('infor', unidad_id=id)
        else:
-           sweetify.error(request, 'Faltaron campos por rellenar', timer=5000)
+           sweetify.error(request, 'Faltaron campos por rellenar', timer=8000)
     else:
         form = MunicionForm()  
         
@@ -154,26 +155,26 @@ def personas_editar(request,personas_id):
         formularios.save()
         messages.success(request, "Se editó la Persona correctamente")
         return redirect('personas')
-    return render(request, 'personas/personas_editar.html', {'formulario': formularios})
+    context = {'formulario':formularios}
+    return render(request, 'personas/personas_editar.html', context)
 
 def persona_informacion(request, persona_id):
-    
-    person = Personas.objects.get(id=persona_id)
-    humano = Personas.objects.filter(id=persona_id)
-    persona = ArmasDePersonas.objects.filter(persona = person)
-    
-    if request.method =='POST':
-        formularios = ArmasDePersonasForm(request.POST or None)
+    person = Personas.objects.get(pk=persona_id)  
+    armas = ArmasDePersonas.objects.filter(persona=person)
+
+    if request.method == 'POST':
+        formularios = ArmasDePersonasForm(request.POST)  
         if formularios.is_valid():
-            persona = formularios.save()
-            id = persona.persona.id
-            messages.success(request, "Se Registro Nuevo Armamento Asignado correctamente")
-            return redirect('informacion', persona_id=id)
+            formularios.save()
+            messages.success(request, "Se registró nuevo armamento asignado correctamente")
+            return redirect('informacion', persona_id=person.id)
         else:
            sweetify.error(request, 'Faltaron campos por rellenar', timer=8000)
+
     else:
-        formularios = ArmasDePersonasForm()
-    context = {'person':humano, 'formulario':formularios, 'persona':persona}
+        formularios = ArmasDePersonasForm()  # Pre-populate with existing data
+
+    context = {'person': person, 'armas': armas, 'formulario': formularios}
     return render(request, 'personas/persona_informacion.html', context)
 
 # digitalización
@@ -272,14 +273,12 @@ def abas_info(request, punto_id):
 
 
 # PDF IMPRIMIR REPORTES TODOS LOS PDDF
-def pdf(request):
-    prueba = Personas.objects.all()
+def pdf_uno(request):
     try:
-        template = get_template('pdf.html')
-        context = {
-            'prueba': prueba,
-            
-            }
+        year = request.GET.get('year', None)
+        prueba = Personas.objects.filter(anio=year)
+        template = get_template('pdf/pdf_uno.html')
+        context = {'prueba': prueba, 'year':year}
         html = template.render(context)
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -287,4 +286,20 @@ def pdf(request):
         pisa_status = pisa.CreatePDF(html, dest=response)
         return response
     except:
+        return redirect('personas')
+    
+def pdf_dos(request, pdf_id):
+    try:
+        person = Personas.objects.get(pk=pdf_id) 
+        armas = ArmasDePersonas.objects.filter(persona=person)
+        template = get_template('pdf/pdf_dos.html')
+        context = {'person': person, 'armas': armas}
+        html = template.render(context)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        return response
+    except Personas.DoesNotExist:
+        messages.error(request, 'Persona no encontrada')
         return redirect('personas')

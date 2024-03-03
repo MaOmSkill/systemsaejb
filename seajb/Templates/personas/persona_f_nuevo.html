@@ -6,9 +6,7 @@
     <div class="form-group col-md-12">
       <label for="persona">Persona</label>
       <select class="form-control" name="persona" id="persona">
-        {% for persona in person %}
-          <option value="{{persona.id}}">{{persona.id}} - {{persona.datos}} - {{persona.cedula}}</option>
-        {% endfor %}
+          <option value="{{person.id}}">{{person.id}} - {{person.datos}} - {{person.cedula}}</option>
       </select>
       {% for error in formulario.errors.persona %}
       <span class="error">{{ error }}</span>

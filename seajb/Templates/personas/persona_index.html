@@ -12,7 +12,7 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="#">Lista</a></li>
-          <li class="breadcrumb-item active">Pdf</li>
+          <li class="breadcrumb-item active">PDF</li>
           <li class="breadcrumb-item active">Personas</li>
         </ol>
       </div>
@@ -25,10 +25,25 @@
 <div class="card card-primary card-outline">
   <div class="card-header">
     <div class="d-flex justify-content-between">
-      <h3 class="card-title m-0">
-      <a href="{% url 'pdf' %}" class="btn btn-danger float-left btn-xs"><i class="fas fa-solid fa-file-pdf"></i> Lista de la Tabla</a>
-      </h3>
-      <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#exampleModal">AgregarPersona</a>
+      <form action="{% url 'pdf_uno' %}" method="get">
+        <div class="row">
+          <!-- <div class="col-2">
+            <label for="year">Año:</label>
+          </div> -->
+          <div class="col-12">
+            <div class="input-group">
+              <select class="form-control" name="year" id="year">
+              </select>
+              <div class="input-group-append ">
+               <button type="submit" class="btn btn-danger"><i class="fas fa-file-pdf"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="form-group col-md-2 text-right">
+        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i></a>
+      </div>
     </div>
   </div>
   <div class="card-body">
@@ -54,8 +69,10 @@
           <td>{{datos.cedula}} </td>
           <td>{{datos.anio}} </td>
           <td>
-            <a href="{% url 'informacion' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
-            <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
+            <a href="{% url 'informacion' datos.id %}" class="btn btn-success btn-xs"><i
+                class="fas fa-solid fa-eye"></i></a>
+            <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info btn-xs"><i
+                class="fas fa-solid fa-marker"></i></a>
           </td>
         </tr>
         {% endfor %}
@@ -81,3 +98,23 @@
   </div>
   {% endblock %}
 
+  
+  {% block js %}
+  <script>
+  function ComboAno() {
+      var d = new Date();
+      var n = d.getFullYear();
+      var select = document.getElementById("year");
+      for (var i = n; i >= 1980; i--) {
+        var opc = document.createElement("option");
+        opc.text = i;
+        opc.value = i;
+        select.add(opc);
+      }
+    }
+
+    window.onload = ComboAno;
+  </script>
+    
+  {% endblock%}
+    

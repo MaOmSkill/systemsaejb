@@ -27,23 +27,23 @@
 
 
 {% block contenido %}
-<div class="card card-primary w-100">
-   <div class="card-header border-0">
+<div class="card card-primary card-outline">
+   <div class="card-header">
       <div class="d-flex justify-content-between">
-        <h3 class="card-title"></h3>
-        <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#exampleModal">Agregar Unidad</a>
+        <h3 class="card-title m-0"><a href="#" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a></h3>
+        <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i></a>
       </div>
     </div>
     <div class="card-body">
         <table id="" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Fecha</th>
-                    <th>Serial</th>
-                    <th>Brigada</th>
-                    <th>Comandante</th>
-                    <th>Telefono</th>
-                    <th>Correo Electronico</th>
+                    <th>FECHA</th>
+                    <th>SERIAL</th>
+                    <th>BRIGADA</th>
+                    <th>COMANDANTE</th>
+                    <th>TELEFONO</th>
+                    <th>CORREO ELECTRONICO</th>
                   </tr>
             </thead>
             <tbody>
@@ -65,18 +65,24 @@
             <table id="example2" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>fecha</th>
-                        <th>Unidad</th>
-                        <th>Serial</th>
-                        <th>Acciones</th>
+                        <th>FECHA</th>
+                        <th>SERIAL</th>
+                        <th>UNIDAD</th>
+                        <th>COMANDANTE</th>
+                        <th>TELEFONO</th>
+                        <th>UBICACIÓN</th>
+                        <th>ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for datos in   servicios %}
                     <tr>
                       <td>{{datos.fecha|date:"d/m/Y"}}</td>
+                        <td>SERIAL</td>
                         <td>{{datos.nombreB}} </td>
-                        <td>{{datos.nombreB}} </td>
+                        <td>{{datos.comandante}} </td>
+                        <td>{{datos.telefono}} </td>
+                        <td>{{datos.ubicacionB}} </td>
                         <td>
                             <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
                         </td>
