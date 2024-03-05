@@ -1,172 +1,164 @@
 {% extends "base.html" %}
 
 
-{% block titulo %} Resumen de la Unidad {% endblock %} 
+{% block titulo %} Armas y Municiones{% endblock %}
 
 
 {% block seccion %}
 <div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h5 class="m-0">Panel de Unidades</h5>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Información</a></li>
-          <li class="breadcrumb-item active">Armamento</li>
-          <li class="breadcrumb-item active">Municiones</li>
-          <li class="breadcrumb-item active">Personas</li>
-        </ol>
-      </div>
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h5 class="m-0">Panel de Unidades</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Información</a></li>
+                    <li class="breadcrumb-item active">Armamento</li>
+                    <li class="breadcrumb-item active">Municiones</li>
+                </ol>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}
 
 
-{% block contenido %}
+{% block contenido %}  
 
-<div class="card card-primary w-100">
-   <div class="card-header border-0">
-      <div class="d-flex justify-content-between">
-        <h3 class="card-title"></h3>
-      </div>
+        <div class="card card-primary card-outline">
+            <div class="card-header ">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title m-0">
+                    <a href="{% url 'pdf_tres' segundo.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+                    </h3>
+                    <h4>Armamento</h4>
+                    <a href="#" class="btn btn-success float-left" data-toggle="modal"
+                        data-target="#modalArmas"><i class="fas fa-plus-square"></i></a>
+                </div>
+            </div>
+            <div class="card-body table-responsive">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>CATEGORIA</th>
+                            <th>ARMA</th>
+                            <th>MODELO</th>
+                            <th>CALIBRE</th>
+                            <th>SERIAL</th>
+                            <th>SERIAL AG</th>
+                            <th>FECHA AG</th>
+                            <th>OPERATIVA</th>
+                            <th>CANTIDAD</th>
+                            <th>CARGADORES</th>
+                            <th>SEGUNDO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for datos in servicio %}
+                        <tr>
+                            <td>{{datos.fecha|date:"d/m/Y"}}</td>
+                            <td>{{datos.categoria}}</td>
+                            <td>{{datos.tipoA}}</td>
+                            <td>{{datos.modeloA}}</td>
+                            <td>{{datos.calibreA}}</td>
+                            <td>{{datos.serialA}}</td>
+                            <td>{{datos.serialAG}}</td>
+                            <td>{{datos.fechaAG}}</td>
+                            <td>{{datos.opAM}}</td>
+                            <td>{{datos.cantidadA}}</td>
+                            <td>{{datos.cantidadC}}</td>
+                            <td>{{datos.armaS}}</td>
+                            <td>
+                            <a href="{% url 'pdf_cinco' datos.id %}" class="btn btn-danger btn-xs"><i class="fas fa-file-pdf"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+ 
+
+   
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title  m-0">
+                    <a href="{% url 'pdf_cuatro' segundo.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+                    </h3>
+                    <h4>Municiones</h4>
+                    <a href="#" class="btn btn-success float-left" data-toggle="modal"
+                        data-target="#modalMunicion"><i class="fas fa-plus-square"></i></a>
+                </div>
+            </div>
+            <div class="card-body table-responsive">
+                <table id="example2" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>MUNICIÓN</th>
+                            <th>LOTE N°</th>
+                            <th>SERIAL DE AG</th>
+                            <th>FECHA DE AG</th>
+                            <th>CANTIDAD</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for datos in resumen %}
+                        <tr>
+                            <td>{{datos.fecha|date:"d/m/Y"}} </td>
+                            <td>{{datos.tipoM}} </td>
+                            <td>{{datos.lote}} </td>
+                            <td>{{datos.serialAG}} </td>
+                            <td>{{datos.fechaAG}} </td>
+                            <td>{{datos.cantidadM}} </td>
+                            <td>
+                            <a href="{% url 'pdf_sexto' datos.id %}" class="btn btn-danger btn-xs"><i class="fas fa-file-pdf"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+ 
+
+
+<div class="modal fade" id="modalArmas" tabindex="1" aria-labelledby="tituloArmasModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary ">
+                <h5 class="modal-title" id="tituloArmasModal">Formulario de las Armas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% include "armas/armas_f.html" %}
+            </div>
+        </div>
     </div>
-    <div class="card-body table-responsive">
-        <table id="example4" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Serial</th>
-                    <th>Unidad</th>
-                    <th>ubicacion</th>
-                    <th>Comandante</th>
-                    <th>Telefono</th>
-                    <th>Correo Electronico</th>
-                  </tr>
-            </thead>
-            <tbody>
-                {% for datos in  datos %}
-                <tr>
-                    <td>{{datos.fecha|date:"d/m/Y"}}</td>
-                    <td>serial</td>
-                    <td>{{datos.nombreB}}</td>
-                    <td>{{datos.ubicacionB}}</td>
-                    <td>{{datos.comandante}}</td>
-                    <td>{{datos.telefono}}</td>
-                    <td>{{datos.correo}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-  </div>
 </div>
 
-<div class="row">
-            <div class="col-md-6">
-                <div class="card card-primary"> 
-                    <div class="card-header border-0">
-                        <div class="d-flex justify-content-between">
-                            <h3 class="card-title">Armas de la Unidad</h3>
-                            <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#modalArmas">Agregar Arma</a>
-                        </div>
-                    </div>
-                        <div class="card-body table-responsive">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Serial</th>
-                                        <th>Categoria</th>
-                                        <th>Tipo Arma</th>
-                                        <th>Cantidad</th>
-                                      </tr>
-                                </thead>
-                                <tbody>
-                                    {% for datos in servicio %}
-                                    <tr>
-                                        <td>{{datos.fecha|date:"d/m/Y"}}</td>
-                                        <td>{{datos.serialA}}</td>
-                                        <td>{{datos.categoria}}</td>
-                                        <td>{{datos.tipoA}}</td>
-                                        <td>{{datos.cantidadA}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            <div class="col-md-6">
-                <div class="card card-primary"> 
-                    <div class="card-header border-0">
-                        <div class="d-flex justify-content-between">
-                            <h3 class="card-title">Municion de la Unidad</h3>
-                            <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#modalMunicion">Agregar Municion</a>
-                        </div>
-                    </div>
-                        <div class="card-body table-responsive">
-                            <table id="example2" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Tipo Munición</th>
-                                        <th>Lote N°</th>
-                                        <th>serialAG</th>
-                                        <th>Cantidad</th>
-                                      </tr>
-                                </thead>
-                                <tbody>
-                                    {% for datos in resumen %}
-                                    <tr>
-                                        <td>{{datos.fecha|date:"d/m/Y"}}</td>
-                                        <td>{{datos.tipoM}} </td>
-                                        <td>{{datos.lote}} </td>
-                                        <td>{{datos.serialAG}} </td>
-                                        <td>{{datos.cantidadM}} </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+<div class="modal fade" id="modalMunicion" tabindex="1" aria-labelledby="tituloMunicionModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary ">
+                <h5 class="modal-title" id="tituloMunicionModal">Formulario de Munición</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-
-            <div class="modal fade" id="modalArmas" tabindex="1" aria-labelledby="tituloArmasModal" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                        <div class="modal-header bg-primary ">
-                            <h5 class="modal-title" id="tituloArmasModal">Formulario de las Armas</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            {% include "armas/armas_f.html" %}
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body">
+                {% include "municion/municion_f.html" %}
             </div>
-
-            <div class="modal fade" id="modalMunicion" tabindex="1" aria-labelledby="tituloMunicionModal" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                     <div class="modal-header bg-primary ">
-                            <h5 class="modal-title" id="tituloMunicionModal">Formulario de Munición</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                      </div>
-                        <div class="modal-body">
-                            {% include "municion/municion_f.html" %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 {% endblock %}
@@ -174,30 +166,30 @@
 
 {% block js %}
 <script>
-  $(document).ready(function(){
-    $("#categoria").change(function(){
-       var valorSeleccionado = $(this).val();
-       if(valorSeleccionado == "Blindado"){
-           $("#form1").hide();
-           $("#form2").show();
-       } else {
-           $("#form1").show();
-           $("#form2").hide();
-       }
-    });
+    $(document).ready(function () {
+        $("#categoria").change(function () {
+            var valorSeleccionado = $(this).val();
+            if (valorSeleccionado == "Blindado") {
+                $("#form1").hide();
+                $("#form2").show();
+            } else {
+                $("#form1").show();
+                $("#form2").hide();
+            }
+        });
 
-    $("#armaS").change(function(){
-      var valorSeleccionado = $(this).val();
-       if(valorSeleccionado == "si"){
-           $("#prueba1").show();
-           $("#prueba2").hide();
-       } else {
-           $("#prueba1").hide();
-           $("#prueba2").show();
-       }
+        $("#armaS").change(function () {
+            var valorSeleccionado = $(this).val();
+            if (valorSeleccionado == "si") {
+                $("#prueba1").show();
+                $("#prueba2").hide();
+            } else {
+                $("#prueba1").hide();
+                $("#prueba2").show();
+            }
+        });
+
     });
-    
-   });
 </script>
 
 {% endblock %}

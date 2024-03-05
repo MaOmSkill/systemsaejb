@@ -4,7 +4,7 @@
   <div class="form-group">
       <label for="primero">Brigada</label>
       <select class="form-control" id="primero" name="primero">
-        <option value="0">-----Seleccione-----</option>
+        <option value="">-----Seleccione-----</option>
         {% for datos in batallon %}
         <option value="{{datos.id}}">{{datos.id}} - {{datos.nombreB}} </option>
         {% endfor %}

@@ -1,4 +1,4 @@
-import io, sweetify, os
+import io, sweetify, os ,logging
 from io import BytesIO
 from django.db.models import Q
 from django.utils import timezone
@@ -13,7 +13,6 @@ from django.contrib import messages
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, FileResponse
 from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDigital, UnidadDigital, Abastecimiento,  Producto,ProductoAbastecimiento, ArmasDePersonas
 from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm, ArmasDePersonasForm
-
 
 
 def principal(request):
@@ -93,7 +92,6 @@ def resumen(request,resumen_id):
 # tambien ver la tabla completa de las armas y municiones registradas que dependen de esa unidad que a su vez depende de una brigada
 
 def info(request, unidad_id):
-    entida = Batallones.objects.all()
     segundo = Batallones.objects.get(id=unidad_id)
     tercero= Batallones.objects.get(id=unidad_id)
     servicio = Armas.objects.filter(segundo=segundo)
@@ -121,15 +119,12 @@ def info(request, unidad_id):
            sweetify.error(request, 'Faltaron campos por rellenar', timer=8000)
     else:
         form = MunicionForm()  
-        
-
-    return render(request, 'batallon/info.html', {'segundo':segundo,
-                                                  'servicio':servicio, 
-                                                  'datos':datos,
-                                                  'resumen':ubuntu, 
-                                                  'formulario': formularios,
-                                                  'form': form,
-                                                  'unidad':entida})
+    context = {
+               'segundo':segundo, 'tercero':tercero, 
+               'servicio':servicio, 'datos':datos,
+               'resumen':ubuntu, 'formulario': formularios, 'form': form
+               }
+    return render(request, 'batallon/info.html', context)
     
     
 # tabla principal, crear, editar y eliminar personas 
@@ -150,12 +145,17 @@ def persona_index(request):
 
 def personas_editar(request,personas_id):
     personas = Personas.objects.get(id=personas_id)
-    formularios = PersonaForm(request.POST or None, request.FILES or None, instance=personas)
-    if formularios.is_valid() and request.method == 'POST':
-        formularios.save()
-        messages.success(request, "Se editó la Persona correctamente")
-        return redirect('personas')
-    context = {'formulario':formularios}
+    if request.method == 'POST':
+        formularios = PersonaForm(request.POST or None, request.FILES or None, instance=personas)
+        if formularios.is_valid():
+            formularios.save()
+            messages.success(request, "Se editó la Persona correctamente")
+            return redirect('personas')
+        else:
+            sweetify.error(request, 'Que paso algo esta Mal, revisa', timer=8000)
+    else:
+        formularios = PersonaForm(instance=personas)
+    context = {'formulario':formularios, 'personas':personas}
     return render(request, 'personas/personas_editar.html', context)
 
 def persona_informacion(request, persona_id):
@@ -238,12 +238,13 @@ def inventario_enviar(request):
                     producto=producto, 
                     abastecimiento=abastecimiento,
                     cantidad=cantidad, 
+                    precio= producto.precio,
                     movimiento = producto.nombre)
                 sweetify.success(request, 'se envio el paquete correctamente para punto de abastecimiento', timer=7000)
                 return redirect('inventario')
             else:
                 sweetify.error(request, 'No hay suficientes unidades', timer=8000)
-                return redirect('principal')
+                return redirect('inventario')
             
     else:
         formularios = EnviarProductoForm()
@@ -272,7 +273,7 @@ def abas_info(request, punto_id):
 
 
 
-# PDF IMPRIMIR REPORTES TODOS LOS PDDF
+# PDF IMPRIMIR REPORTES TODOS LOS PDf del MODULO DE PERSONAS, Y BRIGADAS,UNIDADES, MUNICIONES Y ARMAS
 def pdf_uno(request):
     try:
         year = request.GET.get('year', None)
@@ -284,6 +285,9 @@ def pdf_uno(request):
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
         
         pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
+            return redirect('servicio')
         return response
     except:
         return redirect('personas')
@@ -299,7 +303,105 @@ def pdf_dos(request, pdf_id):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
         pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
+            return redirect('servicio')
         return response
     except Personas.DoesNotExist:
         messages.error(request, 'Persona no encontrada')
         return redirect('personas')
+
+
+def pdf_tres(request, pdf_id):
+    try:
+        person = Batallones.objects.get(pk=pdf_id) 
+        armas = Armas.objects.filter(segundo=person)
+        template = get_template('pdf/pdf_tres.html')
+        context = {'person': person, 'armas': armas}
+        html = template.render(context)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
+            return redirect('servicio')
+        return response
+    except Batallones.DoesNotExist:
+        messages.error(request, 'Armas no encontrada')
+        return redirect('Servicio')
+    
+def pdf_cuatro(request, pdf_id):
+    try:
+        person = Batallones.objects.get(pk=pdf_id) 
+        armas = Municiones.objects.filter(tercero=person)
+        template = get_template('pdf/pdf_cuatro.html')
+        context = {'person': person, 'armas': armas}
+        html = template.render(context)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
+            return redirect('servicio')
+        return response
+    except Batallones.DoesNotExist:
+        messages.error(request, 'Municiones no encontrada')
+        return redirect('Servicio')
+    
+def pdf_cinco(request, pdf_id):
+    try:
+        armas = Armas.objects.get(pk=pdf_id)
+        person = Batallones.objects.filter(armas=armas)
+        template = get_template('pdf/pdf_cinco.html')
+        context = {'armas': armas , 'person':person}
+        html = template.render(context)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
+            return redirect('servicio')
+        return response
+    except Armas.DoesNotExist:
+        sweetify.error(request, 'PDF de Armas no Encontrada', timer=8000)
+        return redirect('servicio')
+    
+def pdf_sexto(request, id):
+    try:
+        municiones = Municiones.objects.get(id=id)
+        unidad = Batallones.objects.filter(municiones=municiones)
+        template = get_template('pdf/pdf_sexto.html')
+        context = {'unidad':unidad, 'municiones':municiones}
+        html = template.render(context)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
+        pisa_status = pisa.CreatePDF(html, dest=response)
+
+        if pisa_status.err:
+            sweetify.error(request, 'Error al generar el PDF', timer=8000)
+            return redirect('servicio')
+        return response
+    
+    except Municiones.DoesNotExist:
+        sweetify.error(request, 'PDF de Municiones no Encontrada', timer=8000)
+        return redirect('servicio')
+def pdf_sextimo(request, id):
+    try:
+      template = get_template('')
+      context ={}
+      html = template.render(context)
+      response = HttpResponse(content_type='application/pdf')
+      response['Content-Disposition'] = f'attachment: filename="reporte.pdf'
+      pisa_status = pisa.CreatePDF(html, dest=response)
+      if pisa_status.err:
+          sweetify.error(request, 'Error al generar el PDF', timer=8000)
+          return redirect('servicio')
+      return response
+    except Producto.DoesNotExist:
+        sweetify.error(request, 'PDF del Producto no Encontrado', timer=8000)
+        return redirect('inventario')
+   

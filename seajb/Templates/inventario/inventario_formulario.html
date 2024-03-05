@@ -3,31 +3,36 @@
 
   <div class="row">
     <div class="form-group col-md-12">
-      <label for="nombre" class="form-label">{{formulario.nombre.label}}</label>
+      <label for="nombre" class="form-label">{{formulario.nombre.label}} : </label>
       <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre">
     </div>
 
     <div class="form-group col-md-12">
-      <label for="serial" class="form-label">{{formulario.serial.label}}</label>
-      <input type="text" class="form-control" name="serial" id="serial" placeholder="Serial">
+      <label for="serial" class="form-label">{{formulario.serial.label}} :</label>
+      <textarea class="form-control" name="serial" id="serial" cols="30" rows="5"
+        placeholder="Describe los seriales"></textarea>
     </div>
 
     <div class="form-group col-md-12">
-      <label for="modelo" class="form-label">{{formulario.modelo.label}}</label>
+      <label for="modelo" class="form-label">{{formulario.modelo.label}} :</label>
       <input type="text" class="form-control" name="modelo" id="modelo" placeholder="Modelo">
     </div>
 
     <div class="form-group col-md-12">
-      <label for="descripcion" class="form-label">{{formulario.descripcion.label}}</label>
-      <textarea  class="form-control" name="descripcion" id="descripcion" cols="30" rows="5" placeholder="Describe el Producto"></textarea>
+      <label for="descripcion" class="form-label">{{formulario.descripcion.label}} :</label>
+      <textarea  class="form-control" name="descripcion" id="descripcion" cols="10" rows="3" placeholder="Describe el Producto"></textarea>
     </div>
 
    <div class="form-group col-md-12">
-      <label for="cantidad" class="form-label">{{formulario.cantidad.label}}</label>
+      <label for="cantidad" class="form-label">{{formulario.cantidad.label}} :</label>
       <input type="number" class="form-control" name="cantidad" id="cantidad" placeholder="Cantidad">
     </div>
-  </div>
 
+    <div class="form-group col-md-12">
+      <label for="precio" class="form-label">{{formulario.precio.label}}:</label>
+      <input type="number" class="form-control" name="precio" id="precio" placeholder="Cantidad">
+    </div>
+  </div>
 
   <div class="modal-footer">
     <input type="submit" class="btn btn-primary float-left" value="Registrar">

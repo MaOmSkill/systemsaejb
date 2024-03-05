@@ -26,7 +26,7 @@
   <div class="card-header border-0">
     <div class="d-flex justify-content-between">
       <h3 class="card-title"></h3>
-      <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#modalProducto">+-MATERIAL</a>
+      <a href="#" class="btn btn-success float-left btn-xs">+-MATERIAL</a>
     </div>
   </div>
   <div class="card-body">
@@ -36,6 +36,8 @@
           <th>N°</th>
           <th>Nombre Prodcuto</th>
           <th>Cantidad</th>
+          <th>Precio</th>
+          <th>TOTAL</th>
         </tr>
       </thead>
       <tbody>
@@ -44,11 +46,14 @@
           <td>{{datos.id}}</td>
           <td>{{datos.movimiento}}</td>
           <td>{{datos.cantidad}}</td>
+          <td>{{datos.precio}}</td>
+          <td>{{datos.total}}</td>
         </tr>
       {% endfor %}
       </tbody>
     </table>
   </div>
 </div>
+
 
 {% endblock %}

@@ -2,6 +2,16 @@
 
 {% block titulo %} Inventario {% endblock %}
 
+
+{% block css %}
+ <style>
+ .fs-1{
+ font-size: 1.6em; /* Ajusta el tamaño según sea necesario */
+}
+ </style>
+{% endblock %}
+  
+
 {% block seccion %}
 <div class="content-header">
   <div class="container-fluid">
@@ -25,34 +35,42 @@
 <div class="card card-primary card-outline">
   <div class="card-header">
     <div class="d-flex justify-content-between">
-      <h3 class="card-title m-0"><a href="{% url 'envio' %}" class="btn btn-success btn-xs">Transacción</a></h3>
-      <a href="#" class="btn btn-success float-letf btn-xs" data-toggle="modal" data-target="#modalInventario">Agregar</a>
+      <h3 class="card-title m-0"><a href="{% url 'envio' %}" class="btn btn-warning"><i class="fas fa-hand-holding-usd"></i></a></h3>
+      <a href="#" class="btn btn-success float-letf" data-toggle="modal" data-target="#modalInventario"><i class="fas fa-plus-square"></i></a>
     </div>
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table id="example1" class="table table-striped-columns table-hover table-borderless table-primary align-middle">
+      <table id="example1" class="table table-bordered table-striped table-hover">
         <thead class="table-light">
           <tr>
             <th>N°</th>
-            <th>FECHA DE ENTRADA</th>
+            <th>FECHA</th>
             <th>SERIAL</th>
             <th>PRODUCTO</th>
             <th>MODELO</th>
             <th>DESCRIPCIÓN</th>
             <th>CANTIDAD</th>
+            <th>PRECIO</th>
+            <th>TOTAL</th>
+            <th>ACCIONES</th>
           </tr>
         </thead>
-        <tbody class="table-group-divider">
+        <tbody>
         {% for inventario in inventario %}
-          <tr class="table-primary">
+          <tr>
             <td>{{inventario.id}}</td>
-            <td>{{inventario.fecha_entrada}}</td>
+            <td>{{inventario.fecha_entrada|date:'dmY'}}</td>
             <td>{{inventario.serial}}</td>
             <td>{{inventario.nombre}}</td>
             <td>{{inventario.modelo}}</td>
             <td>{{inventario.descripcion}}</td>
             <td>{{inventario.cantidad}}</td>
+            <td>{{inventario.precio}}</td>
+            <td>{{inventario.total}}</td>
+            <td>
+              <a href="" class="btn btn-danger btn-xs"><i class="fas fa-file-pdf fs-1"></i></a>
+            </td>
           </tr>
           {% endfor %}
         </tbody>

@@ -13,11 +13,11 @@
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Información</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'servicio' %}">Lista</a></li>
+            <li class="breadcrumb-item active">Brigada</li>
             <li class="breadcrumb-item active">Unidades</li>
             <li class="breadcrumb-item active">Armamento</li>
             <li class="breadcrumb-item active">Municiones</li>
-            <li class="breadcrumb-item active">Personas</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -31,45 +31,19 @@
    <div class="card-header">
       <div class="d-flex justify-content-between">
         <h3 class="card-title m-0"><a href="#" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a></h3>
+        <p>{{primero.nombreB}} - {{primero.code}}</p>
         <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i></a>
       </div>
     </div>
-    <div class="card-body">
-        <table id="" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>FECHA</th>
-                    <th>SERIAL</th>
-                    <th>BRIGADA</th>
-                    <th>COMANDANTE</th>
-                    <th>TELEFONO</th>
-                    <th>CORREO ELECTRONICO</th>
-                  </tr>
-            </thead>
-            <tbody>
-                {% for tabla in datos  %}
-                <tr>
-                    <td>{{tabla.fecha|date:"d/m/Y"}}</td>
-                    <td> </td>
-                    <td>{{tabla.nombreB}}</td>
-                    <td>{{tabla.comandante}}</td>
-                    <td>{{tabla.telefono}}</td>
-                    <td>{{tabla.correo}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    
         <div class="card-body">
             <table id="example2" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>FECHA</th>
-                        <th>SERIAL</th>
-                        <th>UNIDAD</th>
-                        <th>COMANDANTE</th>
+                        <th>FECHA ENTRADA</th>
+                        <th>UNIDAD DE LA BRIGADA</th>
+                        <th>COMANDANTE DE LA UNIDAD</th>
                         <th>TELEFONO</th>
+                        <th>CORREO</th>
                         <th>UBICACIÓN</th>
                         <th>ACCIONES</th>
                     </tr>
@@ -78,10 +52,10 @@
                     {% for datos in   servicios %}
                     <tr>
                       <td>{{datos.fecha|date:"d/m/Y"}}</td>
-                        <td>SERIAL</td>
                         <td>{{datos.nombreB}} </td>
                         <td>{{datos.comandante}} </td>
                         <td>{{datos.telefono}} </td>
+                        <td>{{datos.correo}} </td>
                         <td>{{datos.ubicacionB}} </td>
                         <td>
                             <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>

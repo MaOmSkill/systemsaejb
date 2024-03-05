@@ -38,11 +38,14 @@
             <thead>
                 <tr>
                     <th>N°</th>
-                    <th>Fecha</th>
-                    <th>Serial</th>
-                    <th>Brigada</th>
-                    <th>Comandante</th>
-                    <th>acciones</th>
+                    <th>FECHA</th>
+                    <th>SERIAL</th>
+                    <th>BRIGADAS</th>
+                    <th>COMANDANTES</th>
+                    <th>TELEFONOS</th>
+                    <th>CORREO</th>
+                    <th>UBICACIÓN</th>
+                    <th>ACCIONES</th>
                   </tr>
             </thead>
             <tbody>
@@ -53,6 +56,9 @@
                     <td>{{tabla.code}}</td>
                     <td>{{tabla.nombreB}}</td>
                     <td>{{tabla.comandante}}</td>
+                    <td>{{tabla.telefono}}</td>
+                    <td>{{tabla.correo}}</td>
+                    <td>{{tabla.ubicacionB}}</td>
                     <td>
                       <a href="{% url 'resumen' tabla.id %}"   class="btn btn-success btn-xs"><i class="nav-icon fas fa-eye"></i></a> | 
                       <a href="{% url 'editar' tabla.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a> | 

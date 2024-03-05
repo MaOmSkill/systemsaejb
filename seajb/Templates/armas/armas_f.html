@@ -4,8 +4,8 @@
   <div class="form-row">
     <div class="form-group col-md-4">
       <label for="categoria">Categoria</label>
-      <select class="form-control" name="categoria" id="categoria" value="{{ formulario.categoria.value|default_if_none:'' }}">
-        <option value="0">----Seleccionar---</option>
+      <select class="form-control" name="categoria" id="categoria">
+        <option value="">----Seleccionar---</option>
         <option value="Armas">Armas</option>
         <option value="Blindado">Blindado</option>
         <option value="Artilleria">Artilleria</option>
@@ -21,11 +21,8 @@
 
     <div class="form-group col-md-8">
       <label for="segundo">Unidad</label>
-      <select class="form-control" id="segundo" name="segundo" value="{{ formulario.segundo.value|default_if_none:'' }}">
-        <option value="0">-----Seleccione-----</option>
-        {% for datos in unidad %}
-        <option value="{{datos.id}}">{{datos.id}} - {{datos.nombreB}}</option>
-        {% endfor %}
+      <select class="form-control" id="segundo" name="segundo">
+        <option value="{{segundo.id}}">{{segundo.id}} - {{segundo.nombreB}}</option>
       </select>
       {% for error in formulario.errors.segundo %}
             <span class="error">{{ error }}</span>
@@ -60,7 +57,7 @@
 
     <div class="form-group">
       <label for="serialA" class="form-label">{{formulario.serialA.label}}</label>
-      <input type="text" class="form-control" name="serialA" id="serialA" value="{{ formularios.serialA.value|default_if_none:'' }}" placeholder="Serial del Arma, Blindado, Artilleria"/>
+      <textarea class="form-control" name="serialA" id="serialA" cols="30" rows="5">Coloque los seriales necesarios</textarea>
       {% for error in formulario.errors.serialA %}
       <span class="error">{{ error }}</span>
       {% endfor %}
@@ -85,7 +82,7 @@
     <div class="form-group">
       <label for="opAM">{{formulario.opAM.label}}</label>
       <select class="form-control" name="opAM" id="opAM" value="{{ formularios.opAM.value|default_if_none:'' }}">
-        <option value="0">--Seleccionar--</option>
+        <option value="">--Seleccionar--</option>
         <option value="Si">Si</option>
         <option value="No">No</option>
         <option value="No">En Reparación</option>
@@ -99,7 +96,7 @@
    <div class="form-row">
         <div class="form-group col-md-6">
           <label for="cantidadA" class="form-label">{{formulario.cantidadA.label}}</label>
-          <input type="text" class="form-control" name="cantidadA" id="cantidadA" value="{{ formularios.cantidadA.value|default_if_none:'' }}" placeholder="500"/>
+          <input type="number" class="form-control" name="cantidadA" id="cantidadA" value="{{ formularios.cantidadA.value|default_if_none:'' }}" placeholder="500"/>
           {% for error in formulario.errors.cantidadA %}
           <span class="error">{{ error }}</span>
           {% endfor %}
@@ -108,7 +105,7 @@
         <div class="form-group col-md-6">
           <label for="cantidadC" class="form-label"
             >{{formulario.cantidadC.label}}</label>
-          <input type="cantidadC" class="form-control" name="cantidadC" id="cantidadC" value="{{ formularios.cantidadC.value|default_if_none:'' }}" placeholder="500"/>
+          <input type="number" class="form-control" name="cantidadC" id="cantidadC" value="{{ formularios.cantidadC.value|default_if_none:'' }}" placeholder="500"/>
           {% for error in formulario.errors.cantidadC %}
           <span class="error">{{ error }}</span>
           {% endfor %}

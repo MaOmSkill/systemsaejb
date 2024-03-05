@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import DateInput
 from .models import Brigada, Batallones, Armas, Municiones, Personas,BrigadaDigital, UnidadDigital, Abastecimiento , Producto, ProductoAbastecimiento, ArmasDePersonas
 
 
@@ -58,7 +59,7 @@ class MunicionForm(forms.ModelForm):
         
 
 class PersonaForm(forms.ModelForm):
-    class Meta:
+     class Meta:
         model = Personas
         fields = ['categoria',
                   'grado', 
@@ -93,8 +94,7 @@ class UnidadDigitalForm(forms.ModelForm):
         model= UnidadDigital
         fields =['nombreU','descripcion','img', 'digital']
         
-        
-        
+
 class EnviarProductoForm(forms.ModelForm):
     class Meta:
         model = ProductoAbastecimiento
@@ -103,7 +103,7 @@ class EnviarProductoForm(forms.ModelForm):
 class ProductoForm(forms.ModelForm):
     class Meta: 
         model = Producto
-        fields = ['nombre', 'cantidad',  'descripcion', 'serial', 'modelo']
+        fields = ['nombre', 'cantidad',  'descripcion', 'serial', 'modelo' , 'precio']
         
 class AbastecimientoForm(forms.ModelForm):
     class Meta: 

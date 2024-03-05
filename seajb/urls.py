@@ -23,6 +23,11 @@ urlpatterns = [
     # todos los documento generados
     path("pdf/pdf_uno", views.pdf_uno, name="pdf_uno"),
     path("pdf/pdf_dos/<int:pdf_id>", views.pdf_dos, name="pdf_dos"),
+    path("pdf/pdf_tres/<int:pdf_id>", views.pdf_tres, name="pdf_tres"),
+    path("pdf/pdf_cuatro/<int:pdf_id>", views.pdf_cuatro, name="pdf_cuatro"),
+    path("pdf/pdf_cinco/<int:pdf_id>", views.pdf_cinco, name="pdf_cinco"),
+    path("pdf/pdf_sexto/<int:id>", views.pdf_sexto, name="pdf_sexto"),
+    path("pdf/sextimo/<int:id>", views.pdf_sextimo, name="pdf_sextimo"),
     
     #inventario
     path("inventario/inventario_index", views.inventario_index, name="inventario"),

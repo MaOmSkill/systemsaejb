@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 import random
 
 #  aqui va las tablas de Brigadas, Batallones y Unidades, Armas de las base de datos del saejb
@@ -97,19 +98,19 @@ def validate_year(value):
         
 class Personas(models.Model):
     code = models.CharField(max_length=100, unique=True)
-    categoria= models.CharField(max_length=100, verbose_name='Categoria')
-    grado = models.CharField(max_length=100, verbose_name='Grado')
-    promocion = models.CharField(max_length=100, verbose_name='Promoción')
-    anio = models.IntegerField(validators=[validate_year], verbose_name="Año")
-    unidad = models.CharField(max_length=100, verbose_name='Unidad')
-    datos = models.CharField(max_length=100, verbose_name='Nombres y Apellidos')
+    categoria= models.CharField(max_length=100, verbose_name='Categoria:')
+    grado = models.CharField(max_length=100, verbose_name='Grado:')
+    promocion = models.CharField(max_length=100, verbose_name='Promoción:')
+    anio = models.IntegerField(validators=[validate_year], verbose_name="Año:")
+    unidad = models.CharField(max_length=100, verbose_name='Unidad:')
+    datos = models.CharField(max_length=100, verbose_name='Nombres y Apellidos:')
     cedula = models.CharField(max_length=100, verbose_name='Cedula')
-    armaA = models.CharField(max_length=100, verbose_name='Arma de Asignada')
-    cargadores = models.CharField(max_length=100, verbose_name='Cargadores')
-    municiones = models.CharField(max_length=100, verbose_name='Municiones')
+    armaA = models.CharField(max_length=100, verbose_name='Arma de Asignada:')
+    cargadores = models.IntegerField(validators=[MinValueValidator(1)], verbose_name="Cargadores:")
+    municiones = models.IntegerField(validators=[MinValueValidator(1)], verbose_name="Carga Basica:")
     serialA = models.CharField(max_length=100, verbose_name='Serial del Arma')
     serialAG = models.CharField(max_length=100, verbose_name='Serial de Asignacion')
-    fechaAG = models.CharField(max_length=100, verbose_name='Fecha de Asignacion')
+    fechaAG = models.DateField(verbose_name='Fecha de Asignacion')
     direccion = models.CharField(max_length=100, verbose_name='Dirección')
     telefono = models.CharField(max_length=100, verbose_name='Telefono')
     correo = models.CharField(max_length=100, verbose_name='Correo Electronico')
@@ -187,9 +188,13 @@ class Producto(models.Model):
     descripcion = models.TextField(verbose_name="Descripción", null=True)
     fecha_entrada = models.DateField(auto_now_add=True)
     cantidad = models.IntegerField(default=0)
+    precio = models.DecimalField(max_digits=6, decimal_places=2)
     
     def __str__(self):
         return self.nombre, self.cantidad, self.descripcion, self.serial, self.modelo
+    
+    def total(self):
+        return self.cantidad * self.precio
 
 class Abastecimiento(models.Model):
     nombre = models.CharField(max_length=255)
@@ -203,5 +208,8 @@ class ProductoAbastecimiento(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     abastecimiento = models.ForeignKey(Abastecimiento, on_delete=models.CASCADE)
     cantidad = models.IntegerField(default=0)
+    precio = models.DecimalField(max_digits=6, decimal_places=2)
     def __str__(self):
-        return f'{self.producto.nombre}'
+        return f'{self.producto.nombre}, {self.producto.precio}'
+    def total(self):
+        return self.cantidad * self.precio
