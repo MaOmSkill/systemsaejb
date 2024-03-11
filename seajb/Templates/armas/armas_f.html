@@ -3,10 +3,9 @@
 
   <div class="form-row">
     <div class="form-group col-md-4">
-      <label for="categoria">Categoria</label>
+      <label for="categoria">Categoria:</label>
       <select class="form-control" name="categoria" id="categoria">
         <option value="">----Seleccionar---</option>
-        <option value="Armas">Armas</option>
         <option value="Blindado">Blindado</option>
         <option value="Artilleria">Artilleria</option>
         <option value="Portatiles">Portatiles</option>
@@ -14,138 +13,164 @@
         <option value="Armas Organica">Armas Organica</option>
         <option value="Otras">Otras</option>
       </select>
-      {% for error in formulario.errors.categoria %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
+      {% for error in formulario_armas.errors.categoria %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
     </div>
 
     <div class="form-group col-md-8">
-      <label for="segundo">Unidad</label>
+      <label for="segundo">Unidad:</label>
       <select class="form-control" id="segundo" name="segundo">
-        <option value="{{segundo.id}}">{{segundo.id}} - {{segundo.nombreB}}</option>
+        <option value="{{batallon.id}}">{{batallon.id}} - {{batallon.nombreB}}</option>
       </select>
-      {% for error in formulario.errors.segundo %}
-            <span class="error">{{ error }}</span>
+      {% for error in formulario_armas.errors.segundo %}
+      <span class="error">{{ error }}</span>
       {% endfor %}
     </div>
   </div>
-
- 
-    <div class="form-group">
-      <label for="tipoA" class="form-label"> {{formulario.tipoA.label}} </label>
-      <input type="text" class="form-control" name="tipoA" id="tipoA" value="{{ formularios.tipoA.value|default_if_none:'' }}" placeholder="Tipo de Armas, Blindado, Artilleria"/>
-      {% for error in formulario.errors.tipoA %}
-            <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group ">
-      <label for="modeloA" class="form-label">{{formulario.modeloA.label}}</label>
-      <input type="text" class="form-control" name="modeloA" id="modeloA" value="{{ formularios.modeloA.value|default_if_none:'' }}" placeholder="Modelo del Arma, Blindado, Artilleria"/>
-      {% for error in formulario.errors.modeloA %}
-            <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      <label for="calibreA" class="form-label">{{formulario.calibreA.label}}</label>
-      <input type="text" class="form-control" name="calibreA" id="calibreA" value="{{ formularios.calibreA.value|default_if_none:'' }}" placeholder="Calibre del Arma, Blindado, Artilleria"/>
-      {% for error in formulario.errors.calibreA %}
-            <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      <label for="serialA" class="form-label">{{formulario.serialA.label}}</label>
-      <textarea class="form-control" name="serialA" id="serialA" cols="30" rows="5">Coloque los seriales necesarios</textarea>
-      {% for error in formulario.errors.serialA %}
-      <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      <label for="serialAG" class="form-label">{{formulario.serialAG.label}}</label>
-      <input type="text"class="form-control" name="serialAG" id="serialAG" value="{{ formularios.serialAG.value|default_if_none:'' }}" placeholder="Serial de Asignación del Arma, Blindado, Artilleria"/>
-      {% for error in formulario.errors.serialAG %}
-      <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      <label for="fechaAG" class="form-label">{{formulario.fechaAG.label}}</label>
-      <input type="date" class="form-control" name="fechaAG" id="fechaAG" value="{{ formularios.fechaAG.value|default_if_none:'' }}" placeholder="Fecha de Asignación"/>
-      {% for error in formulario.errors.fechaAG %}
-      <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      <label for="opAM">{{formulario.opAM.label}}</label>
-      <select class="form-control" name="opAM" id="opAM" value="{{ formularios.opAM.value|default_if_none:'' }}">
-        <option value="">--Seleccionar--</option>
-        <option value="Si">Si</option>
-        <option value="No">No</option>
-        <option value="No">En Reparación</option>
-      </select>
-      {% for error in formulario.errors.opAM %}
-      <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-
-   <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="cantidadA" class="form-label">{{formulario.cantidadA.label}}</label>
-          <input type="number" class="form-control" name="cantidadA" id="cantidadA" value="{{ formularios.cantidadA.value|default_if_none:'' }}" placeholder="500"/>
-          {% for error in formulario.errors.cantidadA %}
-          <span class="error">{{ error }}</span>
-          {% endfor %}
-        </div>
-
-        <div class="form-group col-md-6">
-          <label for="cantidadC" class="form-label"
-            >{{formulario.cantidadC.label}}</label>
-          <input type="number" class="form-control" name="cantidadC" id="cantidadC" value="{{ formularios.cantidadC.value|default_if_none:'' }}" placeholder="500"/>
-          {% for error in formulario.errors.cantidadC %}
-          <span class="error">{{ error }}</span>
-          {% endfor %}
-        </div>
-     </div>
-
-
-<div id="form2" style="display: none;">
 
   <div class="form-group">
-    <label for="armaS">Armas Segundaria</label>
-    <select class="form-control" name="armaS" id="armaS" value="{{ formularios.armas.value|default_if_none:'' }}">
-      <option value="0">-Seleccionar-</option>
-      <option value="si">Si</option>
-      <option value="no">No</option>
-    </select>
+    <label for="tipoA" class="form-label"> {{formulario_armas.tipoA.label}} </label>
+    <input type="text" class="form-control" name="tipoA" id="tipoA"
+      value="{{ formulario_armas.tipoA.value|default_if_none:'' }}" placeholder="Blindado, Artilleria, Otros" />
+    {% for error in formulario_armas.errors.tipoA %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
   </div>
+
+  <div class="form-group ">
+    <label for="modeloA" class="form-label">{{formulario_armas.modeloA.label}}</label>
+    <input type="text" class="form-control" name="modeloA" id="modeloA"
+      value="{{ formulario_armas.modeloA.value|default_if_none:'' }}" placeholder="Arma, Blindado, Artilleria Otros" />
+    {% for error in formulario_armas.errors.modeloA %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="calibreA" class="form-label">{{formulario_armas.calibreA.label}}</label>
+    <input type="text" class="form-control" name="calibreA" id="calibreA"
+      value="{{ fformulario_armas.calibreA.value|default_if_none:'' }}" placeholder="Arma, Blindado, Artilleria" />
+    {% for error in formulario_armas.errors.calibreA %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="serialA" class="form-label">{{formulario_armas.serialA.label}}</label>
+    <textarea class="form-control" name="serialA" id="serialA" cols="30" rows="5"
+      value="{{formulario_armas.serialA.value|default_if_none:'' }}"
+      placeholder="Coloque los seriales necesarios"></textarea>
+    {% for error in formulario_armas.errors.serialA %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="serialAG" class="form-label">{{formulario_armas.serialAG.label}}</label>
+    <input type="text" class="form-control" name="serialAG" id="serialAG"
+      value="{{formulario_armas.serialAG.value|default_if_none:'' }}" placeholder=" Blindado, Artilleria , Otros" />
+    {% for error in formulario_armas.errors.serialAG %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="fechaAG" class="form-label">{{formulario_armas.fechaAG.label}}</label>
+    <input type="date" class="form-control" name="fechaAG" id="fechaAG"
+      value="{{formulario_armas.fechaAG.value|default_if_none:'' }}" placeholder="Fecha de Asignación" />
+    {% for error in formulario_armas.errors.fechaAG %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="opAM">{{formulario_armas.opAM.label}}</label>
+    <select class="form-control" name="opAM" id="opAM">
+      <option value="">--Seleccionar--</option>
+      <option value="Operativa">Operativa</option>
+      <option value="Inoperativa">Inoperativa</option>
+      <option value="Inutilizada">Inutilizada</option>
+      <option value="Reparacion">Reparacion</option>
+    </select>
+    {% for error in formulario_armas.errors.opAM %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="cantidadA" class="form-label">{{formulario_armas.cantidadA.label}}</label>
+      <input type="number" class="form-control" name="cantidadA" id="cantidadA"
+        value="{{formulario_armas.cantidadA.value|default_if_none:'' }}" placeholder="500" />
+      {% for error in formulario_armas.errors.cantidadA %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="cantidadC" class="form-label">{{formulario_armas.cantidadC.label}}</label>
+      <input type="number" class="form-control" name="cantidadC" id="cantidadC"
+        value="{{formulario_armas.cantidadC.value|default_if_none:'' }}" placeholder="500" />
+      {% for error in formulario_armas.errors.cantidadC %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="ac" class="form-label">{{formulario_armas.ac.label}}</label>
+      <textarea class="form-control" name="ac" id="ac" cols="30" rows="5"
+        placeholder="Coloque los Accesorios necesarios">{{formulario_armas.ac.value|default_if_none:''}}</textarea>
+      {% for error in formulario_armas.errors.ac %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="armaS">Armas Segundaria</label>
+      <select class="form-control" name="armaS" id="armaS">
+        <option value="">-Seleccionar-</option>
+        <option value="Si">Si</option>
+        <option value="No">No</option>
+      </select>
+      {% for error in formulario_armas.errors.armaS %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
 
   <div id="prueba1" style="display: none;">
 
     <div class="form-group">
-      <label for="calibreS" class="form-label">Calibre</label>
-      <input type="text" class="form-control" name="calibreS" id="calibreS" value="{{ formularios.calibreS.value|default_if_none:'' }}" placeholder="Calibre Segundario"/>
+      <label for="calibreS" class="form-label">Calibre Segundario</label>
+      <input type="text" class="form-control" name="calibreS" id="calibreS" placeholder="Blindado, Artilleria, Otros" />
+      {% for error in formulario_armas.errors.calibreS %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
     </div>
 
     <div class="form-group">
-      <label for="serialS" class="form-label">Serial</label>
-      <input type="text" class="form-control" name="serialS" id="serialS" value="{{ formularios.serialS.value|default_if_none:'' }}" placeholder="Serial Segundario"/>
+      <label for="serialS" class="form-label">Serial Segundario</label>
+      <textarea class="form-control" name="serialS" id="serialS" cols="30" rows="2"
+        placeholder="Blindado, Artilleria, Otros"></textarea>
+      {% for error in formulario_armas.errors.serialS %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
     </div>
 
     <div class="form-group">
-      <label for="cantidadS" class="form-label">Cantidad</label>
-      <input type="text" class="form-control" name="cantidadS" id="cantidadS" value="{{ formularios.cantidadS.value|default_if_none:'' }}" placeholder="Cañones"/>
+      <label for="cantidadS" class="form-label">Cantidad Segundaria</label>
+      <input type="number" class="form-control" name="cantidadS" id="cantidadS" placeholder="500" />
+      {% for error in formulario_armas.errors.cantidadS %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
     </div>
   </div>
-</div>
-  
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-  <input type="submit" class="btn btn-primary float-left" value="Registrar">
-</div>
-</form>
 
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+    <input type="submit" class="btn btn-primary float-left" value="GUARDAR">
+  </div>
+</form>

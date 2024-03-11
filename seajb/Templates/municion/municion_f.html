@@ -5,49 +5,49 @@
       <div class="form-group">
         <label for="tercero">Unidad</label>
         <select class="form-control" id="tercero" name="tercero">
-          <option value="{{segundo.id}}">{{segundo.id}} - {{segundo.nombreB}} </option>
+          <option value="{{batallon.id}}">{{batallon.id}} - {{batallon.nombreB}} </option>
         </select>
-        {% for error in form.errors.tercero %}
+        {% for error in formulario_municion.errors.tercero %}
           <span class="error">{{ error }}</span>
         {% endfor %}
       </div>
 
         <div class="form-group">
-            <label for="tipoM" class="form-label">{{form.tipoM.label}} </label>
-            <input type="text" class="form-control" name="tipoM" id="tipoM" value="{{ form.tipoM.value|default_if_none:'' }}" placeholder="Munición">
-            {% for error in form.errors.tipoM %}
+            <label for="tipoM" class="form-label">{{formulario_municion.tipoM.label}} </label>
+            <input type="text" class="form-control" name="tipoM" id="tipoM" value="{{ formulario_municion.tipoM.value|default_if_none:'' }}" placeholder="Munición, Explosivos, otros ">
+            {% for error in formulario_municion.errors.tipoM %}
           <span class="error">{{ error }}</span>
             {% endfor %}
           </div>
 
           <div class="form-group">
-            <label for="lote" class="form-label">{{form.lote.label}}</label>
-            <input type="text" class="form-control" name="lote" id="lote" value="{{ formularios.lote.value|default_if_none:'' }}"  placeholder="Lote N°">
-            {% for error in form.errors.lote %}
+            <label for="lote" class="form-label">{{formulario_municion.lote.label}}</label>
+            <input type="text" class="form-control" name="lote" id="lote" value="{{ formulario_municion.lote.value|default_if_none:'' }}"  placeholder="Lote N°">
+            {% for error in formulario_municion.errors.lote %}
               <span class="error">{{ error }}</span>
             {% endfor %}
           </div>
 
         <div class="form-group">
-          <label for="serialAG" class="form-label">Serial de Asignación</label>
-          <input type="text" class="form-control" name="serialAG" id="serialAG" value="{{ formularios.serialAG.value|default_if_none:'' }}" placeholder="Serial de Asignación">
-          {% for error in form.errors.serialAG %}
+          <label for="serialAG" class="form-label">{{formulario_municion.serialAG.label}}</label>
+          <input type="text" class="form-control" name="serialAG" id="serialAG" value="{{ formulario_municion.serialAG.value|default_if_none:'' }}" placeholder="Serial de Asignación">
+          {% for error in formulario_municion.errors.serialAG %}
           <span class="error">{{ error }}</span>
           {% endfor %}
         </div>
 
         <div class="form-group">
           <label for="fechaAG" class="form-label">Fecha de Asignación</label>
-          <input type="date" class="form-control" name="fechaAG" id="fechaAG" value="{{ formularios.fechaAG.value|default_if_none:'' }}" placeholder="cantidad">
-          {% for error in form.errors.fechaAG %}
+          <input type="date" class="form-control" name="fechaAG" id="fechaAG" value="{{ formulario_municion.fechaAG.value|default_if_none:'' }}" placeholder="cantidad">
+          {% for error in formulario_municion.errors.fechaAG %}
           <span class="error">{{ error }}</span>
           {% endfor %}
         </div>
 
         <div class="form-group">
           <label for="cantidadM" class="form-label">Cantidad</label>
-          <input type="number" class="form-control" name="cantidadM" id="cantidadM" value="{{ formularios.cantidadM.value|default_if_none:'' }}" placeholder="500">
-          {% for error in form.errors.cantidadM %}
+          <input type="number" class="form-control" name="cantidadM" id="cantidadM" value="{{ formulario_municion.cantidadM.value|default_if_none:'' }}" placeholder="500">
+          {% for error in formulario_municion.errors.cantidadM %}
           <span class="error">{{ error }}</span>
           {% endfor %}
         </div>

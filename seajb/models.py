@@ -44,45 +44,36 @@ class Batallones(models.Model):
         return self.nombreB, self.ubicacionB, self.comandante, self.telefono, self.correo, self.primero
 
 class Armas(models.Model):
-    categoria = models.CharField(max_length=100, verbose_name='Categoria')
-    tipoA = models.CharField(max_length=100, verbose_name='Tipo')
-    modeloA = models.CharField(max_length=100, verbose_name='Modelo')
-    calibreA = models.CharField(max_length=100, verbose_name='Calibre')
-    serialA = models.CharField(max_length=100, verbose_name='Serial')
-    serialAG = models.CharField(max_length=100, verbose_name='Serial del Asignación')
-    fechaAG = models.CharField(max_length=100, verbose_name='Fecha de Asignación')
-    opAM = models.CharField(max_length=100, verbose_name='Optimo')
-    cantidadA = models.CharField(max_length=100, verbose_name='Armas')
-    cantidadC = models.CharField(max_length=100, verbose_name='Cargadores')
-    armaS  = models.CharField(max_length=100, verbose_name='Arma Segundaria')
-    calibreS = models.CharField(max_length=100,   verbose_name='Calibre Segundario',  null=True)
-    serialS = models.CharField(max_length=100,    verbose_name='Serial Segundario',   null=True)
-    cantidadS = models.CharField(max_length=100,  verbose_name='Cantidad Segundario', null=True)
+    categoria = models.CharField(max_length=300, verbose_name='Categoria:')
+    tipoA = models.CharField(max_length=300, verbose_name='Tipo de Armas:')
+    modeloA = models.CharField(max_length=300, verbose_name='Modelo de la Armas:')
+    calibreA = models.CharField(max_length=300, verbose_name='Calibre de la Armas:')
+    serialA = models.CharField(max_length=8000, verbose_name='Serial de la Armas:')
+    serialAG = models.CharField(max_length=300, verbose_name='Serial del Asignación:')
+    fechaAG = models.DateField(verbose_name='Fecha de Asignación:')
+    opAM = models.CharField(max_length=300, verbose_name='Condiciones:')
+    cantidadA = models.IntegerField(verbose_name='Armas:')
+    cantidadC = models.IntegerField(verbose_name='Cargadores:')
+    ac = models.TextField(verbose_name="Accesorio:",null=True)
+    armaS = models.CharField(max_length=300, verbose_name='Arma Segundaria:')
+    calibreS = models.CharField(max_length=300,   verbose_name='Calibre Segundario:',  null=True, blank=True)
+    serialS = models.CharField(max_length=300,  verbose_name='Serial Segundario:',   null=True, blank=True)
+    cantidadS = models.IntegerField(verbose_name='Cantidad Segundario:', null=True, blank=True)
     fecha = models.DateField(auto_now_add=True)
     segundo = models.ForeignKey(Batallones, on_delete=models.CASCADE, blank=True, default=None)
     
+    class Meta:
+        verbose_name_plural = "Armas"
+        ordering = ['categoria']
+        
     def __str__(self):
-        return (self.categoria,
-                self.tipoA,
-                self.modeloA,
-                self.calibreA,
-                self.serialA,
-                self.serialAG,
-                self.fechaAG,
-                self.opAM,
-                self.cantidadA,
-                self.cantidadC,
-                self.segundo,
-                self.armaS,
-                self.calibreS,
-                self.cantidadS,
-                self.serialS)
+        return f"{self.categoria} - {self.tipoA} - {self.modeloA}  - {self.calibreA}- {self.serialA}  - {self.serialAG}- {self.opAM}  - {self.cantidadA}- {self.cantidadC}  - {self.armaS} - {self.calibreS} - {self.serialS} - {self.cantidadS}- {self.ac}"
         
 
 class Municiones(models.Model):
     tipoM = models.CharField(max_length=100, verbose_name='Carga Basica')
     serialAG = models.CharField(max_length=100, verbose_name='Serial Asignado')
-    fechaAG = models.CharField(max_length=100, verbose_name='Fecha de Asignación')
+    fechaAG = models.DateField(verbose_name='Fecha de Asignación')
     cantidadM = models.CharField(max_length=100, verbose_name='Cantidad')
     lote = models.CharField(max_length=100, verbose_name='Lote N°')
     fecha = models.DateField(auto_now_add=True)
@@ -114,6 +105,7 @@ class Personas(models.Model):
     direccion = models.CharField(max_length=100, verbose_name='Dirección')
     telefono = models.CharField(max_length=100, verbose_name='Telefono')
     correo = models.CharField(max_length=100, verbose_name='Correo Electronico')
+    img = models.ImageField(upload_to='imagenes/',verbose_name="Imagen", null=True)
     fecha = models.DateField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
@@ -126,6 +118,10 @@ class Personas(models.Model):
         prefix = 'SAPRS' 
         suffix = ''.join(str(random.randint(0, 9)) for _ in range(6))
         return f'{prefix}{suffix}'
+    
+    def delete(self, using=None, keep_parents=False):
+        self.img.storage.delete(self.img.name)
+        super().delete()
     
     def __str__(self):
         return (self.categoria,
@@ -205,11 +201,13 @@ class Abastecimiento(models.Model):
 
 class ProductoAbastecimiento(models.Model):
     movimiento = models.CharField(max_length=200)
+    serial = models.TextField(verbose_name="Descripción", null=True)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     abastecimiento = models.ForeignKey(Abastecimiento, on_delete=models.CASCADE)
+    fecha_salida = models.DateField(auto_now_add=True)
     cantidad = models.IntegerField(default=0)
     precio = models.DecimalField(max_digits=6, decimal_places=2)
     def __str__(self):
-        return f'{self.producto.nombre}, {self.producto.precio}'
+        return f'{self.producto.nombre} - {self.producto.precio} - {self.producto.serial}'
     def total(self):
         return self.cantidad * self.precio

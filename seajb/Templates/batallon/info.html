@@ -3,6 +3,16 @@
 
 {% block titulo %} Armas y Municiones{% endblock %}
 
+{% block css %}
+
+<style>
+    .table-hover-blue thead th:hover {
+        background-color: #007bff;
+        /* Color azul de Bootstrap */
+    }
+</style>
+
+{% endblock%}
 
 {% block seccion %}
 <div class="content-header">
@@ -16,6 +26,8 @@
                     <li class="breadcrumb-item"><a href="#">Información</a></li>
                     <li class="breadcrumb-item active">Armamento</li>
                     <li class="breadcrumb-item active">Municiones</li>
+                    <li class="breadcrumb-item active">Explosivos</li>
+                    <li class="breadcrumb-item active">Accesorio</li>
                 </ol>
             </div>
         </div>
@@ -26,53 +38,53 @@
 
 {% block contenido %}  
 
-        <div class="card card-primary card-outline">
+        <div class="card card-dark card-outline">
             <div class="card-header ">
                 <div class="d-flex justify-content-between">
                     <h3 class="card-title m-0">
-                    <a href="{% url 'pdf_tres' segundo.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+                    <a href="{% url 'pdf_tres' batallon.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
                     </h3>
                     <h4>Armamento</h4>
-                    <a href="#" class="btn btn-success float-left" data-toggle="modal"
+                    <a href="" class="btn btn-success float-left" data-toggle="modal"
                         data-target="#modalArmas"><i class="fas fa-plus-square"></i></a>
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
+                <table id="tablaArmas" class="table table-bordered table-striped table-hover-blue">
+                    <thead class="table-dark">
                         <tr>
-                            <th>FECHA</th>
-                            <th>CATEGORIA</th>
-                            <th>ARMA</th>
-                            <th>MODELO</th>
-                            <th>CALIBRE</th>
-                            <th>SERIAL</th>
-                            <th>SERIAL AG</th>
-                            <th>FECHA AG</th>
-                            <th>OPERATIVA</th>
-                            <th>CANTIDAD</th>
-                            <th>CARGADORES</th>
-                            <th>SEGUNDO</th>
-                            <th>ACCIONES</th>
+                            <th class="text-center">F-R</th>
+                            <th class="text-center">C-ARMA</th>
+                            <th class="text-center">A-AG</th>
+                            <th class="text-center">M-A</th>
+                            <th class="text-center">C-A</th>
+                            <th class="text-center">S-A</th>
+                            <th class="text-center">S-AG</th>
+                            <th class="text-center">F-AG</th>
+                            <th class="text-center">OP A</th>
+                            <th class="text-center">C-A</th>
+                            <th class="text-center">C-C</th>
+                            <th class="text-center">A-S</th>
+                            <th class="text-center">AC</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for datos in servicio %}
                         <tr>
-                            <td>{{datos.fecha|date:"d/m/Y"}}</td>
+                            <td>{{datos.fecha|date:"dmy"}}</td>
                             <td>{{datos.categoria}}</td>
                             <td>{{datos.tipoA}}</td>
                             <td>{{datos.modeloA}}</td>
                             <td>{{datos.calibreA}}</td>
                             <td>{{datos.serialA}}</td>
                             <td>{{datos.serialAG}}</td>
-                            <td>{{datos.fechaAG}}</td>
+                            <td>{{datos.fechaAG|date:"dmy"}}</td>
                             <td>{{datos.opAM}}</td>
                             <td>{{datos.cantidadA}}</td>
                             <td>{{datos.cantidadC}}</td>
                             <td>{{datos.armaS}}</td>
                             <td>
-                            <a href="{% url 'pdf_cinco' datos.id %}" class="btn btn-danger btn-xs"><i class="fas fa-file-pdf"></i></a>
+                            <a href="{% url 'pdf_cinco' datos.id %}" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf"></i></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -81,43 +93,41 @@
             </div>
         </div>
  
-
-   
-        <div class="card card-primary card-outline">
+        <div class="card card-dark card-outline">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <h3 class="card-title  m-0">
-                    <a href="{% url 'pdf_cuatro' segundo.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+                    <a href="{% url 'pdf_cuatro' batallon.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
                     </h3>
-                    <h4>Municiones</h4>
+                    <h4>Municiones y Explosivos</h4>
                     <a href="#" class="btn btn-success float-left" data-toggle="modal"
                         data-target="#modalMunicion"><i class="fas fa-plus-square"></i></a>
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table id="example2" class="table table-bordered table-striped">
-                    <thead>
+                <table id="tablaMunicion" class="table table-bordered table-striped table-hover-blue">
+                    <thead class="table-dark">
                         <tr>
-                            <th>FECHA</th>
-                            <th>MUNICIÓN</th>
-                            <th>LOTE N°</th>
-                            <th>SERIAL DE AG</th>
-                            <th>FECHA DE AG</th>
-                            <th>CANTIDAD</th>
-                            <th>ACCIONES</th>
+                            <th class="text-center">F-R</th>
+                            <th class="text-center">DESCRIPCIÓIN</th>
+                            <th class="text-center">L-N°</th>
+                            <th class="text-center">S-AG</th>
+                            <th class="text-center">F-AG</th>
+                            <th class="text-center">C-M</th>
+                            <th class="text-center">AC</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for datos in resumen %}
+                        {% for datos in municiones %}
                         <tr>
-                            <td>{{datos.fecha|date:"d/m/Y"}} </td>
+                            <td>{{datos.fecha|date:"dmy"}} </td>
                             <td>{{datos.tipoM}} </td>
                             <td>{{datos.lote}} </td>
                             <td>{{datos.serialAG}} </td>
-                            <td>{{datos.fechaAG}} </td>
+                            <td>{{datos.fechaAG|date:"dmy"}} </td>
                             <td>{{datos.cantidadM}} </td>
                             <td>
-                            <a href="{% url 'pdf_sexto' datos.id %}" class="btn btn-danger btn-xs"><i class="fas fa-file-pdf"></i></a>
+                            <a href="{% url 'pdf_sexto' datos.id %}" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf"></i></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -125,8 +135,6 @@
                 </table>
             </div>
         </div>
- 
-
 
 <div class="modal fade" id="modalArmas" tabindex="1" aria-labelledby="tituloArmasModal" aria-hidden="true">
     <div class="modal-dialog">
@@ -165,30 +173,94 @@
 
 
 {% block js %}
+
+<script>
+    $(function () {
+        $("#tablaArmas").DataTable({
+            "responsive": false, "lengthChange": true, "autoWidth": true, "pageLength":5,
+            // "buttons": ["excel", "pdf"],
+            language: {
+                "pageLength": "",
+                "decimal": "",
+                "emptyTable": "No hay datos",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+                "infoEmpty": "Mostrando 0 a 0 de 0 Registros",
+                "infoFiltered": "(Filtro de _MAX_ total Registros)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Registros",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron coincidencias",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Próximo",
+                    "previous": "Anterior",
+                },
+                "aria": {
+                    "sortAscending": ": Activar orden de columna ascendente",
+                    "sortDescending": ": Activar orden de columna desendente",
+                }
+            }
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        $('#tablaMunicion').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": false,
+            "pageLength": 5,
+            "decimal": 5,
+            language: {
+                "pageLength": "",
+                "decimal": "",
+                "emptyTable": "No hay datos",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+                "infoEmpty": "Mostrando 0 a 0 de 0 Registros",
+                "infoFiltered": "(Filtro de _MAX_ total Registros)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Registros",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron coincidencias",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Próximo",
+                    "previous": "Anterior",
+                },
+                "aria": {
+                    "sortAscending": ": Activar orden de columna ascendente",
+                    "sortDescending": ": Activar orden de columna desendente",
+                }
+            }
+
+        }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+    });
+</script>
+
+
+
+
 <script>
     $(document).ready(function () {
-        $("#categoria").change(function () {
-            var valorSeleccionado = $(this).val();
-            if (valorSeleccionado == "Blindado") {
-                $("#form1").hide();
-                $("#form2").show();
-            } else {
-                $("#form1").show();
-                $("#form2").hide();
-            }
-        });
-
         $("#armaS").change(function () {
             var valorSeleccionado = $(this).val();
-            if (valorSeleccionado == "si") {
-                $("#prueba1").show();
-                $("#prueba2").hide();
-            } else {
+            if (valorSeleccionado == "No") {
                 $("#prueba1").hide();
                 $("#prueba2").show();
+            } else {
+                $("#prueba1").show();
+                $("#prueba2").hide();
             }
         });
-
     });
 </script>
 

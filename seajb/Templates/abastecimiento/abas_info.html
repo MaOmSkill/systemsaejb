@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block titulo %} PRODUCTO {% endblock %} 
+{% block titulo %} ABASTECIMIENTO {% endblock %} 
 
 {% block seccion %}
 <div class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h5 class="m-0">Panel de Producto</h5>
+        <h5 class="m-0">Panel del Punto de Abastecimiento</h5>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -22,29 +22,33 @@
 
 {% block contenido %}
 
-<div class="card card-primary w-100">
-  <div class="card-header border-0">
+<div class="card card-primary card-outline">
+  <div class="card-header">
     <div class="d-flex justify-content-between">
-      <h3 class="card-title"></h3>
-      <a href="#" class="btn btn-success float-left btn-xs">+-MATERIAL</a>
+      <h3 class="card-title m-0"></h3>
+      <h3 class="card-title m-0">Llegada del Producto enviado del Servicio de Armamento</h3>
+      <h3 class="card-title m-0"></h3>
     </div>
   </div>
   <div class="card-body">
-    <table id="example1" class="table table-bordered table-striped">
-      <thead>
+   <div class="table-responsive">
+    <table id="example1" class="table table-bordered table-striped table-hover">
+      <thead class="table-light">
         <tr>
-          <th>N°</th>
-          <th>Nombre Prodcuto</th>
-          <th>Cantidad</th>
-          <th>Precio</th>
+          <th>FECHA DE ENTRADA</th>
+          <th>NOMBRE DEL PRODUCTO</th>
+          <th>SERIAL</th>
+          <th>CANTIDAD</th>
+          <th>PRECIO</th>
           <th>TOTAL</th>
         </tr>
       </thead>
       <tbody>
       {% for datos in producto %}
         <tr>
-          <td>{{datos.id}}</td>
+          <td>{{datos.fecha_salida|date:'dmY'}}</td>
           <td>{{datos.movimiento}}</td>
+          <td>{{datos.serial}}</td>
           <td>{{datos.cantidad}}</td>
           <td>{{datos.precio}}</td>
           <td>{{datos.total}}</td>
@@ -52,8 +56,48 @@
       {% endfor %}
       </tbody>
     </table>
+    </div>
   </div>
 </div>
+
+<div class="card card-primary card-outline">
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <h3 class="card-title m-0"></h3>
+      <h3 class="card-title m-0">Almacen de Abastecimiento</h3>
+      <h3 class="card-title m-0"></h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table id="example2" class="table table-bordered table-striped table-hover">
+        <thead class="table-light">
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+         
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+       
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 
 
 {% endblock %}

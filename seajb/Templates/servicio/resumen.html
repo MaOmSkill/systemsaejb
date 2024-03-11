@@ -3,6 +3,16 @@
 
 {% block titulo %} Principal {% endblock %} 
 
+{% block css %}
+
+<style>
+  .table-hover-blue thead th:hover {
+    background-color: #007bff;
+    /* Color azul de Bootstrap */
+  }
+</style>
+
+{% endblock%}
 
 {% block seccion %}
 <div class="content-header">
@@ -36,29 +46,29 @@
       </div>
     </div>
         <div class="card-body">
-            <table id="example2" class="table table-bordered table-striped">
-                <thead>
+            <table id="example2" class="table table-bordered table-striped table-hover-blue">
+                <thead class="table-dark">
                     <tr>
-                        <th>FECHA ENTRADA</th>
-                        <th>UNIDAD DE LA BRIGADA</th>
-                        <th>COMANDANTE DE LA UNIDAD</th>
-                        <th>TELEFONO</th>
-                        <th>CORREO</th>
-                        <th>UBICACIÓN</th>
-                        <th>ACCIONES</th>
+                        <th class="text-center">FECHA ENTRADA</th>
+                        <th class="text-center">UNIDAD DE LA BRIGADA</th>
+                        <th class="text-center">COMANDANTE DE LA UNIDAD</th>
+                        <th class="text-center">TELEFONO</th>
+                        <th class="text-center">CORREO</th>
+                        <th class="text-center">UBICACIÓN</th>
+                        <th class="text-center">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for datos in   servicios %}
                     <tr>
-                      <td>{{datos.fecha|date:"d/m/Y"}}</td>
+                      <td>{{datos.fecha|date:"dmY"}}</td>
                         <td>{{datos.nombreB}} </td>
                         <td>{{datos.comandante}} </td>
                         <td>{{datos.telefono}} </td>
                         <td>{{datos.correo}} </td>
                         <td>{{datos.ubicacionB}} </td>
                         <td>
-                            <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
+                            <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-sm"><i class="fas fa-solid fa-eye"></i></a>
                         </td>
                     </tr>
                     {% endfor %}

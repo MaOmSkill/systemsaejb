@@ -23,12 +23,20 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
 
-  
   {% block css %}
-    
+    <style>
+      i{
+        font-size: 1.3em;
+        /* Ajusta el tamaño según sea necesario */
+      }
+      .table td {
+        max-width: 200px;
+        /* Ajusta según sea necesario */
+        word-wrap: break-word;
+        /* Permite que el texto se ajuste dentro de la celda */
+      }
+    </style>
   {% endblock%}
-    
-
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">

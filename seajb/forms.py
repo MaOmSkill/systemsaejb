@@ -23,30 +23,31 @@ class BatallonForm(forms.ModelForm):
                    'primero' ]
          
 class ArmaForm(forms.ModelForm):
-    
-    armaS = forms.CharField(required=False)
     calibreS = forms.CharField(required=False)
-    cantidadS = forms.CharField(required=False)
-    serialS = forms.CharField(required=False)
+    cantidadS = forms.IntegerField(required=False,widget=forms.NumberInput(attrs={'placeholder': 'Cantidad Segundario'}))
+    serialS = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Serial Segundario'}))
     
     class Meta:
         model = Armas
         fields = ['categoria', 
-                  'tipoA', 
-                  'modeloA', 
-                  'calibreA',  
-                  'serialA', 
-                  'serialAG',
-                  'fechaAG',
-                  'opAM',
-                  'cantidadA',
-                  'cantidadC',
-                  'segundo',
-                  'armaS',
-                  'calibreS',
-                  'cantidadS',
-                  'serialS']
-        
+                 'tipoA', 
+                 'modeloA', 
+                 'calibreA',  
+                 'serialA', 
+                 'serialAG',
+                 'fechaAG',
+                 'opAM',
+                 'cantidadA',
+                 'cantidadC',
+                 'segundo',
+                 'armaS',
+                 'calibreS',
+                 'cantidadS',
+                 'serialS', 
+                 'ac']
+        widgets = {
+            'fechaAG': forms.DateInput(attrs={'type': 'date'}),
+        }
 class MunicionForm(forms.ModelForm):
     class Meta:
         model = Municiones
@@ -56,6 +57,7 @@ class MunicionForm(forms.ModelForm):
                   'cantidadM',
                   'lote', 
                   'tercero']
+        widgets = {'fechaAG': forms.DateInput(attrs={'type': 'date'}),}
         
 
 class PersonaForm(forms.ModelForm):
@@ -76,7 +78,7 @@ class PersonaForm(forms.ModelForm):
                   'fechaAG',
                   'direccion',
                   'telefono', 
-                  'correo']
+                  'correo', 'img']
         
 class ArmasDePersonasForm(forms.ModelForm):
     class Meta:
@@ -98,7 +100,7 @@ class UnidadDigitalForm(forms.ModelForm):
 class EnviarProductoForm(forms.ModelForm):
     class Meta:
         model = ProductoAbastecimiento
-        fields = ['producto', 'abastecimiento', 'cantidad']
+        fields = ['producto', 'abastecimiento', 'cantidad', 'serial']
         
 class ProductoForm(forms.ModelForm):
     class Meta: 

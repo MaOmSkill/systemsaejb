@@ -1,16 +1,6 @@
 {% extends 'base.html' %}
 
-{% block titulo %} Inventario {% endblock %}
-
-
-{% block css %}
- <style>
- .fs-1{
- font-size: 1.6em; /* Ajusta el tamaño según sea necesario */
-}
- </style>
-{% endblock %}
-  
+{% block titulo %} INVENTARIO {% endblock %}
 
 {% block seccion %}
 <div class="content-header">
@@ -21,7 +11,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Inventario</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'inventario' %}">Inventario</a></li>
           <li class="breadcrumb-item">Producto</li>
         </ol>
       </div>
@@ -35,14 +25,17 @@
 <div class="card card-primary card-outline">
   <div class="card-header">
     <div class="d-flex justify-content-between">
-      <h3 class="card-title m-0"><a href="{% url 'envio' %}" class="btn btn-warning"><i class="fas fa-hand-holding-usd"></i></a></h3>
-      <a href="#" class="btn btn-success float-letf" data-toggle="modal" data-target="#modalInventario"><i class="fas fa-plus-square"></i></a>
+      <h3 class="card-title m-0"><a href="{% url 'envio' %}" class="btn btn-warning"><i
+            class="fas fa-hand-holding-usd fs-1"></i></a></h3>
+      <a href="" class="btn btn-danger"><i class="fas fa-file-pdf fs-1"></i></a>
+      <a href="#" class="btn btn-success float-letf" data-toggle="modal" data-target="#modalInventario"><i
+          class="fas fa-plus-square fs-1"></i></a>
     </div>
   </div>
   <div class="card-body">
     <div class="table-responsive">
       <table id="example1" class="table table-bordered table-striped table-hover">
-        <thead class="table-light">
+        <thead class="table-dark">
           <tr>
             <th>N°</th>
             <th>FECHA</th>
@@ -57,7 +50,7 @@
           </tr>
         </thead>
         <tbody>
-        {% for inventario in inventario %}
+          {% for inventario in inventario %}
           <tr>
             <td>{{inventario.id}}</td>
             <td>{{inventario.fecha_entrada|date:'dmY'}}</td>
@@ -69,7 +62,8 @@
             <td>{{inventario.precio}}</td>
             <td>{{inventario.total}}</td>
             <td>
-              <a href="" class="btn btn-danger btn-xs"><i class="fas fa-file-pdf fs-1"></i></a>
+              <a href="{% url 'pdf_sextimo' inventario.id %}" class="btn btn-danger btn-sm"><i
+                  class="fas fa-file-pdf fs-1"></i></a>
             </td>
           </tr>
           {% endfor %}

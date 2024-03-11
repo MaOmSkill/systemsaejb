@@ -75,6 +75,7 @@
                 class="fas fa-solid fa-eye"></i></a>
             <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info btn-xs"><i
                 class="fas fa-solid fa-marker"></i></a>
+            <a href="{{datos.img.url}}" class="btn btn-warning btn-xs" target="_blank"><i class="fas fa-download"></i></a>
           </td>
         </tr>
         {% endfor %}

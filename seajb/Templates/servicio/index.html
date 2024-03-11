@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
-{% block titulo %} Principal {% endblock %} 
+{% block titulo %} BRIGADAS, UNIDADES{% endblock %} 
+
+
+{% block css %}
+
+<style>
+.table-hover-blue thead th:hover {
+    background-color: #007bff; /* Color azul de Bootstrap */
+}
+
+</style>
+  
+{% endblock%}
+  
 
 {% block seccion %}
 <div class="content-header">
@@ -34,18 +47,18 @@
     </div>
 
     <div class="card-body table-responsive">
-        <table id="example1" class="table table-bordered table-striped">
-            <thead>
+        <table id="example1" class="table table-bordered table-striped  table-hover-blue">
+            <thead class="table-dark">
                 <tr>
-                    <th>N°</th>
-                    <th>FECHA</th>
-                    <th>SERIAL</th>
-                    <th>BRIGADAS</th>
-                    <th>COMANDANTES</th>
-                    <th>TELEFONOS</th>
-                    <th>CORREO</th>
-                    <th>UBICACIÓN</th>
-                    <th>ACCIONES</th>
+                    <th class="text-center">N°</th>
+                    <th class="text-center">FECHA</th>
+                    <th class="text-center">SERIAL</th>
+                    <th class="text-center">BRIGADAS</th>
+                    <th class="text-center">COMANDANTES</th>
+                    <th class="text-center">TELEFONOS</th>
+                    <th class="text-center">CORREO</th>
+                    <th class="text-center">UBICACIÓN</th>
+                    <th class="text-center">ACCIONES</th>
                   </tr>
             </thead>
             <tbody>
@@ -60,9 +73,9 @@
                     <td>{{tabla.correo}}</td>
                     <td>{{tabla.ubicacionB}}</td>
                     <td>
-                      <a href="{% url 'resumen' tabla.id %}"   class="btn btn-success btn-xs"><i class="nav-icon fas fa-eye"></i></a> | 
-                      <a href="{% url 'editar' tabla.id %}" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a> | 
-                      <a href="#"  class="btn btn-danger btn-xs" data-id="{{ tabla.id }}" ><i class="fas fa-solid fa-trash"></i></a> 
+                      <a href="{% url 'resumen' tabla.id %}"   class="btn btn-success btn-sm"><i class="nav-icon fas fa-eye"></i></a> | 
+                      <a href="{% url 'editar' tabla.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> | 
+                      <a href="#"  class="btn btn-danger btn-sm" data-id="{{ tabla.id }}" ><i class="fas fa-solid fa-trash"></i></a> 
                     </td>
                 </tr>
                 {% endfor %}
