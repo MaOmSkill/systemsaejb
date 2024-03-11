@@ -23,9 +23,10 @@ class BatallonForm(forms.ModelForm):
                    'primero' ]
          
 class ArmaForm(forms.ModelForm):
+    
     calibreS = forms.CharField(required=False)
-    cantidadS = forms.IntegerField(required=False,widget=forms.NumberInput(attrs={'placeholder': 'Cantidad Segundario'}))
-    serialS = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Serial Segundario'}))
+    cantidadS = forms.IntegerField(required=False)
+    serialS = forms.CharField(required=False)
     
     class Meta:
         model = Armas
@@ -45,9 +46,7 @@ class ArmaForm(forms.ModelForm):
                  'cantidadS',
                  'serialS', 
                  'ac']
-        widgets = {
-            'fechaAG': forms.DateInput(attrs={'type': 'date'}),
-        }
+        
 class MunicionForm(forms.ModelForm):
     class Meta:
         model = Municiones
@@ -57,9 +56,7 @@ class MunicionForm(forms.ModelForm):
                   'cantidadM',
                   'lote', 
                   'tercero']
-        widgets = {'fechaAG': forms.DateInput(attrs={'type': 'date'}),}
-        
-
+   
 class PersonaForm(forms.ModelForm):
      class Meta:
         model = Personas

@@ -283,34 +283,6 @@ def abas_info(request, punto_id):
 
 # PDF IMPRIMIR REPORTES TODOS LOS PDf del MODULO DE PERSONAS, Y BRIGADAS,UNIDADES, MUNICIONES Y ARMAS
 
-def link_callback(uri, rel):
-    
-            result = finders.find(uri)
-            if result:
-                    if not isinstance(result, (list, tuple)):
-                            result = [result]
-                    result = list(os.path.realpath(path) for path in result)
-                    path=result[0]
-            else:
-                    sUrl = settings.STATIC_URL        
-                    sRoot = settings.STATIC_ROOT     
-                    mUrl = settings.MEDIA_URL         
-                    mRoot = settings.MEDIA_ROOT       
-
-                    if uri.startswith(mUrl):
-                            path = os.path.join(mRoot, uri.replace(mUrl, ""))
-                    elif uri.startswith(sUrl):
-                            path = os.path.join(sRoot, uri.replace(sUrl, ""))
-                    else:
-                            return uri
-
-            # make sure that file exists
-            if not os.path.isfile(path):
-                    raise RuntimeError(
-                            'media URI must start with %s or %s' % (sUrl, mUrl)
-                    )
-            return path
-
 def pdf_uno(request):
     try:
         year = request.GET.get('year', None)
@@ -321,7 +293,7 @@ def pdf_uno(request):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
         
-        pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+        pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
             messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
             return redirect('servicio')
@@ -339,7 +311,7 @@ def pdf_dos(request, pdf_id):
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
-        pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+        pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
             messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
             return redirect('servicio')
@@ -359,7 +331,7 @@ def pdf_tres(request, pdf_id):
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
-        pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+        pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
             messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
             return redirect('servicio')
@@ -378,7 +350,7 @@ def pdf_cuatro(request, pdf_id):
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
-        pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+        pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
             messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
             return redirect('servicio')
@@ -389,20 +361,22 @@ def pdf_cuatro(request, pdf_id):
     
 def pdf_cinco(request, pdf_id):
     try:
-
+        img_uno = settings.STATIC_ROOT + '/imagenes/imagen.png'
+        img_dos = settings.STATIC_ROOT + '/imagenes/dos.png'
         armas = Armas.objects.get(pk=pdf_id)
         person = Batallones.objects.filter(armas=armas)
         template = get_template('pdf/pdf_cinco.html')
         context = {'armas': armas ,
                    'person':person,
-                   'icon':'{}{}'.format(settings.STATIC_URL, 'imagenes/imagen1.png')
+                   'img_uno':img_uno,
+                   'img_dos':img_dos
                    
                    }
         html = template.render(context)
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
-        pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+        pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
             messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
             return redirect('servicio')
@@ -421,7 +395,7 @@ def pdf_sexto(request, id):
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
-        pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+        pisa_status = pisa.CreatePDF(html, dest=response)
 
         if pisa_status.err:
             sweetify.error(request, 'Error al generar el PDF', timer=8000)
@@ -439,7 +413,7 @@ def pdf_sextimo(request, id):
         html = template.render(context)
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment: filename="reporte.pdf'
-        pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+        pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
             sweetify.error(request, 'Error al generar el PDF', timer=8000)
             return redirect('servicio')

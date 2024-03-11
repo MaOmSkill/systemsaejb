@@ -2,10 +2,10 @@
   {% csrf_token %}
 
   <div class="form-row">
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-5">
       <label for="categoria">Categoria:</label>
       <select class="form-control" name="categoria" id="categoria">
-        <option value="">----Seleccionar---</option>
+        <option value="">----Seleccionar--- {{formulario_armas.categoria.value|default_if_none:''}}</option>
         <option value="Blindado">Blindado</option>
         <option value="Artilleria">Artilleria</option>
         <option value="Portatiles">Portatiles</option>
@@ -18,7 +18,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-8">
+    <div class="form-group col-md-7">
       <label for="segundo">Unidad:</label>
       <select class="form-control" id="segundo" name="segundo">
         <option value="{{batallon.id}}">{{batallon.id}} - {{batallon.nombreB}}</option>
@@ -130,7 +130,7 @@
     <div class="form-group col-md-12">
       <label for="armaS">Armas Segundaria</label>
       <select class="form-control" name="armaS" id="armaS">
-        <option value="">-Seleccionar-</option>
+        <option value="">-----Seleccionar-----</option>
         <option value="Si">Si</option>
         <option value="No">No</option>
       </select>
@@ -144,17 +144,18 @@
   <div id="prueba1" style="display: none;">
 
     <div class="form-group">
-      <label for="calibreS" class="form-label">Calibre Segundario</label>
-      <input type="text" class="form-control" name="calibreS" id="calibreS" placeholder="Blindado, Artilleria, Otros" />
+      <label for="calibreS" class="form-label">Tipo,Modelo,Calibre</label>
+      <textarea class="form-control" name="calibreS" id="calibreS" cols="30" rows="5"
+        placeholder="Blindado, Artilleria, Otros">No{{formulario_armas.calibreS.value|default_if_none:''}}</textarea>
       {% for error in formulario_armas.errors.calibreS %}
       <span class="error">{{ error }}</span>
       {% endfor %}
     </div>
 
     <div class="form-group">
-      <label for="serialS" class="form-label">Serial Segundario</label>
-      <textarea class="form-control" name="serialS" id="serialS" cols="30" rows="2"
-        placeholder="Blindado, Artilleria, Otros"></textarea>
+      <label for="serialS" class="form-label">Serial de Arma Segundaria</label>
+      <textarea class="form-control" name="serialS" id="serialS" cols="30" rows="5"
+        placeholder="Blindado, Artilleria, Otros">No{{formulario_armas.serialS.value|default_if_none:''}}</textarea>
       {% for error in formulario_armas.errors.serialS %}
       <span class="error">{{ error }}</span>
       {% endfor %}

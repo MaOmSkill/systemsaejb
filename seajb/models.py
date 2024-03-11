@@ -56,9 +56,9 @@ class Armas(models.Model):
     cantidadC = models.IntegerField(verbose_name='Cargadores:')
     ac = models.TextField(verbose_name="Accesorio:",null=True)
     armaS = models.CharField(max_length=300, verbose_name='Arma Segundaria:')
-    calibreS = models.CharField(max_length=300,   verbose_name='Calibre Segundario:',  null=True, blank=True)
-    serialS = models.CharField(max_length=300,  verbose_name='Serial Segundario:',   null=True, blank=True)
-    cantidadS = models.IntegerField(verbose_name='Cantidad Segundario:', null=True, blank=True)
+    calibreS = models.TextField(verbose_name='Tipo,Modelo,Calibre:',  null=True, default=None)
+    serialS = models.TextField(verbose_name='Serial Segundario:',   null=True, blank=True, default=None)
+    cantidadS = models.IntegerField(verbose_name='Cantidad Segundario:', null=True, blank=True, default=None)
     fecha = models.DateField(auto_now_add=True)
     segundo = models.ForeignKey(Batallones, on_delete=models.CASCADE, blank=True, default=None)
     
@@ -105,7 +105,7 @@ class Personas(models.Model):
     direccion = models.CharField(max_length=100, verbose_name='Dirección')
     telefono = models.CharField(max_length=100, verbose_name='Telefono')
     correo = models.CharField(max_length=100, verbose_name='Correo Electronico')
-    img = models.ImageField(upload_to='imagenes/',verbose_name="Imagen", null=True)
+    img = models.ImageField(upload_to='imagenes/',verbose_name="Imagen", null=True, blank=True)
     fecha = models.DateField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
