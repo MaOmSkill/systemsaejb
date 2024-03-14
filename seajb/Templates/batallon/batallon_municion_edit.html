@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block titulo %} Editar Munición {% endblock %}
+
+{% block seccion %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h5 class="m-0">Panel de Edición de Munición</h5>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Formulario</a></li>
+          <li class="breadcrumb-item active">Edición</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+  <div class="card card-primary w-25">
+    <div class="card-header border-0">
+      <div class="d-flex justify-content-between">
+        <h3 class="card-title">Formulario de Edición de la Munición</h3>
+      </div>
+    </div>
+    <div class="card-body">
+      {% include 'municion/municion_f.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+  $("#cerrarBoton").click(function () {
+    history.back();
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Inicializa el datetimepicker
+    $('#reservationdate').datetimepicker({
+      locale: 'es',
+      format: 'D/M/Y',
+      useCurrent: false // Cambia a false para no usar la fecha actual
+    });
+
+    // Obtiene la fecha del input y la asigna al datetimepicker
+    var storedDate = $('#fechaAG').val();
+    if (storedDate) {
+      $('#reservationdate').datetimepicker('date', storedDate);
+    }
+  });
+
+</script>
+{% endblock %}

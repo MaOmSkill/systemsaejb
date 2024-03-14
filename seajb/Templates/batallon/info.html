@@ -3,16 +3,6 @@
 
 {% block titulo %} Armas y Municiones{% endblock %}
 
-{% block css %}
-<style>
-.table-hover-blue thead th:hover {
-    background-color: #007bff;
-        /* Color azul de Bootstrap */
-}
-</style>
-
-{% endblock%}
-
 {% block seccion %}
 <div class="content-header">
     <div class="container-fluid">
@@ -48,8 +38,8 @@
                         data-target="#modalArmas"><i class="fas fa-plus-square"></i></a>
                 </div>
             </div>
-            <div class="card-body table-responsive">
-                <table id="tablaArmas" class="table table-bordered table-striped table-hover-blue display compact">
+            <div class="card-body table-responsive ">
+                <table id="tablaArmas" class="table table-bordered table-striped table-hover-blue ">
                     <thead class="table-dark">
                         <tr>
                             <th class="text-center">F-R</th>
@@ -75,7 +65,7 @@
                             <td>{{datos.tipoA}}</td>
                             <td>{{datos.modeloA}}</td>
                             <td>{{datos.calibreA}}</td>
-                            <td>{{datos.serialA}}</td>
+                            <td class="text-truncate">{{datos.serialA}}</td>
                             <td>{{datos.serialAG}}</td>
                             <td>{{datos.fechaAG|date:"dmy"}}</td>
                             <td>{{datos.opAM}}</td>
@@ -83,7 +73,8 @@
                             <td>{{datos.cantidadC}}</td>
                             <td>{{datos.armaS}}</td>
                             <td>
-                            <a href="{% url 'pdf_cinco' datos.id %}" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf"></i></a>
+                            <a href="{% url 'pdf_cinco' datos.id %}" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf"></i></a> |
+                            <a href="{% url 'edit_armas' datos.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
                             </td>
                         </tr>
                         {% endfor %}
@@ -108,7 +99,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th class="text-center">F-R</th>
-                            <th class="text-center">DESCRIPCIÓIN</th>
+                            <th class="text-center">DESCRIPCIÓN</th>
                             <th class="text-center">L-N°</th>
                             <th class="text-center">S-AG</th>
                             <th class="text-center">F-AG</th>
@@ -123,10 +114,11 @@
                             <td>{{datos.tipoM}} </td>
                             <td>{{datos.lote}} </td>
                             <td>{{datos.serialAG}} </td>
-                            <td>{{datos.fechaAG|date:"dmy"}} </td>
+                            <td>{{datos.fechaAG|date:"d/m/y"}} </td>
                             <td>{{datos.cantidadM}} </td>
                             <td>
-                            <a href="{% url 'pdf_sexto' datos.id %}" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf"></i></a>
+                            <a href="{% url 'pdf_sexto' datos.id %}" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf"></i></a> |
+                            <a href="{% url 'edit_municion' datos.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
                             </td>
                         </tr>
                         {% endfor %}
@@ -135,7 +127,7 @@
             </div>
         </div>
 
-<div class="modal fade" id="modalArmas" tabindex="1" aria-labelledby="tituloArmasModal" aria-hidden="true">
+<div class="modal fade" id="modalArmas" tabindex="-1" aria-labelledby="tituloArmasModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary ">
@@ -151,7 +143,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalMunicion" tabindex="1" aria-labelledby="tituloMunicionModal" aria-hidden="true">
+<div class="modal fade" id="modalMunicion" tabindex="-1" aria-labelledby="tituloMunicionModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary ">
@@ -173,11 +165,26 @@
 
 {% block js %}
 
+
 <script>
     $(function () {
         $("#tablaArmas").DataTable({
-            "responsive": false, "lengthChange": true, "autoWidth": true, "pageLength":5,
-            // "buttons": ["excel", "pdf"],
+            "responsive": false, 
+            "lengthChange": true, 
+            "autoWidth": true,
+             "pageLength":5,
+             "ordering":false,
+             'info':true,
+
+             columnDefs: [
+                {
+                    targets: 0, 
+                    render: function (data, type, row) {
+                        return '<span class="text-truncate">' + data + '</span>';
+                    }
+                }
+            ],
+        
             language: {
                 "pageLength": "",
                 "decimal": "",
@@ -244,9 +251,6 @@
         }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
     });
 </script>
-
-
-
 
 <script>
     $(document).ready(function () {

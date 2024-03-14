@@ -1,11 +1,23 @@
 <form action="" enctype="multipart/form-data" method="post">
   {% csrf_token %}
 
-  <div class="form-row">
-    <div class="form-group col-md-5">
+
+  <div class="form-group col-md-12">
+    <label for="segundo">Unidad:</label>
+    <select class="form-control" id="segundo" name="segundo">
+      <option value="{{batallon.id}}">{{batallon.id}} - {{batallon.nombreB}}</option>
+    </select>
+    {% for error in formulario_armas.errors.segundo %}
+    <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+    <div class="form-group col-md-12">
       <label for="categoria">Categoria:</label>
       <select class="form-control" name="categoria" id="categoria">
-        <option value="">----Seleccionar--- {{formulario_armas.categoria.value|default_if_none:''}}</option>
+      <option value="">-----Seleccionar-----</option>
+        <option value="{{formulario_armas.categoria.value|default_if_none:''}}">
+        {{formulario_armas.categoria.value|default_if_none:''}}</option>
         <option value="Blindado">Blindado</option>
         <option value="Artilleria">Artilleria</option>
         <option value="Portatiles">Portatiles</option>
@@ -17,17 +29,6 @@
       <span class="error">{{ error }}</span>
       {% endfor %}
     </div>
-
-    <div class="form-group col-md-7">
-      <label for="segundo">Unidad:</label>
-      <select class="form-control" id="segundo" name="segundo">
-        <option value="{{batallon.id}}">{{batallon.id}} - {{batallon.nombreB}}</option>
-      </select>
-      {% for error in formulario_armas.errors.segundo %}
-      <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-  </div>
 
   <div class="form-group">
     <label for="tipoA" class="form-label"> {{formulario_armas.tipoA.label}} </label>
@@ -50,7 +51,7 @@
   <div class="form-group">
     <label for="calibreA" class="form-label">{{formulario_armas.calibreA.label}}</label>
     <input type="text" class="form-control" name="calibreA" id="calibreA"
-      value="{{ fformulario_armas.calibreA.value|default_if_none:'' }}" placeholder="Arma, Blindado, Artilleria" />
+      value="{{ formulario_armas.calibreA.value|default_if_none:'' }}" placeholder="Arma, Blindado, Artilleria" />
     {% for error in formulario_armas.errors.calibreA %}
     <span class="error">{{ error }}</span>
     {% endfor %}
@@ -59,8 +60,7 @@
   <div class="form-group">
     <label for="serialA" class="form-label">{{formulario_armas.serialA.label}}</label>
     <textarea class="form-control" name="serialA" id="serialA" cols="30" rows="5"
-      value="{{formulario_armas.serialA.value|default_if_none:'' }}"
-      placeholder="Coloque los seriales necesarios"></textarea>
+      placeholder="Coloque los seriales necesarios">{{formulario_armas.serialA.value|default_if_none:'' }}</textarea>
     {% for error in formulario_armas.errors.serialA %}
     <span class="error">{{ error }}</span>
     {% endfor %}
@@ -87,7 +87,7 @@
   <div class="form-group">
     <label for="opAM">{{formulario_armas.opAM.label}}</label>
     <select class="form-control" name="opAM" id="opAM">
-      <option value="">--Seleccionar--</option>
+      <option value="{{formulario_armas.opAM.value|default_if_none:''}}">SELECCION: {{formulario_armas.opAM.value|default_if_none:''}}</option>
       <option value="Operativa">Operativa</option>
       <option value="Inoperativa">Inoperativa</option>
       <option value="Inutilizada">Inutilizada</option>
@@ -171,7 +171,7 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+    <button type="button" id="cerrarBoton" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
     <input type="submit" class="btn btn-primary float-left" value="GUARDAR">
   </div>
 </form>

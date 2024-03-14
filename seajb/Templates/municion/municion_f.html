@@ -36,9 +36,18 @@
           {% endfor %}
         </div>
 
+        <!-- Date -->
         <div class="form-group">
-          <label for="fechaAG" class="form-label">Fecha de Asignación</label>
-          <input type="date" class="form-control" name="fechaAG" id="fechaAG" value="{{ formulario_municion.fechaAG.value|default_if_none:'' }}" placeholder="cantidad">
+          <label for="fechaAG">Date:</label>
+          <div class="input-group date" id="reservationdate" data-target-input="nearest">
+            <input type="text" class="form-control datetimepicker-input" name="fechaAG" id="fechaAG"
+              data-target="#reservationdate"  value=" {{formulario_municion.fechaAG.value}}" />
+             
+
+            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+          </div>
           {% for error in formulario_municion.errors.fechaAG %}
           <span class="error">{{ error }}</span>
           {% endfor %}
@@ -46,14 +55,14 @@
 
         <div class="form-group">
           <label for="cantidadM" class="form-label">Cantidad</label>
-          <input type="number" class="form-control" name="cantidadM" id="cantidadM" value="{{ formulario_municion.cantidadM.value|default_if_none:'' }}" placeholder="500">
+          <input type="number" class="form-control" name="cantidadM" id="cantidadM" value="{{formulario_municion.cantidadM.value|default_if_none:'' }}" placeholder="500">
           {% for error in formulario_municion.errors.cantidadM %}
           <span class="error">{{ error }}</span>
           {% endfor %}
         </div>
     
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="cerrarBoton" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
           <input type="submit" class="btn btn-primary float-left" value="Registrar">
         </div>
     </form>

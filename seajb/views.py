@@ -2,6 +2,7 @@ import io, sweetify, os ,logging
 from io import BytesIO
 from django.db.models import Q
 from django.utils import timezone
+from datetime import datetime
 from django.conf import settings
 from django.template.loader import get_template
 from django.contrib.staticfiles import finders
@@ -31,7 +32,7 @@ def servicio(request):
            messages.success(request, 'El Registro de la Brigada se efectuo con Exito')
            return redirect('servicio')
        else:
-           sweetify.error(request, 'Faltaron campos por rellenar', timer=5000)
+           messages.error(request, 'Faltaron campos por rellenar en el Formulario')
     else:
         formularios = BrigadaForm()
     context = {'servicios':servicio, 'formulario': formularios}
@@ -46,7 +47,7 @@ def editar(request,brigada_id):
             messages.success(request, 'Se edito la Brigada con Exito')
             return redirect('servicio')
         else:
-           sweetify.error(request, 'Faltaron campos por rellenar', timer=5000)
+           messages.error(request, 'Faltaron campos por rellenar en el Formulario')
     
     form = BrigadaForm(instance=elemento)
     context = {'formulario': form}
@@ -59,35 +60,51 @@ def eliminar(request, id):
         registro.delete()
         messages.success(request, "Registro eliminado correctamente.")
     except Brigada.DoesNotExist:
-        sweetify.error(request, 'Algo Salio Mal', timer=8000)
+        messages.error(request, 'Algo Salio Mal', timer=8000)
     return redirect('servicio')
      
 
 # cada brigada tiene unidades que a su vez tienen armamento y municiones pueden ver y editar 
 # aqui con este codigo muestra el resumen completo de la brigada y puede crear unidades de esas brigada de acuerdo a su id agregado
         
-def resumen(request,resumen_id):
-    batallon = Brigada.objects.filter(id=resumen_id)
-    primero = Brigada.objects.get(id=resumen_id)
-    servicio = Batallones.objects.filter(primero = primero)
-    datos = Brigada.objects.filter(id=resumen_id)
+def resumen(request, resumen_id):
+    try:
+        primero = Brigada.objects.get(id=resumen_id)
+    except Brigada.DoesNotExist:
+        messages.error(request, "La Brigada no existe")
+        return redirect('servicio')
+    servicio = Batallones.objects.filter(primero=primero)
+
     if request.method == 'POST':
-       formularios = BatallonForm(request.POST or None)
-       if formularios.is_valid():
-           nueva_compania = formularios.save()
-           id = nueva_compania.primero.id
-           messages.success(request, "Se registro la Unidad correctamente")
-           return redirect('resumen', resumen_id=id)
-       else:
-           sweetify.error(request, 'Faltaron campos por rellenar', timer=5000)
+        formularios = BatallonForm(request.POST)
+        if formularios.is_valid():
+            nueva_compania = formularios.save()
+            messages.success(request, "Se registró la Unidad correctamente")
+            return redirect('resumen', resumen_id=nueva_compania.primero.id)
+        else:
+            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
     else:
-        formularios = BatallonForm() 
-    return render(request, 'servicio/resumen.html', {'servicios':servicio, 
-                                                     'datos':datos , 
-                                                     'primero':primero,
-                                                     'formulario': formularios, 
-                                                     'batallon':batallon})
+        formularios = BatallonForm()
+    context = {'servicios': servicio,'primero': primero,'formulario': formularios,}
+    return render(request, 'servicio/resumen.html', context)
+
+def batallon_edit(request, unidad_id):
+    elemento = Batallones.objects.get(id=unidad_id)
+    primero = Brigada.objects.get(id=elemento.primero.id)
     
+    if request.method == 'POST':
+        formularios = BatallonForm(request.POST, instance=elemento)
+        if formularios.is_valid():
+            nueva_compania = formularios.save()
+            messages.success(request, 'Se edito el Batallon con Exito')
+            return redirect('resumen', resumen_id=nueva_compania.primero.id)
+        else:
+            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
+    
+    formularios = BatallonForm(instance=elemento)
+    context = {'formulario': formularios, 'primero': primero}
+    return render(request, 'batallon/batallon_edit.html', context)
+
 
 
 # este codigo puede usted ver la informacion completa de las unidades y registrar armas y municiones
@@ -105,22 +122,22 @@ def info(request, unidad_id):
 
     if request.method == 'POST':
         formulario_armas = ArmaForm(request.POST)
+        formulario_municion = MunicionForm(request.POST)
+
         if formulario_armas.is_valid():
             nueva_compania = formulario_armas.save()
             messages.success(request, "Se registró el Arma correctamente")
             return redirect('infor', unidad_id=nueva_compania.segundo.id)
-    else:
-        formulario_armas = ArmaForm()
-    
-    if request.method == 'POST':
-        formulario_municion = MunicionForm(request.POST)
+
         if formulario_municion.is_valid():
             nueva_compania = formulario_municion.save()
             messages.success(request, "Se registró la Munición correctamente")
             return redirect('infor', unidad_id=nueva_compania.tercero.id)
-        else:
-            sweetify.error(request, 'Faltaron campos por rellenar', timer=5000)
+
+        messages.error(request, 'Faltaron campos por rellenar en los Formularios')
+
     else:
+        formulario_armas = ArmaForm()
         formulario_municion = MunicionForm()
 
     context = {
@@ -133,6 +150,40 @@ def info(request, unidad_id):
     return render(request, 'batallon/info.html', context)
     
     
+def armas_edit(request, arma_id):
+    elemento = Armas.objects.get(id=arma_id)
+    segundo = Batallones.objects.get(id=elemento.segundo.id)
+    
+    if request.method == 'POST':
+        formulario_armas = ArmaForm(request.POST, instance=elemento)
+        if formulario_armas.is_valid():
+            nueva_comapania = formulario_armas.save()
+            messages.success(request, 'Se edito el Formulario de Armamento con Exito')
+            return redirect('infor', unidad_id=nueva_comapania.segundo.id)
+        else:
+            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
+    else:
+        formulario_armas = ArmaForm(instance=elemento)
+    context = {'formulario_armas': formulario_armas, 'batallon': segundo}
+    return  render(request,'batallon/batallon_armas_edit.html', context)
+
+def municion_edit(request,  municion_id):
+    elemento = Municiones.objects.get(id=municion_id)
+    tercero = Batallones.objects.get(id=elemento.tercero.id)
+    
+    if request.method == 'POST':
+        formulario_municion = MunicionForm(request.POST, instance=elemento)
+        if formulario_municion.is_valid():
+            nueva_comapania = formulario_municion.save()
+            messages.success(request, 'Se edito el  Formulario de Munición con Exito')
+            return redirect('infor', unidad_id=nueva_comapania.tercero.id)
+        else:
+            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
+    else:
+        formulario_municion = MunicionForm(instance=elemento)
+    context = {'formulario_municion':formulario_municion, 'batallon':tercero}
+    return render(request, 'batallon/batallon_municion_edit.html',context)
+    
 # tabla principal, crear, editar y eliminar personas 
 def persona_index(request):
     personas = Personas.objects.all()
@@ -143,7 +194,7 @@ def persona_index(request):
            messages.success(request, "Se registro la Persona correctamente")
            return redirect('personas')
        else:
-           sweetify.error(request, 'Faltaron campos por rellenar', timer=8000)
+           messages.error(request, 'Faltaron campos por rellenar en el Formulario')
     else:
         formularios = PersonaForm()
     context = {'personas':personas, 'formulario': formularios}
@@ -158,7 +209,7 @@ def personas_editar(request,personas_id):
             messages.success(request, "Se editó la Persona correctamente")
             return redirect('personas')
         else:
-            sweetify.error(request, 'Que paso algo esta Mal, revisa', timer=8000)
+            messages.error(request, 'Que paso algo esta Mal, revisa')
     else:
         formularios = PersonaForm(instance=personas)
     context = {'formulario':formularios, 'personas':personas}
@@ -175,42 +226,46 @@ def persona_informacion(request, persona_id):
             messages.success(request, "Se registró nuevo armamento asignado correctamente")
             return redirect('informacion', persona_id=person.id)
         else:
-           sweetify.error(request, 'Faltaron campos por rellenar', timer=8000)
-
+           messages.error(request, 'Revisa el Formulario algo salio mal')
     else:
-        formularios = ArmasDePersonasForm()  # Pre-populate with existing data
-
+        formularios = ArmasDePersonasForm() 
     context = {'person': person, 'armas': armas, 'formulario': formularios}
     return render(request, 'personas/persona_informacion.html', context)
 
 # digitalización
 
 def digital_index(request):
-    dital = BrigadaDigital.objects.all()
+    digitales = BrigadaDigital.objects.all()
     if request.method == 'POST':
         formularios = BrigadaDigitalForm(request.POST or None)
         if formularios.is_valid():
             formularios.save()
+            messages.success(request, "Se Registro Correctamente")
             return redirect('digital')
+        else:
+            messages.error(request, 'Revisa el Formulario algo salio mal')
     else:
         formularios = BrigadaDigitalForm()
-    context = {'digitales': dital, 'formulario': formularios}
+    context = {'digitales': digitales, 'formulario': formularios}
     return render(request, 'digital/digital_index.html', context)
 
-
-    
-def digital_info(request,digital_id):
+def digital_info(request, digital_id):
     digital = BrigadaDigital.objects.get(pk=digital_id)
-    digitos = UnidadDigital.objects.filter(digital=digital)
+    digitales = UnidadDigital.objects.filter(digital=digital)
+    
     if request.method == 'POST':
-        formularios = UnidadDigitalForm(request.POST or None, request.FILES or None)
+        formularios = UnidadDigitalForm(request.POST, request.FILES)
         if formularios.is_valid():
             nuevo = formularios.save()
             id = nuevo.digital.id
+            messages.success(request, "Se Registro Correctamente")
             return redirect('infodig', digital_id=id)
+        else:
+            messages.error(request, 'Revisa el Formulario algo salio mal')
+    
     else:
         formularios = UnidadDigitalForm()
-    context = {'digital':digital, 'digito':digitos , 'formulario': formularios}
+    context = {'digital': digital, 'digito': digitales, 'formulario': formularios}
     return render(request, 'digital/digital_info.html', context)
 
 #INVENTARIO
@@ -222,6 +277,8 @@ def inventario_index(request):
             formularios.save()
             messages.success(request, "Se registro el inventario correctamente")
             return redirect('inventario')
+        else:
+            messages.error(request, 'Revisa el Formulario algo salio mal')
     else:
         formularios = ProductoForm()
     context = {'inventario':inventario, 'formulario':formularios}
@@ -233,31 +290,30 @@ def inventario_enviar(request):
     if request.method == 'POST':
         formularios = EnviarProductoForm(request.POST)
         if formularios.is_valid():
-            producto = formularios.cleaned_data['producto']
+            producto_obj = formularios.cleaned_data['producto']
             abastecimiento = formularios.cleaned_data['abastecimiento']
             cantidad = formularios.cleaned_data['cantidad']
             serial = formularios.cleaned_data['serial']
             
-            if producto.cantidad >= cantidad:
-                producto.cantidad -= cantidad
-                producto.save()
+            if producto_obj.cantidad >= cantidad:
+                producto_obj.cantidad -= cantidad
+                producto_obj.save()
                 ProductoAbastecimiento.objects.create(
-                    producto=producto, 
+                    producto=producto_obj, 
                     abastecimiento=abastecimiento,
                     cantidad=cantidad,
-                    serial = serial, 
-                    precio= producto.precio,
-                    movimiento = producto.nombre)
-                sweetify.success(request, 'se envio el paquete correctamente para punto de abastecimiento', timer=7000)
+                    serial=serial, 
+                    precio=producto_obj.precio,
+                    movimiento=producto_obj.nombre)
+                messages.success(request, 'Se envió el paquete correctamente para el punto de abastecimiento')
                 return redirect('inventario')
             else:
-                sweetify.error(request, 'No hay suficientes unidades', timer=8000)
-                return redirect('inventario')
-            
+                messages.error(request, 'No hay suficientes unidades')
+                return redirect('inventario') 
     else:
         formularios = EnviarProductoForm()
             
-    context = {'formulario':formularios, 'producto':producto, 'punto':punto}
+    context = {'formulario': formularios, 'producto': producto, 'punto': punto}
     return render(request, 'inventario/inventario_enviar.html', context)
 
 def abastecimiento(request):
@@ -266,19 +322,25 @@ def abastecimiento(request):
         formularios = AbastecimientoForm(request.POST)
         if formularios.is_valid():
             formularios.save()
-            messages.success(request, "Se registro el abastecimiento correctamente")
+            messages.success(request, "Se registró el abastecimiento correctamente")
             return redirect('abastecimiento')
+        else:
+            messages.error(request, 'Revisa el Formulario algo salio mal')
     else:
         formularios = AbastecimientoForm()
-    context = {'abasto':abasto,  'formulario':formularios}
+
+    context = {'abasto': abasto, 'formulario': formularios}
     return render(request, 'abastecimiento/abas_index.html', context)
 
 def abas_info(request, punto_id):
-    abastecimiento = Abastecimiento.objects.get(id=punto_id)
+    try:
+        abastecimiento = Abastecimiento.objects.get(id=punto_id)
+    except Abastecimiento.DoesNotExist:
+        return render(request, 'abastecimiento')
+    
     producto = ProductoAbastecimiento.objects.filter(abastecimiento=abastecimiento)
-    context = {'producto':producto}
+    context = {'producto': producto}
     return render(request, 'abastecimiento/abas_info.html', context)
-
 
 
 # PDF IMPRIMIR REPORTES TODOS LOS PDf del MODULO DE PERSONAS, Y BRIGADAS,UNIDADES, MUNICIONES Y ARMAS
@@ -323,12 +385,22 @@ def pdf_dos(request, pdf_id):
 
 def pdf_tres(request, pdf_id):
     try:
-        person = Batallones.objects.get(pk=pdf_id) 
-        armas = Armas.objects.filter(segundo=person)
+        fecha = datetime.now().date()
+        img_uno = settings.STATIC_ROOT + '/imagenes/imagen.png'
+        img_dos = settings.STATIC_ROOT + '/imagenes/dos.png'
+        brigada = Brigada.objects.get(batallones=pdf_id)
+        batallones =Batallones.objects.get(id=pdf_id)
+        armas = Armas.objects.filter(segundo=batallones) 
         template = get_template('pdf/pdf_tres.html')
-        context = {'person': person, 'armas': armas}
+        context = {
+                   'brigada':brigada, 
+                   'batallones':batallones,
+                   'armas':armas, 
+                   'fecha':fecha,
+                   'img_uno':img_uno,
+                   'img_dos':img_dos
+                   }
         html = template.render(context)
-
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
         pisa_status = pisa.CreatePDF(html, dest=response)
@@ -336,18 +408,35 @@ def pdf_tres(request, pdf_id):
             messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
             return redirect('servicio')
         return response
+    except Brigada.DoesNotExist:
+        messages.error(request, 'PDF de Brigada no Encontrada')
+        return redirect('servicio')
     except Batallones.DoesNotExist:
-        messages.error(request, 'Armas no encontrada')
-        return redirect('Servicio')
+        messages.error(request, 'PDF de Batallones no Encontrada')
+        return redirect('servicio')
+    except Armas.DoesNotExist:
+        messages.error(request, 'PDF de Armas no Encontrada')
+        return redirect('servicio')
+  
     
 def pdf_cuatro(request, pdf_id):
     try:
-        person = Batallones.objects.get(pk=pdf_id) 
-        armas = Municiones.objects.filter(tercero=person)
+        fecha = datetime.now().date()
+        img_uno = settings.STATIC_ROOT + '/imagenes/imagen.png'
+        img_dos = settings.STATIC_ROOT + '/imagenes/dos.png'
+        brigada = Brigada.objects.get(batallones=pdf_id)
+        batallones =Batallones.objects.get(id=pdf_id)
+        municion = Municiones.objects.filter(tercero=batallones) 
         template = get_template('pdf/pdf_cuatro.html')
-        context = {'person': person, 'armas': armas}
+        context = {
+                   'brigada':brigada, 
+                   'batallones':batallones,
+                   'municion':municion, 
+                   'fecha':fecha,
+                   'img_uno':img_uno,
+                   'img_dos':img_dos
+                   }
         html = template.render(context)
-
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
         pisa_status = pisa.CreatePDF(html, dest=response)
@@ -355,21 +444,31 @@ def pdf_cuatro(request, pdf_id):
             messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
             return redirect('servicio')
         return response
+    except Brigada.DoesNotExist:
+        messages.error(request, 'PDF de Brigada no Encontrada')
+        return redirect('servicio')
     except Batallones.DoesNotExist:
-        messages.error(request, 'Municiones no encontrada')
-        return redirect('Servicio')
+        messages.error(request, 'PDF de Batallones no Encontrada')
+        return redirect('servicio')
+    except Municiones.DoesNotExist:
+        messages.error(request, 'PDF de Municion no Encontrada')
+        return redirect('servicio')
     
 def pdf_cinco(request, pdf_id):
     try:
+        fecha = datetime.now().date()
         img_uno = settings.STATIC_ROOT + '/imagenes/imagen.png'
         img_dos = settings.STATIC_ROOT + '/imagenes/dos.png'
         armas = Armas.objects.get(pk=pdf_id)
         person = Batallones.objects.filter(armas=armas)
+        codigo = Brigada.objects.get(batallones__armas=armas)
         template = get_template('pdf/pdf_cinco.html')
         context = {'armas': armas ,
                    'person':person,
                    'img_uno':img_uno,
-                   'img_dos':img_dos
+                   'img_dos':img_dos,
+                   'fecha':fecha,
+                   'codigo':codigo
                    
                    }
         html = template.render(context)
@@ -383,6 +482,9 @@ def pdf_cinco(request, pdf_id):
         return response
     except Armas.DoesNotExist:
         sweetify.error(request, 'PDF de Armas no Encontrada', timer=8000)
+        return redirect('servicio')
+    except Brigada.DoesNotExist:
+        sweetify.error(request, 'PDF de Brigada no Encontrada', timer=8000)
         return redirect('servicio')
     
 def pdf_sexto(request, id):

@@ -13,6 +13,9 @@ urlpatterns = [
     
     #aqui la ruta de los batallones o unidades que tienen armas y municiones
     path("batallon/info/<int:unidad_id>", views.info, name="infor"),
+    path("batallon/batallon_edit/<int:unidad_id>", views.batallon_edit, name="batallon_edit"),
+    path("batallon/batallon_armas_edit/<int:arma_id>", views.armas_edit, name="edit_armas"),
+    path("batallon/batallon_municion_edit/<int:municion_id>", views.municion_edit, name="edit_municion"),
     
     # aqui son las rutas de las vistas de personas
     path("personas/persona_index", views.persona_index, name="personas"),

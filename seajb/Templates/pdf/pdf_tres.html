@@ -4,65 +4,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Listas de Personas con Armas</title>
+  <title>Lista General de Armas</title>
+  <style>
+    table {
+      overflow-x: auto;
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 50%;
+    }
+
+    table th,
+     td {
+      padding: 5px;
+      max-width: 400px;
+      word-wrap: break-word;
+      white-space: inherit;
+    }
+
+    table p {
+      text-align: center;
+      font-size: 10px;
+      font-weight: bold;
+      margin-bottom: 0px;
+      margin-top: 0px;
+    }
+
+    .bodertabla {
+      border: 1px solid black;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Listas 1</h1>
   <table>
-    <thead>
-      <tr>
-        <th>N°</th>
-        <th>CODIGO</th>
-        <th>GRADO</th>
-        <th>CATEGORIA</th>
-        <th>NOMBRES Y APELLIDOS</th>
-        <th>CEDULA</th>
-        <th>AÑO</th>
-      </tr>
-    </thead>
     <tbody>
-
       <tr>
-        <td>{{person.id}}</td>
-        <td>{{person.nombreB}}</td>
-        <td>{{person.grado}}</td>
-        <td>{{person.categoria}}</td>
-        <td>{{person.datos}}</td>
-        <td>{{person.cedula}}</td>
-        <td>{{person.anio}}</td>
+        <td colspan="5" style="padding: 10px; text-align:center;"><img src="{{img_uno}}" alt="icon" width="60"
+            height="80"></td>
+        <td colspan="8">
+          <p style="margin-top: 0px;">REPÚPLICA BOLIVARIANA DE VENEZUELA</p>
+          <p style="margin-top: 0px;">MINISTERIO DEL PODER POPULAR PARA LA DEFENSA</p>
+          <p style="margin-top: 0px;">EJÉRCITO BOLIVARIANO</p>
+          <p style="margin-top: 0px;">SERVICIO DE ARMAMENTO</p>
+        </td>
+        <td colspan="5" style="padding: 20px;"><img src="{{img_dos}}" width="70"></td>
       </tr>
-
+    </tbody>
+    <tbody>
+      <tr>
+        <td colspan="12" style="text-align: left;">Codigo-D : {{brigada.code}}</td>
+        <td colspan="5" style="text-align: right;">{{fecha}}</td>
+      </tr>
     </tbody>
   </table>
 
-  <h1>Listas 2</h1>
   <table>
+  <thead>
+    <tr>
+      <th colspan="15" style="padding: 10px;">
+        LISTA DE LAS ARMAS ASIGNADAS A LA {{batallones.nombreB}}
+      </th>
+    </tr>
+  </thead>
+  </table>
+
+  <table class="bodertabla">
     <thead>
       <tr>
-        <th>N°</th>
-        <th>CODIGO</th>
-        <th>GRADO</th>
-        <th>CATEGORIA</th>
-        <th>NOMBRES Y APELLIDOS</th>
-        <th>CEDULA</th>
-        <th>AÑO</th>
+      <th colspan="3">CATEGORIA</th>
+        <th colspan="3">T-ARMA</th>
+        <th colspan="4">MODELO-A</th>
+        <th colspan="3">CALIBRE-A</th>
+        <th colspan="3">CANTIDAD</th>
+        <th colspan="3">CONDICION</th>
+        <th colspan="3">ARMAS-S</th>
       </tr>
     </thead>
     <tbody>
-      {% for persona in armas %}
+    {% for armas  in armas %}
       <tr>
-        <td>{{persona.id}} </td>
-        <td>{{persona.tipoA}} </td>
-        <td>{{persona.modeloA}} </td>
-        <td>{{persona.serialA}} </td>
-        <td>{{persona.fechaAG}} </td>
-        <td>{{persona.cargadores}} </td>
-        <td>{{persona.municiones}} </td>
+        <td colspan="3">{{armas.categoria}}</td>
+        <td colspan="3">{{armas.tipoA}}</td>
+        <td colspan="4">{{armas.modeloA}}</td>
+        <td colspan="3">{{armas.calibreA}}</td>
+        <td colspan="3">{{armas.cantidadA}}</td>
+        <td colspan="3">{{armas.opAM}}</td>
+        <td colspan="3">{{armas.armaS}}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-</body>
 
+
+</body>
 </html>

@@ -3,16 +3,6 @@
 
 {% block titulo %} Principal {% endblock %} 
 
-{% block css %}
-
-<style>
-  .table-hover-blue thead th:hover {
-    background-color: #007bff;
-    /* Color azul de Bootstrap */
-  }
-</style>
-
-{% endblock%}
 
 {% block seccion %}
 <div class="content-header">
@@ -37,7 +27,7 @@
 
 
 {% block contenido %}
-<div class="card card-primary card-outline">
+<div class="card card-dark card-outline">
    <div class="card-header">
       <div class="d-flex justify-content-between">
         <h3 class="card-title m-0"><a href="#" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a></h3>
@@ -49,7 +39,7 @@
             <table id="example2" class="table table-bordered table-striped table-hover-blue">
                 <thead class="table-dark">
                     <tr>
-                        <th class="text-center">FECHA ENTRADA</th>
+                        <th class="text-center">FECHA-R</th>
                         <th class="text-center">UNIDAD DE LA BRIGADA</th>
                         <th class="text-center">COMANDANTE DE LA UNIDAD</th>
                         <th class="text-center">TELEFONO</th>
@@ -68,7 +58,8 @@
                         <td>{{datos.correo}} </td>
                         <td>{{datos.ubicacionB}} </td>
                         <td>
-                            <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-sm"><i class="fas fa-solid fa-eye"></i></a>
+                            <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-sm"><i class="fas fa-solid fa-eye"></i></a> |
+                            <a href="{% url 'batallon_edit' datos.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
                         </td>
                     </tr>
                     {% endfor %}

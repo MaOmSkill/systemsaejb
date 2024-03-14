@@ -12,6 +12,17 @@
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="/static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="/static/plugins/daterangepicker/daterangepicker.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="/static/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- InputMask -->
+  <script src="/static/plugins/moment/moment.min.js"></script>
+  <script src="/static/plugins/inputmask/jquery.inputmask.min.js"></script>
   <!-- DataTables -->
   <link rel="stylesheet" href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -24,29 +35,40 @@
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
 
   {% block css %}
-    <style>
-      i{
-        font-size: 1.3em;
-        /* Ajusta el tamaño según sea necesario */
-      }
-      .table td {
-        max-width: 200px;
-        /* Ajusta según sea necesario */
-        word-wrap: break-word;
-        /* Permite que el texto se ajuste dentro de la celda */
-      }
-    </style>
+  <style>
+    .table-hover-blue thead th:hover {
+      background-color: #007bff;
+    }
+
+    table {
+      overflow-x: auto;
+    }
+
+    table td {
+      word-wrap: break-word;
+      max-width: 100px;
+      padding: 10px;
+    }
+
+    .text-truncate {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .table td {
+      max-width: 200px;
+      word-wrap: break-word;
+    }
+
+  </style>
+
   {% endblock%}
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 
   <div class="wrapper">
-    <!-- Preloader -->
-    {% comment %} <div class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__wobble" src="/static/dist/img/logo1.png" alt="SAEJB" height="150" width="150">
-    </div> {% endcomment %}
-
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -55,8 +77,6 @@
         <li class="nav-item d-none d-sm-inline-block">
           <a href="{% url 'principal' %}" class="nav-link">Inicio</a>
         </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
       </ul>
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -73,15 +93,15 @@
                 <i class="nav-icon fas fa-user-edit"></i>
                 <p>Personal <i class="fas fa-angle-left right"></i><span class="badge badge-info right">1</span></p>
               </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'personas' %}" class="nav-link"><i class="nav-icon fa fa-circle fa-xs"
-                    style="font-size: 0.5rem;"></i>
-                  <p>Asignación</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'personas' %}" class="nav-link"><i class="nav-icon fa fa-circle fa-xs"
+                      style="font-size: 0.5rem;"></i>
+                    <p>Asignación</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
             <li class="nav-item">
               <a href="{% url 'servicio' %}" class="nav-link"><i class="nav-icon fas fa-campground"></i>
                 <p>Brigadas</p>
@@ -110,9 +130,23 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link"><i class="nav-icon fa fa-wrench" aria-hidden="true"></i>
-                <p>Centros</p>
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-wrench" aria-hidden="true"></i>
+                <p>Centros<i class="fas fa-angle-left right"></i><span class="badge badge-info right">3</span></p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="#" class="nav-link"><i class="fa fa-circle nav-icon" style="font-size: 0.5rem;"></i>
+                    <p>Cemantar</p>
+                  </a>
+                  <a href="#" class="nav-link"><i class="fa fa-circle nav-icon" style="font-size: 0.5rem;"></i>
+                    <p>Cemansac</p>
+                  </a>
+                  <a href="#" class="nav-link"><i class="fa fa-circle nav-icon" style="font-size: 0.5rem;"></i>
+                    <p>Cemanblin</p>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li class="nav-item">
               <a href="{% url 'digital' %}" class="nav-link"><i class="nav-icon fas fa-solid fa-image"></i>
@@ -124,7 +158,7 @@
       </div>
     </aside>
 
-    <!-- Content Wrapper. Contains page content -->
+  
     <div class="content-wrapper">
       {% block seccion %} {% endblock %}
 
@@ -135,13 +169,7 @@
       </div>
     </div>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-
-    <!-- Main Footer -->
+  
     <footer class="main-footer">
       <strong>&copy; 2024 <a href="#">Dirección de Tecnologia de la Información y Comunicaciones</a></strong>
       <div class="float-right d-none d-sm-inline-block">
@@ -156,6 +184,15 @@
   <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- SweetAlert2 -->
   <script src="/static/plugins/sweetalert2/sweetalert2.min.js"></script>
+  <!-- date-range-picker -->
+  <script src="/static/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- bootstrap color picker -->
+  <script src="/static/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="/static/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- InputMask -->
+  <script src="/static/plugins/moment/moment.min.js"></script>
+  <script src="/static/plugins/inputmask/jquery.inputmask.min.js"></script>
   <!-- DataTables  & Plugins -->
   <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -245,8 +282,8 @@
     });
   </script>
 
-  {% if messages%}
-  {% for m in messages %}
+  {% if messages %}
+  {% for message in messages %}
   <script>
     const Toast = Swal.mixin({
       toast: true,
@@ -260,13 +297,11 @@
       }
     });
     Toast.fire({
-      icon: "success",
-      title: "{{m}}"
+      icon: "{{ message.tags }}",
+      title: "{{ message }}"
     });
   </script>
-  {%endfor%}
-  {% endif%}
-  {% load sweetify %}
-  {% sweetify %}
+  {% endfor %}
+  {% endif %}
 </body>
 </html>
