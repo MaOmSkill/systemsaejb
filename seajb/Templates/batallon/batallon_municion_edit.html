@@ -42,22 +42,4 @@
     history.back();
   });
 </script>
-
-<script>
-  $(document).ready(function () {
-    // Inicializa el datetimepicker
-    $('#reservationdate').datetimepicker({
-      locale: 'es',
-      format: 'D/M/Y',
-      useCurrent: false // Cambia a false para no usar la fecha actual
-    });
-
-    // Obtiene la fecha del input y la asigna al datetimepicker
-    var storedDate = $('#fechaAG').val();
-    if (storedDate) {
-      $('#reservationdate').datetimepicker('date', storedDate);
-    }
-  });
-
-</script>
 {% endblock %}

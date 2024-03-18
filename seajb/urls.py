@@ -42,6 +42,11 @@ urlpatterns = [
      path('digital/digital_index', views.digital_index, name='digital'),
      path('digital/digital_info/<int:digital_id>', views.digital_info, name='infodig'),
      
+     # rutas de los centros
+     path('centros/cemantar_index', views.cemantar, name='cemantar'),
+     path('centros/cemansac_index', views.cemansac, name='cemansac'),
+     path('centros/cemanblin_index', views.cemanblin, name='cemanblin'),
+     
       
    
     

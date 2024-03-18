@@ -1,0 +1,49 @@
+<form action=""  enctype="multipart/form-data" method="post">
+{% csrf_token %}
+
+<div class="form-group">
+<label for="unidad">{{formulario_cemanblin.unidad.label}}</label>
+<input type="text" class="form-control" name="unidad" id="unidad" placeholder="Nombre de Unidad"/>    
+</div>
+
+<div class="form-group">
+  <label for="equipo">{{formulario_cemanblin.equipo.label}}</label>
+  <textarea class="form-control" name="equipo" id="equipo" cols="30" rows="5"></textarea>
+</div>
+
+<div class="form-group">
+  <label for="fechaE">{{formulario_cemanblin.fechaE.label}}</label>
+  <input type="date" class="form-control" name="fechaE" id="fechaE" placeholder="Fecha de Entrega"/>
+</div>
+
+<div class="form-group">
+<label for="reparado">{{formulario_cemanblin.reparado.label}}</label>
+  <select  class="form-control" name="reparado" id="reparado">
+  <option value="Reparado">Reparado</option>
+  <option value="Reparando">Reparando</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="seriales">{{formulario_cemanblin.seriales.label}}</label>
+  <textarea class="form-control" name="seriales" id="seriales" cols="30" rows="5"></textarea>
+</div>
+
+<div class="form-group">
+  <label for="descripcion">{{formulario_cemanblin.descripcion.label}}</label>
+  <textarea class="form-control" name="descripcion" id="descripcion" cols="30" rows="5"></textarea>
+</div>
+
+<div class="form-group">
+  <label for="personauna">{{formulario_cemanblin.personauna.label}}</label>
+  <input type="text" class="form-control" name="personauna" id="personauna" placeholder="Persona que Entrega el equipo"/>
+  <input type="text" class="form-control" name="personados" id="personados" placeholder="Persona que Recibe el equipo" />
+  <input type="text" class="form-control" name="personatres" id="personatres" placeholder="Persona que Realiza la Orden" />
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" id="cerrarBoton" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+  <input type="submit" class="btn btn-dark float-left" value="GUARDAR">
+</div>
+</form>

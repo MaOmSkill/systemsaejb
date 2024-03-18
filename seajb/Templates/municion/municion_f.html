@@ -36,21 +36,10 @@
           {% endfor %}
         </div>
 
-        <!-- Date -->
+       
         <div class="form-group">
-          <label for="fechaAG">Date:</label>
-          <div class="input-group date" id="reservationdate" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" name="fechaAG" id="fechaAG"
-              data-target="#reservationdate"  value=" {{formulario_municion.fechaAG.value}}" />
-             
-
-            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-          </div>
-          {% for error in formulario_municion.errors.fechaAG %}
-          <span class="error">{{ error }}</span>
-          {% endfor %}
+          <label for="fechaAG">{{formulario_municion.fechaAG.label}}:</label>
+          <input type="date" class="form-control" name="fechaAG" id="fechaAG"/>
         </div>
 
         <div class="form-group">
