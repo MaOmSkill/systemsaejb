@@ -191,6 +191,8 @@ def persona_index(request):
        formularios = PersonaForm(request.POST or None, request.FILES or None)
        if formularios.is_valid():
            formularios.save()
+           if 'img' in request.FILES:
+                formularios.instance.img = request.FILES['img']
            messages.success(request, "Se registro la Persona correctamente")
            return redirect('personas')
        else:
@@ -348,9 +350,18 @@ def abas_info(request, punto_id):
 def pdf_uno(request):
     try:
         year = request.GET.get('year', None)
+        fecha = datetime.now().date()
+        img_uno = settings.STATIC_ROOT + '/imagenes/imagen.png'
+        img_dos = settings.STATIC_ROOT + '/imagenes/dos.png'
         prueba = Personas.objects.filter(anio=year)
         template = get_template('pdf/pdf_uno.html')
-        context = {'prueba': prueba, 'year':year}
+        context = {
+                   'prueba': prueba,
+                   'year':year,
+                   'fecha':fecha,
+                   'img_uno':img_uno,
+                   'img_dos':img_dos
+                   }
         html = template.render(context)
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -367,8 +378,16 @@ def pdf_dos(request, pdf_id):
     try:
         person = Personas.objects.get(pk=pdf_id) 
         armas = ArmasDePersonas.objects.filter(persona=person)
+        fecha = datetime.now().date()
+        img_uno = settings.STATIC_ROOT + '/imagenes/imagen.png'
+        img_dos = settings.STATIC_ROOT + '/imagenes/dos.png'
         template = get_template('pdf/pdf_dos.html')
-        context = {'person': person, 'armas': armas}
+        context = {'person': person, 
+                   'armas': armas, 
+                   'fecha':fecha,
+                   'img_uno':img_uno,
+                   'img_dos':img_dos
+                   }
         html = template.render(context)
 
         response = HttpResponse(content_type='application/pdf')

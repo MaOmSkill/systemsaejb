@@ -58,6 +58,9 @@ class MunicionForm(forms.ModelForm):
                   'tercero']
    
 class PersonaForm(forms.ModelForm):
+    
+     fechaAG = forms.DateField(widget=forms.DateInput(format='%Y-%m-%d'))
+     
      class Meta:
         model = Personas
         fields = ['categoria',
@@ -77,6 +80,12 @@ class PersonaForm(forms.ModelForm):
                   'telefono', 
                   'correo', 'img']
         
+        
+        def __init__(self, *args, **kwargs):
+            super(PersonaForm, self).__init__(*args, **kwargs)
+            if self.instance and self.instance.pk:
+                self.fields['fechaAG'].widget.attrs['value'] = self.instance.fechaAG.strftime('%Y-%m-%d')
+      
 class ArmasDePersonasForm(forms.ModelForm):
     class Meta:
         model = ArmasDePersonas
