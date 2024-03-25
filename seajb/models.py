@@ -105,7 +105,7 @@ class Personas(models.Model):
     direccion = models.TextField(null=True, verbose_name='Dirección')
     telefono = models.CharField(max_length=100, verbose_name='Telefono')
     correo = models.CharField(max_length=100, verbose_name='Correo Electronico')
-    img = models.ImageField(upload_to='imagenes/',verbose_name="Imagen", null=True, blank=True, default='imagenes/default.jpg')
+    img = models.ImageField(upload_to='imagenes/',verbose_name="Imagen", null=True, blank=True, default='/imagenes/prueba.jpg')
     fecha = models.DateField(auto_now_add=True)
     
     def save(self, *args, **kwargs):

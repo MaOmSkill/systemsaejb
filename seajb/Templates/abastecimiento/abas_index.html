@@ -21,16 +21,18 @@
 {% endblock %}
 
 {% block contenido %}
-<div class="card card-primary w-100">
-  <div class="card-header border-0">
+<div class="card card-dark card-outline">
+  <div class="card-header">
     <div class="d-flex justify-content-between">
-      <h3 class="card-title"></h3>
-      <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#modalAbas">+PTOS</a>
+      <h3 class="card-title m-0"></h3>
+      <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalAbas"><i class="fas fa-plus-square"></i>
+        Nuevo
+      </a>
     </div>
   </div>
   <div class="card-body">
-    <table id="example1" class="table table-bordered table-striped">
-      <thead>
+    <table id="example1" class="table table-bordered table-striped  table-hover-blue">
+      <thead class="table-dark">
         <tr>
           <th>N°</th>
           <th>NOMBRE DEL PUNTO</th>

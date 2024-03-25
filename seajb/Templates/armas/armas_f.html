@@ -15,9 +15,7 @@
     <div class="form-group col-md-12">
       <label for="categoria">Categoria:</label>
       <select class="form-control" name="categoria" id="categoria">
-      <option value="">-----Seleccionar-----</option>
-        <option value="{{formulario_armas.categoria.value|default_if_none:''}}">
-        {{formulario_armas.categoria.value|default_if_none:''}}</option>
+        <option value="{{formulario_armas.categoria.value|default_if_none:''}}"> ACTUAL : {{formulario_armas.categoria.value|default_if_none:''}}</option>
         <option value="Blindado">Blindado</option>
         <option value="Artilleria">Artilleria</option>
         <option value="Portatiles">Portatiles</option>
