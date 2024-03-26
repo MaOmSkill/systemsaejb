@@ -69,6 +69,10 @@
       text-overflow: ellipsis;
     }
 
+    .custom-textarea {
+    margin: 0;
+    padding: 0;
+}
 
   </style>
 
@@ -230,7 +234,11 @@
 
   {% block js %} {% endblock %}
 
-
+<script>
+  $("#cerrarBoton").click(function () {
+    history.back();
+  });
+</script>
 <script>
 
   $(document).ready(function () {

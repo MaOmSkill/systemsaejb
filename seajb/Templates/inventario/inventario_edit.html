@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Editar Inventario {% endblock %}
+
+{% block seccion %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h5 class="m-0">Panel de Control de Edición</h5>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Información</a></li>
+          <li class="breadcrumb-item active">Edición</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+  <div class="card card-dark card-outline w-25">
+    <div class="card-header">
+      <h3 class="card-title m-0">Formulario de Edición del Inventario</h3>
+    </div>
+    <div class="card-body">
+      {% include 'inventario/inventario_formulario.html' %}
+    </div>
+  </div>
+</div>
+{% endblock%}
+
+
+
+  

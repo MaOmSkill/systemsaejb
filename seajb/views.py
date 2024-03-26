@@ -96,7 +96,7 @@ def batallon_edit(request, unidad_id):
         formularios = BatallonForm(request.POST, instance=elemento)
         if formularios.is_valid():
             nueva_compania = formularios.save()
-            messages.success(request, 'Se edito el Batallon con Exito')
+            messages.success(request, 'Se edito la Unidad con Exito')
             return redirect('resumen', resumen_id=nueva_compania.primero.id)
         else:
             messages.error(request, 'Faltaron campos por rellenar en el Formulario')
@@ -284,7 +284,33 @@ def inventario_index(request):
     else:
         formularios = ProductoForm()
     context = {'inventario':inventario, 'formulario':formularios}
-    return render(request, 'inventario/inventario_index.html', context)    
+    return render(request, 'inventario/inventario_index.html', context) 
+
+
+def inventario_edit(request, in_id):
+    inventario = Producto.objects.get(id=in_id)
+    if request.method == 'POST':
+        formularios = ProductoForm(request.POST or None , instance=inventario)
+        if formularios.is_valid():
+            formularios.save()
+            messages.success(request, 'Se edito el Inventario con Exito')
+            return redirect('inventario')
+        else:
+           messages.error(request, 'Faltaron campos por rellenar en el Formulario')
+    else:
+       formularios = ProductoForm(instance=inventario)
+    context = {'formulario': formularios}
+    return render(request, 'inventario/inventario_edit.html', context)
+
+
+def delete(request, id):
+    try:
+        registro = Producto.objects.get(id=id)
+        registro.delete()
+        messages.success(request, "Registro eliminado correctamente.")
+    except Producto.DoesNotExist:
+        messages.error(request, 'Algo Salio Mal', timer=8000)
+    return redirect('inventario') 
 
 def inventario_enviar(request):
     producto = Producto.objects.all()
@@ -546,9 +572,17 @@ def pdf_sexto(request, id):
     
 def pdf_sextimo(request, id):
     try:
+        fecha = datetime.now().date()
+        img_uno = settings.STATIC_ROOT + '/imagenes/imagen.png'
+        img_dos = settings.STATIC_ROOT + '/imagenes/dos.png'
         producto = Producto.objects.get(id=id)
         template = get_template('pdf/pdf_sextimo.html')
-        context ={'producto':producto}
+        context ={
+                  'producto':producto,
+                  'img_uno':img_uno,
+                   'img_dos':img_dos,
+                   'fecha':fecha,
+                  }
         html = template.render(context)
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment: filename="reporte.pdf'

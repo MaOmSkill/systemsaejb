@@ -35,8 +35,11 @@ urlpatterns = [
     #inventario
     path("inventario/inventario_index", views.inventario_index, name="inventario"),
     path("inventario/inventario_enviar", views.inventario_enviar, name="envio"),
+    path("inventario/inventario_edit/<int:in_id>", views.inventario_edit, name="edit_in"),
+    path("delete/<int:id>", views.delete, name="delete"),
     path("abastecimiento/abas_index", views.abastecimiento, name="abastecimiento"),
     path("abastecimiento/abas_info/<int:punto_id>", views.abas_info, name="info"),
+   
     
      # rutas de digitalización
      path('digital/digital_index', views.digital_index, name='digital'),

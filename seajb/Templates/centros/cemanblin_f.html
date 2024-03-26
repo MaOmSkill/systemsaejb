@@ -3,17 +3,26 @@
 
 <div class="form-group">
 <label for="unidad">{{formulario_cemanblin.unidad.label}}</label>
-<input type="text" class="form-control" name="unidad" id="unidad" placeholder="Nombre de Unidad"/>    
+<input type="text" class="form-control" name="unidad" id="unidad" placeholder="Nombre de Unidad"/>
+{% for error in formulario_cemanblin.unidad.errors %}
+<span class="error-message">{{ error }}</span>
+{% endfor %}
 </div>
 
 <div class="form-group">
   <label for="equipo">{{formulario_cemanblin.equipo.label}}</label>
   <textarea class="form-control" name="equipo" id="equipo" cols="30" rows="5"></textarea>
+  {% for error in formulario_cemanblin.equipo.errors %}
+  <span class="error-message">{{ error }}</span>
+  {% endfor %}
 </div>
 
 <div class="form-group">
   <label for="fechaE">{{formulario_cemanblin.fechaE.label}}</label>
   <input type="date" class="form-control" name="fechaE" id="fechaE" placeholder="Fecha de Entrega"/>
+  {% for error in formulario_cemanblin.fechaE.errors %}
+  <span class="error-message">{{ error }}</span>
+  {% endfor %}
 </div>
 
 <div class="form-group">

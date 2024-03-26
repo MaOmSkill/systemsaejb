@@ -45,9 +45,9 @@
           <td>{{datos.id}} </td>
           <td>{{datos.nombre}} </td>
           <td>
-            <a href="{% url 'info' datos.id %}" class="btn btn-success btn-xs"><i class="fas fa-solid fa-eye"></i></a>
-            <a href="#" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a>
-            <a href="#" class="btn btn-danger btn-xs" data-id="{{ datos.id }}"><i class="fas fa-solid fa-trash"></i></a>
+            <a href="{% url 'info' datos.id %}" class="btn btn-success "><i class="fas fa-solid fa-eye"></i></a>
+            <a href="#" class="btn btn-info"><i class="fas fa-solid fa-marker"></i></a>
+            <a href="#" class="btn btn-danger" data-id="{{ datos.id }}"><i class="fas fa-solid fa-trash"></i></a>
           </td>
         </tr>
         {% endfor %}
@@ -59,7 +59,7 @@
 <div class="modal fade" id="modalAbas" tabindex="1" aria-labelledby="tituloAbasdModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header bg-primary ">
+      <div class="modal-header bg-dark ">
         <h5 class="modal-title" id="tituloCantidadModal">Formulario Registro</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>

@@ -27,9 +27,6 @@
     <div class="d-flex justify-content-between">
       <form action="{% url 'pdf_uno' %}" method="get">
         <div class="row">
-          <!-- <div class="col-2">
-            <label for="year">Año:</label>
-          </div> -->
           <div class="col-12">
             <div class="input-group">
               <select class="form-control" name="year" id="year">
@@ -42,7 +39,7 @@
         </div>
       </form>
       <div class="form-group col-md-2 text-right">
-        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i></a>
+        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i> Nuevo</a>
       </div>
     </div>
   </div>
@@ -50,6 +47,7 @@
     <table id="example1" class="table table-bordered table-striped  table-hover-blue">
       <thead class="table-dark">
         <tr>
+          <th>N°</th>
           <th>FECHA</th>
           <th>CODIGO</th>
           <th>GRADO</th>
@@ -63,6 +61,7 @@
       <tbody>
         {% for datos in personas %}
         <tr>
+          <td>{{forloop.counter}}</td>
           <td>{{datos.fecha|date:"d/m/Y"}}</td>
           <td>{{datos.code}}</td>
           <td>{{datos.grado}}</td>
@@ -71,11 +70,9 @@
           <td>{{datos.cedula}} </td>
           <td>{{datos.anio}} </td>
           <td>
-            <a href="{% url 'informacion' datos.id %}" class="btn btn-success"><i
-                class="fas fa-solid fa-eye"></i></a>
-            <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info"><i
-                class="fas fa-solid fa-marker"></i></a>
-            <a href="{{datos.img.url}}" class="btn btn-warning" target="_blank"><i class="fas fa-download"></i></a>
+            <a href="{% url 'informacion' datos.id %}" class="btn btn-success btn-sm"><i class="fas fa-solid fa-eye"></i></a> |
+            <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
+            <a href="{{datos.img.url}}" class="btn btn-warning btn-sm" target="_blank"><i class="fas fa-download"></i></a>
           </td>
         </tr>
         {% endfor %}
@@ -119,7 +116,18 @@
     window.onload = ComboAno;
 
   </script>
-
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var yearSelect = document.getElementById('anio');
+    var currentYear = new Date().getFullYear();
+    for (var year = 1970; year <= currentYear; year++) {
+      var option = document.createElement('option');
+      option.value = year;
+      option.text = year;
+      yearSelect.appendChild(option);
+    }
+  });
+</script>
 
   {% endblock%}
     

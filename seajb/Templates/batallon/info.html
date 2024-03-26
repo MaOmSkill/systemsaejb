@@ -31,11 +31,11 @@
             <div class="card-header ">
                 <div class="d-flex justify-content-between">
                     <h3 class="card-title m-0">
-                    <a href="{% url 'pdf_tres' batallon.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+                    <a href="{% url 'pdf_tres' batallon.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> PDF</a>
                     </h3>
                     <h4>Armamento</h4>
                     <a href="" class="btn btn-success float-left" data-toggle="modal"
-                        data-target="#modalArmas"><i class="fas fa-plus-square"></i></a>
+                        data-target="#modalArmas"><i class="fas fa-plus-square"></i> Nuevo</a>
                 </div>
             </div>
             <div class="card-body table-responsive ">
@@ -87,11 +87,11 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <h3 class="card-title  m-0">
-                    <a href="{% url 'pdf_cuatro' batallon.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+                    <a href="{% url 'pdf_cuatro' batallon.id %}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> PDF</a>
                     </h3>
                     <h4>Municiones y Explosivos</h4>
                     <a href="#" class="btn btn-success float-left" data-toggle="modal"
-                        data-target="#modalMunicion"><i class="fas fa-plus-square"></i></a>
+                        data-target="#modalMunicion"><i class="fas fa-plus-square"></i> Nuevo</a>
                 </div>
             </div>
             <div class="card-body table-responsive">
@@ -128,7 +128,7 @@
         </div>
 
 <div class="modal fade" id="modalArmas" tabindex="-1" aria-labelledby="tituloArmasModal" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-dark ">
                 <h5 class="modal-title" id="tituloArmasModal">Formulario de las Armas</h5>

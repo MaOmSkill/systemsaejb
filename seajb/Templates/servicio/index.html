@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block titulo %} BRIGADAS, UNIDADES{% endblock %} 
+{% block titulo %} BRIGADAS {% endblock %} 
 
 
 {% block css %}
@@ -20,7 +20,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h5 class="m-0">Panel de Control</h5>
+        <h5 class="m-0">Panel de Control Brigadas y Grandes Comandos</h5>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -42,7 +42,7 @@
    <div class="card-header">
       <div class="d-flex justify-content-between">
         <h3 class="card-title m-0"></h3>
-        <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalBrigada"><i class="fas fa-plus-square"></i></a>
+        <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalBrigada"><i class="fas fa-plus-square"></i> Nuevo</a>
       </div>
     </div>
 
@@ -64,7 +64,7 @@
             <tbody>
               {% for tabla in servicios  %}
                 <tr>
-                    <td>{{tabla.id}}</td>
+                    <td>{{forloop.counter}}</td>
                     <td>{{tabla.fecha|date:"d/m/Y"}}</td>
                     <td>{{tabla.code}}</td>
                     <td>{{tabla.nombreB}}</td>
@@ -88,7 +88,7 @@
 <div class="modal fade" id="modalBrigada" tabindex="-1" aria-labelledby="modalTituloBrigada" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header bg-primary ">
+      <div class="modal-header bg-dark ">
         <h5 class="modal-title" id="modalTituloBrigada">Formulario de la Brigada</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>

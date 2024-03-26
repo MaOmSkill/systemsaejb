@@ -3,40 +3,58 @@
 
   <div class="row">
     <div class="form-group col-md-12">
-      <label for="nombre" class="form-label">{{formulario.nombre.label}} : </label>
-      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre">
+      <label for="nombre" class="form-label">{{formulario.nombre.label}}</label>
+      <input type="text" class="form-control" name="nombre" id="nombre" value="{{ formulario.nombre.value|default_if_none:'' }}"  placeholder="Producto">
+      {% for error in formulario.nombre.errors %}
+      <span class="error-message">{{ error }}</span>
+      {% endfor %}
     </div>
 
     <div class="form-group col-md-12">
       <label for="serial" class="form-label">{{formulario.serial.label}} :</label>
       <textarea class="form-control" name="serial" id="serial" cols="30" rows="5"
-        placeholder="Describe los seriales"></textarea>
+        placeholder="Describe los seriales">{{ formulario.serial.value|default_if_none:'' }}</textarea>
+        {% for error in formulario.serial.errors %}
+        <span class="error-message">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group col-md-12">
       <label for="modelo" class="form-label">{{formulario.modelo.label}} :</label>
-      <input type="text" class="form-control" name="modelo" id="modelo" placeholder="Modelo">
+      <input type="text" class="form-control" name="modelo" id="modelo" value="{{ formulario.modelo.value|default_if_none:'' }}"  placeholder="Modelo">
+      {% for error in formulario.modelo.errors %}
+      <span class="error-message">{{ error }}</span>
+      {% endfor %}
     </div>
 
     <div class="form-group col-md-12">
       <label for="descripcion" class="form-label">{{formulario.descripcion.label}} :</label>
-      <textarea  class="form-control" name="descripcion" id="descripcion" cols="10" rows="3" placeholder="Describe el Producto"></textarea>
+      <textarea  class="form-control" name="descripcion" id="descripcion" rows="3" placeholder="Describe el Producto">{{ formulario.descripcion.value|default_if_none:''}}</textarea>
+      {% for error in formulario.descripcion.errors %}
+      <span class="error-message">{{ error }}</span>
+      {% endfor %}
     </div>
 
    <div class="form-group col-md-12">
       <label for="cantidad" class="form-label">{{formulario.cantidad.label}} :</label>
-      <input type="number" class="form-control" name="cantidad" id="cantidad" placeholder="Cantidad">
+      <input type="number" class="form-control" name="cantidad" id="cantidad" value="{{formulario.cantidad.value|default_if_none:'' }}"  placeholder="500">
+      {% for error in formulario.cantidad.errors %}
+      <span class="error-message">{{ error }}</span>
+      {% endfor %}
     </div>
 
     <div class="form-group col-md-12">
       <label for="precio" class="form-label">{{formulario.precio.label}}:</label>
-      <input type="number" class="form-control" name="precio" id="precio" placeholder="Cantidad">
+      <input type="number" class="form-control" name="precio" id="precio" value="{{formularios.precio.value|default:''}}" placeholder="Precio" step="0.01">
+      {% for error in formulario.precio.errors %}
+      <span class="error-message">{{ error }}</span>
+      {% endfor %}
     </div>
   </div>
 
   <div class="modal-footer">
+   <button type="button" id="cerrarBoton" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
     <input type="submit" class="btn btn-primary float-left" value="Registrar">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
   </div>
 
 </form>

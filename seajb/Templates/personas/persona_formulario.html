@@ -57,16 +57,18 @@
 
     <div class="form-group col-md-2">
       <label for="anio" class="form-label">{{formulario.anio.label}}</label>
-      <input type="number" class="form-control" name="anio" id="anio" value="{{ formulario.anio.value|default_if_none:'' }}"
-        placeholder="Año">
+      <select class="form-control" name="anio" id="anio" aria-label="Seleccionar Grado">
+      <option value="{{ formulario.anio.value|default_if_none:'' }}">Actual : {{ formulario.anio.value|default_if_none:'' }}
+      </option>
+      </select>
       {% for error in formulario.errors.anio %}
       <span class="error">{{ error }}</span>
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label for="promocion" class="form-label">{{formulario.promocion.label}}</label>
-      <textarea class="form-control" name="promocion" id="promocion" cols="0" rows="2"  placeholder="Describe aquí...">{{formulario.promocion.value|default_if_none:''}}
+      <textarea class="form-control custom-textarea" name="promocion" id="promocion"  rows="2"  placeholder="Describe aquí...">{{formulario.promocion.value|default_if_none:''}}
       </textarea>
       {% for error in formulario.errors.promocion %}
       <span class="error">{{ error }}</span>
@@ -74,16 +76,16 @@
     </div>
 
   
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label for="unidad" class="form-label">{{formulario.unidad.label}}</label>
-      <textarea class="form-control" name="unidad" id="unidad"  rows="2" placeholder="Describe aquí...">{{formulario.unidad.value|default_if_none:'' }}
+      <textarea class="form-control custom-textarea" name="unidad" id="unidad" rows="2" placeholder="Describe aquí...">{{formulario.unidad.value|default_if_none:''}}
        </textarea>
       {% for error in formulario.errors.unidad %}
       <span class="error">{{ error }}</span>
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-7">
+    <div class="form-group col-md-6">
       <label for="datos" class="form-label">{{formulario.datos.label}} </label>
       <input type="text" class="form-control" name="datos" id="datos"
         value="{{ formulario.datos.value|default_if_none:'' }}" placeholder="Nombres y Apellidos">
@@ -92,7 +94,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-3">
       <label for="cedula" class="form-label">{{formulario.cedula.label}}</label>
       <input type="text" class="form-control" name="cedula" id="cedula"
         value="{{ formulario.cedula.value|default_if_none:'' }}" placeholder="Cedula">
@@ -101,9 +103,9 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-3">
       <label for="armaA" class="form-label">{{formulario.armaA.label}}</label>
-      <textarea class="form-control" name="armaA" id="armaA" cols="30" rows="2" placeholder="Describe aquí...">{{formulario.armaA.value|default_if_none:''}}
+      <textarea class="form-control custom-textarea" name="armaA" id="armaA" rows="2" placeholder="Describe aquí...">{{formulario.armaA.value|default_if_none:''}}
       </textarea>
       {% for error in formulario.errors.armaA %}
       <span class="error">{{ error }}</span>
@@ -119,7 +121,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
       <label for="serialAG" class="form-label">{{formulario.serialAG.label}}</label>
       <input type="text" class="form-control" name="serialAG" id="serialAG"
         value="{{ formulario.serialAG.value|default_if_none:'' }}" placeholder="Serial de Asignación">
@@ -128,7 +130,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-2">
       <label for="fechaAG">Fecha de Asignación</label>
       <input type="date" name="fechaAG" id="fechaAG" class="form-control"/>
       {% for error in formulario.errors.fechaAG %}
@@ -154,8 +156,8 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-4">
-      <label for="telefono" class="form-label">{{formulario.telefono.label}}</label>
+    <div class="form-group col-md-2">
+      <label for="telefono" class="form-label">{{formulario.telefono.label}}:</label>
       <input type="tel" class="form-control" name="telefono" id="telefono"
         value="{{ formulario.telefono.value|default_if_none:'' }}" placeholder="Telefono">
       {% for error in formulario.errors.telefono %}
@@ -163,8 +165,8 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-6">
-      <label for="correo" class="form-label">{{formulario.correo.label}}</label>
+    <div class="form-group col-md-4">
+      <label for="correo" class="form-label">{{formulario.correo.label}}:</label>
       <input type="email" class="form-control" name="correo" id="correo"
         value="{{ formulario.correo.value|default_if_none:'' }}"  placeholder="user@example.com">
       {% for error in formulario.errors.correo %}
@@ -172,9 +174,9 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-6">
-      <label for="direccion" class="form-label">{{formulario.direccion.label}}</label>
-      <textarea class="form-control" name="direccion" id="direccion" cols="30" rows="2"  placeholder="Describe aquí...">{{formulario.direccion.value|default_if_none:''}}
+    <div class="form-group col-md-12">
+      <label for="direccion" class="form-label">{{formulario.direccion.label}}:</label>
+      <textarea class="form-control custom-textarea" name="direccion" id="direccion"  rows="2"  placeholder="Describe aquí...">{{formulario.direccion.value|default_if_none:''}}
       </textarea>
       {% for error in formulario.errors.direccion %}
       <span class="error">{{ error }}</span>
@@ -182,8 +184,8 @@
     </div>
 
     <div class="form-group col-md-12">
-      <label for="img" class="form-label">{{formulario.img.label}} </label>
-      <input type="file" name="img" id="img" value="{{ formulario.img.value|default_if_none:'' }}" >
+      <label for="img" class="form-label">{{formulario.img.label}}:</label>
+      <input type="file" name="img" id="img" value="{{formulario.img.value|default_if_none:'' }}" >
       <img src="{{personas.img.url}}" alt="" width="20px">
       {% for error in formulario.errors.img %}
       <span class="error">{{ error }}</span>

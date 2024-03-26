@@ -1,8 +1,8 @@
 <form action="" enctype="multipart/form-data" method="post">
   {% csrf_token %}
 
-
-  <div class="form-group col-md-12">
+<div class="row">
+  <div class="form-group col-md-6">
     <label for="segundo">Unidad:</label>
     <select class="form-control" id="segundo" name="segundo">
       <option value="{{batallon.id}}">{{batallon.id}} - {{batallon.nombreB}}</option>
@@ -12,10 +12,10 @@
     {% endfor %}
   </div>
 
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
       <label for="categoria">Categoria:</label>
       <select class="form-control" name="categoria" id="categoria">
-        <option value="{{formulario_armas.categoria.value|default_if_none:''}}"> ACTUAL : {{formulario_armas.categoria.value|default_if_none:''}}</option>
+        <option value="{{formulario_armas.categoria.value|default_if_none:''}}"> Actual : {{formulario_armas.categoria.value|default_if_none:''}}</option>
         <option value="Blindado">Blindado</option>
         <option value="Artilleria">Artilleria</option>
         <option value="Portatiles">Portatiles</option>
@@ -28,7 +28,7 @@
       {% endfor %}
     </div>
 
-  <div class="form-group">
+  <div class="form-group col-md-4">
     <label for="tipoA" class="form-label"> {{formulario_armas.tipoA.label}} </label>
     <input type="text" class="form-control" name="tipoA" id="tipoA"
       value="{{ formulario_armas.tipoA.value|default_if_none:'' }}" placeholder="Blindado, Artilleria, Otros" />
@@ -37,7 +37,7 @@
     {% endfor %}
   </div>
 
-  <div class="form-group ">
+  <div class="form-group col-md-4">
     <label for="modeloA" class="form-label">{{formulario_armas.modeloA.label}}</label>
     <input type="text" class="form-control" name="modeloA" id="modeloA"
       value="{{ formulario_armas.modeloA.value|default_if_none:'' }}" placeholder="Arma, Blindado, Artilleria Otros" />
@@ -46,7 +46,7 @@
     {% endfor %}
   </div>
 
-  <div class="form-group">
+  <div class="form-group col-md-4">
     <label for="calibreA" class="form-label">{{formulario_armas.calibreA.label}}</label>
     <input type="text" class="form-control" name="calibreA" id="calibreA"
       value="{{ formulario_armas.calibreA.value|default_if_none:'' }}" placeholder="Arma, Blindado, Artilleria" />
@@ -55,16 +55,16 @@
     {% endfor %}
   </div>
 
-  <div class="form-group">
+  <div class="form-group col-md-12">
     <label for="serialA" class="form-label">{{formulario_armas.serialA.label}}</label>
-    <textarea class="form-control" name="serialA" id="serialA" cols="30" rows="5"
+    <textarea class="form-control" name="serialA" id="serialA" rows="5"
       placeholder="Coloque los seriales necesarios">{{formulario_armas.serialA.value|default_if_none:'' }}</textarea>
     {% for error in formulario_armas.errors.serialA %}
     <span class="error">{{ error }}</span>
     {% endfor %}
   </div>
 
-  <div class="form-group">
+  <div class="form-group col-md-4">
     <label for="serialAG" class="form-label">{{formulario_armas.serialAG.label}}</label>
     <input type="text" class="form-control" name="serialAG" id="serialAG"
       value="{{formulario_armas.serialAG.value|default_if_none:'' }}" placeholder=" Blindado, Artilleria , Otros" />
@@ -73,7 +73,7 @@
     {% endfor %}
   </div>
 
-  <div class="form-group">
+  <div class="form-group col-md-2">
     <label for="fechaAG" class="form-label">{{formulario_armas.fechaAG.label}}</label>
     <input type="date" class="form-control" name="fechaAG" id="fechaAG"
       value="{{formulario_armas.fechaAG.value|default_if_none:'' }}" placeholder="Fecha de Asignación" />
@@ -82,7 +82,7 @@
     {% endfor %}
   </div>
 
-  <div class="form-group">
+  <div class="form-group col-md-2">
     <label for="opAM">{{formulario_armas.opAM.label}}</label>
     <select class="form-control" name="opAM" id="opAM">
       <option value="{{formulario_armas.opAM.value|default_if_none:''}}">SELECCION: {{formulario_armas.opAM.value|default_if_none:''}}</option>
@@ -96,9 +96,7 @@
     {% endfor %}
   </div>
 
-
-  <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-2">
       <label for="cantidadA" class="form-label">{{formulario_armas.cantidadA.label}}</label>
       <input type="number" class="form-control" name="cantidadA" id="cantidadA"
         value="{{formulario_armas.cantidadA.value|default_if_none:'' }}" placeholder="500" />
@@ -107,7 +105,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-2">
       <label for="cantidadC" class="form-label">{{formulario_armas.cantidadC.label}}</label>
       <input type="number" class="form-control" name="cantidadC" id="cantidadC"
         value="{{formulario_armas.cantidadC.value|default_if_none:'' }}" placeholder="500" />
@@ -139,12 +137,13 @@
   </div>
 
 
+
   <div id="prueba1" style="display: none;">
 
     <div class="form-group">
       <label for="calibreS" class="form-label">Tipo,Modelo,Calibre</label>
       <textarea class="form-control" name="calibreS" id="calibreS" cols="30" rows="5"
-        placeholder="Blindado, Artilleria, Otros">No{{formulario_armas.calibreS.value|default_if_none:''}}</textarea>
+        placeholder="Blindado, Artilleria, Otros">{{formulario_armas.calibreS.value|default_if_none:''}}</textarea>
       {% for error in formulario_armas.errors.calibreS %}
       <span class="error">{{ error }}</span>
       {% endfor %}
@@ -153,7 +152,7 @@
     <div class="form-group">
       <label for="serialS" class="form-label">Serial de Arma Segundaria</label>
       <textarea class="form-control" name="serialS" id="serialS" cols="30" rows="5"
-        placeholder="Blindado, Artilleria, Otros">No{{formulario_armas.serialS.value|default_if_none:''}}</textarea>
+        placeholder="Blindado, Artilleria, Otros">{{formulario_armas.serialS.value|default_if_none:''}}</textarea>
       {% for error in formulario_armas.errors.serialS %}
       <span class="error">{{ error }}</span>
       {% endfor %}

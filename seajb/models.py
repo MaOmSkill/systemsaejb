@@ -105,7 +105,7 @@ class Personas(models.Model):
     direccion = models.TextField(null=True, verbose_name='Dirección')
     telefono = models.CharField(max_length=100, verbose_name='Telefono')
     correo = models.CharField(max_length=100, verbose_name='Correo Electronico')
-    img = models.ImageField(upload_to='imagenes/',verbose_name="Imagen", null=True, blank=True, default='/imagenes/prueba.jpg')
+    img = models.ImageField(upload_to='imagenes/',verbose_name="Imagen", null=True, blank=True, default='/imagenes/nohay.jpg')
     fecha = models.DateField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
@@ -178,13 +178,25 @@ class UnidadDigital(models.Model):
 #  INVENTARIO saejb
 
 class Producto(models.Model):
-    nombre = models.CharField(max_length=255)
-    serial = models.CharField(max_length=100, verbose_name='Serial')
-    modelo = models.CharField(max_length=100, verbose_name='Modelo')
+    code = models.CharField(max_length=200, unique=True)
+    nombre = models.CharField(max_length=300, verbose_name="Producto:")
+    serial = models.TextField(null=True, verbose_name='Serial')
+    modelo = models.CharField(max_length=500, verbose_name='Modelo')
     descripcion = models.TextField(verbose_name="Descripción", null=True)
     fecha_entrada = models.DateField(auto_now_add=True)
     cantidad = models.IntegerField(default=0)
-    precio = models.DecimalField(max_digits=6, decimal_places=2)
+    precio = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
+    
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = self.generar_unico_producto()
+        super().save(*args, **kwargs)
+    
+    @staticmethod
+    def generar_unico_producto():
+        prefix = 'SAPRO' 
+        suffix = ''.join(str(random.randint(0, 9)) for _ in range(6))
+        return f'{prefix}{suffix}'
     
     def __str__(self):
         return self.nombre, self.cantidad, self.descripcion, self.serial, self.modelo
@@ -193,7 +205,7 @@ class Producto(models.Model):
         return self.cantidad * self.precio
 
 class Abastecimiento(models.Model):
-    nombre = models.CharField(max_length=255)
+    nombre = models.CharField(max_length=255, verbose_name='Punto de Abastecimiento')
     productos = models.ManyToManyField(Producto, through='ProductoAbastecimiento')
     
     def __str__(self):
