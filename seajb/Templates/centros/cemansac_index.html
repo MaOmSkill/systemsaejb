@@ -29,7 +29,7 @@
     <div class="d-flex justify-content-between">
       <h3 class="card-title m-0"></h3>
       <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalCemansac"><i
-          class="fas fa-plus-square"></i></a>
+          class="fas fa-plus-square"></i> Nuevo</a>
     </div>
   </div>
 
@@ -38,34 +38,36 @@
       <thead class="table-dark">
         <tr>
           <th class="text-center">N° ORDEN</th>
+          <th class="text-center">CODE</th>
           <th class="text-center">UNIDAD</th>
+          <th class="text-center">EQUIPO</th>
           <th class="text-center">F-RECEPCIÓN</th>
           <th class="text-center">F-ENTREGA</th>
-          <th class="text-center">REPARADO</th>
-          <th class="text-center">REPARACIÓN</th>
+          <th class="text-center">CONDICIÓN</th>
           <th class="text-center">SERIALES</th>
           <th class="text-center">DESCRIPCIÓN</th>
-          <th class="text-center">FIRMAS</th>
           <th class="text-center">ACCIONES</th>
         </tr>
       </thead>
       <tbody>
+        {% for cemansac in cemansac %}
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>{{forloop.counter}}</td>
+          <td>{{cemansac.code}}</td>
+          <td>{{cemansac.unidad}}</td>
+          <td>{{cemansac.equipo}}</td>
+          <td>{{cemansac.fechaR|date:"d/m/Y"}}</td>
+          <td>{{cemansac.fechaE|date:"d/m/Y"}}</td>
+          <td>{{cemansac.reparado}}</td>
+          <td>{{cemansac.seriales}}</td>
+          <td>{{cemansac.descripcion}}</td>
           <td>
-            <a href="#" class="btn btn-success btn-sm"><i class="nav-icon fas fa-eye"></i></a> |
             <a href="#" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
+            <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-file-pdf"></i></a> |
             <a href="#" class="btn btn-danger btn-sm" data-id="#"><i class="fas fa-solid fa-trash"></i></a>
           </td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

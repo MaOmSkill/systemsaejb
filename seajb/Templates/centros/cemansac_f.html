@@ -1,0 +1,57 @@
+<form action="" enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="unidad">{{formulario_cemansac.unidad.label}}</label>
+    <input type="text" class="form-control" name="unidad" id="unidad" placeholder="Nombre de Unidad" />
+    {% for error in formulario_cemansac.unidad.errors %}
+    <span class="error-message">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="equipo">{{formulario_cemansac.equipo.label}}</label>
+    <textarea class="form-control" name="equipo" id="equipo" rows="5" placeholder="Descripción del Equipo"></textarea>
+    {% for error in formulario_cemansac.equipo.errors %}<span class="error-message">{{ error }}</span>{% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="fechaE">{{formulario_cemansac.fechaE.label}}</label>
+    <input type="date" class="form-control" name="fechaE" id="fechaE" placeholder="Fecha de Entrega" />
+    {% for error in formulario_cemansac.fechaE.errors %}<span class="error-message">{{ error }}</span>{% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="reparado">{{formulario_cemansac.reparado.label}}</label>
+    <select class="form-control" name="reparado" id="reparado">
+      <option value="Reparado">Reparado</option>
+      <option value="Reparando">Reparando</option>
+    </select>
+    {% for error in formulario_cemansac.reparado.errors %}<span class="error-message">{{ error }}</span>{% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="seriales">{{formulario_cemansac.seriales.label}}</label>
+    <textarea class="form-control" name="seriales" id="seriales" rows="5" placeholder="Describe aqui......"></textarea>
+    {% for error in formulario_cemansac.seriales.errors %}<span class="error-message">{{ error }}</span>{% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="descripcion">{{formulario_cemansac.descripcion.label}}</label>
+    <textarea class="form-control" name="descripcion" id="descripcion"  rows="5" placeholder="Describe aqui......"></textarea>
+    {% for error in formulario_cemansac.descripcion.errors %}<span class="error-message">{{ error }}</span>{% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label for="personauna">{{formulario_cemansac.personauna.label}}</label>
+    <input type="text" class="form-control" name="personauna" id="personauna" placeholder="Persona que Entrega el equipo" />
+    <input type="text" class="form-control" name="personados" id="personados" placeholder="Persona que Recibe el equipo" />
+    <input type="text" class="form-control" name="personatres" id="personatres" placeholder="Persona que Realiza la Orden" />
+  </div>
+
+
+  <div class="modal-footer">
+    <button type="button" id="cerrarBoton" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+    <input type="submit" class="btn btn-dark float-left" value="GUARDAR">
+  </div>
+</form>

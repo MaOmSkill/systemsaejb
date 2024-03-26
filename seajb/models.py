@@ -254,5 +254,63 @@ class Cemanblin(models.Model):
     def __str__(self):
         return f"{self.unidad}, {self.fechaE}, {self.reparado}, {self.seriales}, {self.descripcion}, {self.personauna}, {self.personados}, {self.personatres}, {self.equipo}"
     
+class Cemantar(models.Model):
+    code = models.CharField(max_length=200, unique=True)
+    unidad = models.CharField(max_length=300, verbose_name='Nombre de la Unidad')
+    equipo = models.TextField(verbose_name='Equipo', null=True)
+    fechaR = models.DateField(auto_now_add=True)
+    fechaE = models.DateField(verbose_name='Fecha de Entrega')
+    reparado = models.BooleanField(default=False)
+    seriales = models.TextField(null=True, blank=True)
+    descripcion = models.TextField(blank=True, null=True)
+    personauna = models.CharField(max_length=300, verbose_name='Personas a Firmar')
+    personados = models.CharField(max_length=300)
+    personatres = models.CharField(max_length=300)
+    
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = self.generate_unique_code()
+        super().save(*args, **kwargs)
+    
+    @staticmethod
+    def generate_unique_code():
+        prefix = 'CMANT'
+        while True:
+            suffix = ''.join(str(random.randint(0, 9)) for _ in range(6))
+            code = f'{prefix}{suffix}'
+            if not Cemanblin.objects.filter(code=code).exists():
+                return code
+            
+    def __str__(self):
+        return f"{self.unidad}, {self.fechaE}, {self.reparado}, {self.seriales}, {self.descripcion}, {self.personauna}, {self.personados}, {self.personatres}, {self.equipo}"
 
+class Cemansac(models.Model):
+    code = models.CharField(max_length=200, unique=True)
+    unidad = models.CharField(max_length=300, verbose_name='Nombre de la Unidad')
+    equipo = models.TextField(verbose_name='Equipo', null=True)
+    fechaR = models.DateField(auto_now_add=True)
+    fechaE = models.DateField(verbose_name='Fecha de Entrega')
+    reparado = models.BooleanField(default=False)
+    seriales = models.TextField(null=True, blank=True)
+    descripcion = models.TextField(blank=True, null=True)
+    personauna = models.CharField(max_length=300, verbose_name='Personas a Firmar')
+    personados = models.CharField(max_length=300)
+    personatres = models.CharField(max_length=300)
+    
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = self.generate_unique_code()
+        super().save(*args, **kwargs)
+    
+    @staticmethod
+    def generate_unique_code():
+        prefix = 'CMASC'
+        while True:
+            suffix = ''.join(str(random.randint(0, 9)) for _ in range(6))
+            code = f'{prefix}{suffix}'
+            if not Cemanblin.objects.filter(code=code).exists():
+                return code
+            
+    def __str__(self):
+        return f"{self.unidad}, {self.fechaE}, {self.reparado}, {self.seriales}, {self.descripcion}, {self.personauna}, {self.personados}, {self.personatres}, {self.equipo}"
     

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import DateInput
-from .models import Brigada, Batallones, Armas, Municiones, Personas,BrigadaDigital, UnidadDigital, Abastecimiento , Producto, ProductoAbastecimiento, ArmasDePersonas, Cemanblin
+from .models import Brigada, Batallones, Armas, Municiones, Personas,BrigadaDigital, UnidadDigital, Abastecimiento , Producto, ProductoAbastecimiento, ArmasDePersonas, Cemanblin, Cemantar, Cemansac
 
 
 class BrigadaForm(forms.ModelForm):
@@ -131,7 +131,30 @@ class CemanblinForm(forms.ModelForm):
                   'equipo',
                   'unidad']
         
-        
+class CemantarForm(forms.ModelForm):
+    class Meta:
+        model = Cemantar
+        fields = ['fechaE',
+                  'reparado',
+                  'seriales',
+                  'descripcion',
+                  'personauna',
+                  'personados',
+                  'personatres',
+                  'equipo',
+                  'unidad']
+class CemansacForm(forms.ModelForm):
+    class Meta:
+        model = Cemansac
+        fields = ['fechaE',
+                  'reparado',
+                  'seriales',
+                  'descripcion',
+                  'personauna',
+                  'personados',
+                  'personatres',
+                  'equipo',
+                  'unidad']       
         
 
     

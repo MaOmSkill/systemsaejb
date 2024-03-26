@@ -1,4 +1,5 @@
 import io, sweetify, os ,logging, tempfile
+from django.contrib.auth.decorators import login_required
 from io import BytesIO
 from django.db.models import Q
 from django.utils import timezone
@@ -14,8 +15,9 @@ from django.template.loader import render_to_string
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, FileResponse
-from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDigital, UnidadDigital, Abastecimiento,  Producto,ProductoAbastecimiento, ArmasDePersonas, Cemanblin
-from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm, ArmasDePersonasForm, CemanblinForm
+from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDigital, UnidadDigital, Abastecimiento,  Producto,ProductoAbastecimiento, ArmasDePersonas, Cemanblin, Cemantar, Cemansac
+from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm, ArmasDePersonasForm, CemanblinForm, CemantarForm, CemansacForm
+
 
 
 def principal(request):
@@ -395,7 +397,7 @@ def pdf_uno(request):
         pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
             messages.error(request, 'Error al generar el PDF', extra_tags='alert-danger')
-            return redirect('servicio')
+            return redirect('personas')
         return response
     except:
         return redirect('personas')
@@ -557,7 +559,7 @@ def pdf_sexto(request, id):
         response['Content-Disposition'] = f'attachment; filename="reporte.pdf"'
         pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
-            messages.error(request, 'Error al generar el PDF', timer=8000)
+            messages.error(request, 'Error al generar el PDF')
             return HttpResponse('We had some errors <pre>' + html + '</pre>')
         return response
     except Municiones.DoesNotExist:
@@ -567,7 +569,7 @@ def pdf_sexto(request, id):
         messages.error(request, 'PDF de Batallones no Encontrada')
         return redirect('servicio')
     except Brigada.DoesNotExist:
-        messages.error(request, 'PDF de Batallones no Encontrada')
+        messages.error(request, 'PDF de Brigada no Encontrada')
         return redirect('servicio')
     
 def pdf_sextimo(request, id):
@@ -588,35 +590,81 @@ def pdf_sextimo(request, id):
         response['Content-Disposition'] = f'attachment: filename="reporte.pdf'
         pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
-            sweetify.error(request, 'Error al generar el PDF', timer=8000)
-            return redirect('servicio')
+            messages.error(request, 'Error al generar el PDF')
+            return redirect('inventario')
         return response
     except Producto.DoesNotExist:
-        sweetify.error(request, 'PDF del Producto no Encontrado', timer=8000)
+        messages.error(request, 'PDF del Producto no Encontrado')
+        return redirect('inventario')
+    
+    
+def pdf_ocho(request):
+    try:
+        fecha = datetime.now().date()
+        img_uno = settings.STATIC_ROOT + '/imagenes/imagen.png'
+        img_dos = settings.STATIC_ROOT + '/imagenes/dos.png'
+        producto = Producto.objects.all()
+        template = get_template('pdf/pdf_ocho.html')
+        context ={
+                  'producto':producto,
+                  'img_uno':img_uno,
+                   'img_dos':img_dos,
+                   'fecha':fecha,
+                  }
+        html = template.render(context)
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment: filename="reporte.pdf'
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            messages.error(request, 'Error al generar el PDF', timer=8000)
+            return redirect('inventario')
+        return response
+    except Producto.DoesNotExist:
+        messages.error(request, 'PDF de la Lista de Producto no Encontrado', timer=8000)
         return redirect('inventario')
     
 # AQUI ESTAN LOS CENTROS DE REPARACIONES
 def cemantar(request):
-    return render(request, 'centros/cemantar_index.html')
+    cemantar = Cemantar.objects.all()
+    if request.method == 'POST':
+        formulario_cemantar = CemantarForm(request.POST)
+        if formulario_cemantar.is_valid():
+            formulario_cemantar.save()
+            messages.success(request, 'El Registro del Equipo Cemantar se efectuó con Éxito')
+            return redirect('cemantar')
+        else:
+            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
+    else:
+        formulario_cemantar = CemantarForm()
+    context = {'cemantar': cemantar, 'formulario_cemantar': formulario_cemantar}
+    return render(request, 'centros/cemantar_index.html', context)
+
 def cemansac(request):
-    return render(request, 'centros/cemansac_index.html')
+    cemansac = Cemansac.objects.all()
+    if request.method == 'POST':
+        formulario_cemansac = CemansacForm(request.POST)
+        if formulario_cemansac.is_valid():
+            formulario_cemansac.save()
+            messages.success(request, 'El Registro del Equipo Cemansac se efectuó con Éxito')
+            return redirect('cemansac')
+        else:
+            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
+    else:
+        formulario_cemansac = CemansacForm()
+    context = {'cemansac': cemansac, 'formulario_cemansac': formulario_cemansac}
+    return render(request, 'centros/cemansac_index.html', context)
 
 def cemanblin(request):
     cemanblin = Cemanblin.objects.all()
-    
     if request.method == 'POST':
         formulario_cemanblin = CemanblinForm(request.POST)
-        
         if formulario_cemanblin.is_valid():
             formulario_cemanblin.save()
-            
-            messages.success(request, 'El Registro del Equipo se efectuó con Éxito')
+            messages.success(request, 'El Registro del Equipo Cemanblin se efectuó con Éxito')
             return redirect('cemanblin')
         else:
             messages.error(request, 'Faltaron campos por rellenar en el Formulario')
-    
     else:
         formulario_cemanblin = CemanblinForm()
-    
     context = {'cemanblin': cemanblin, 'formulario_cemanblin': formulario_cemanblin}
     return render(request, 'centros/cemanblin_index.html', context)

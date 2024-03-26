@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+   
     #vista principal de las brigadas, eliminar, editar y ver unidades
     path("", views.principal, name="principal"),
     path("servicio/index", views.servicio, name="servicio"),
@@ -31,6 +32,7 @@ urlpatterns = [
     path("pdf/pdf_cinco/<int:pdf_id>", views.pdf_cinco, name="pdf_cinco"),
     path("pdf/pdf_sexto/<int:id>", views.pdf_sexto, name="pdf_sexto"),
     path("pdf/sextimo/<int:id>", views.pdf_sextimo, name="pdf_sextimo"),
+    path("pdf/ocho", views.pdf_ocho, name="pdf_ocho"),
     
     #inventario
     path("inventario/inventario_index", views.inventario_index, name="inventario"),

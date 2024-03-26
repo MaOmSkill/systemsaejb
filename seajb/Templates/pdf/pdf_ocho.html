@@ -52,7 +52,7 @@
     </tbody>
     <tbody>
       <tr>
-        <td colspan="4" style="text-align: left;">Codigo-D : {{producto.code}}</td>
+        <td colspan="4" style="text-align: left;"></td>
         <td colspan="5" style="text-align: center;"></td>
         <td colspan="4" style="text-align: center;"></td>
         <td colspan="4" style="text-align: right;">{{fecha}}</td>
@@ -64,49 +64,34 @@
   <table class="bodertabla">
     <thead>
       <tr>
-        <th colspan="15" style="padding: 10px; border: 1px solid black">
-             PRODUCTO REGISTRADO EN EL INVENTARIO
+        <th colspan="25" style="padding: 10px; border: 1px solid black">
+          LISTA DE LOS PRODUCTO REGISTRADOS EN EL INVENTARIO SAEJB
         </th>
       </tr>
     </thead>
     <thead>
       <tr>
-        <th colspan="3">PRODUCTO</th>
-        <th colspan="3">MODELO</th>
+        <th colspan="1">N°</th>
+        <th colspan="3">CODIGO</th>
+        <th colspan="6">PRODUCTO</th>
+        <th colspan="6">MODELO</th>
         <th colspan="3">CANTIDAD</th>
         <th colspan="3">PRECIO</th>
         <th colspan="3">TOTAL</th>
       </tr>
     </thead>
     <tbody>
+    {% for producto in producto %}
       <tr>
-        <td colspan="3" style="width: auto; text-align: center;">{{producto.nombre}}</td>
-        <td colspan="3" style="width: auto; text-align: center;">{{producto.modelo}}</td>
+        <td colspan="1" style="width: auto; text-align: center;">{{forloop.counter}}</td>
+        <td colspan="3" style="width: auto; text-align: center;">{{producto.code}}</td>
+        <td colspan="6" style="width: auto; text-align: center;">{{producto.nombre}}</td>
+        <td colspan="6" style="width: auto; text-align: center;">{{producto.modelo}}</td>
         <td colspan="3" style="width: auto; text-align: center;">{{producto.cantidad}}</td>
         <td colspan="3" style="width: auto; text-align: center;">{{producto.precio}}</td>
         <td colspan="3" style="width: auto; text-align: center;">{{producto.total}}</td>
       </tr>
-    </tr>
-    <thead>
-      <tr>
-        <th colspan="15" style="padding: 10px;">SERIAL DEL PRODUCTO</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td colspan="15">{{producto.serial}}</td>
-      </tr>
-    </tbody>
-    <thead>
-      <tr>
-        <th colspan="15" style="padding: 10px;" style="width: auto;">DESCRIPCIÓN</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td colspan="15">{{producto.descripcion}}</td>
-      </tr>
-    </tbody>
+    {% endfor %}
   </table>
 
   <table>
@@ -126,4 +111,5 @@
     </thead>
   </table>
 </body>
+
 </html>
