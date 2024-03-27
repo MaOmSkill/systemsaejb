@@ -42,7 +42,9 @@
    <div class="card-header">
       <div class="d-flex justify-content-between">
         <h3 class="card-title m-0"></h3>
+          {% if perms.seajb.add_brigada %}
         <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalBrigada"><i class="fas fa-plus-square"></i> Nuevo</a>
+        {% endif %}
       </div>
     </div>
 
@@ -73,9 +75,15 @@
                     <td>{{tabla.correo}}</td>
                     <td>{{tabla.ubicacionB}}</td>
                     <td>
+                    {% if perms.seajb.view_brigada %}
                       <a href="{% url 'resumen' tabla.id %}"   class="btn btn-success btn-sm"><i class="nav-icon fas fa-eye"></i></a> | 
-                      <a href="{% url 'editar' tabla.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> | 
-                      <a href="#"  class="btn btn-danger btn-sm" data-id="{{ tabla.id }}" ><i class="fas fa-solid fa-trash"></i></a> 
+                    {% endif %}
+                    {% if perms.seajb.change_brigada %}
+                      <a href="{% url 'editar' tabla.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
+                    {% endif %}
+                    {% if perms.seajb.delete_brigada %}
+                      <a href="#"  class="btn btn-danger btn-sm" data-id="{{ tabla.id }}" ><i class="fas fa-solid fa-trash"></i></a>
+                    {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

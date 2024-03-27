@@ -39,7 +39,10 @@
         </div>
       </form>
       <div class="form-group col-md-2 text-right">
-        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i> Nuevo</a>
+      {% if perms.seajb.add_personas %}
+      <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i>
+        Nuevo</a>
+      {% endif %}
       </div>
     </div>
   </div>
@@ -70,9 +73,18 @@
           <td>{{datos.cedula}} </td>
           <td>{{datos.anio}} </td>
           <td>
+          {% if perms.seajb.view_personas %}
             <a href="{% url 'informacion' datos.id %}" class="btn btn-success btn-sm"><i class="fas fa-solid fa-eye"></i></a> |
+            {% endif %}
+
+            {% if perms.seajb.change_personas %}
             <a href="{% url 'personas_editar'  datos.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
+              {% endif %}
+
+            {% if perms.seajb.view_personas %}
             <a href="{{datos.img.url}}" class="btn btn-warning btn-sm" target="_blank"><i class="fas fa-download"></i></a>
+              
+            {% endif %}
           </td>
         </tr>
         {% endfor %}

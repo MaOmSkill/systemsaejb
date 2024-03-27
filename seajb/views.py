@@ -8,6 +8,7 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.contrib.staticfiles import finders
 from xhtml2pdf import pisa
+from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
@@ -19,12 +20,12 @@ from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDig
 from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm, ArmasDePersonasForm, CemanblinForm, CemantarForm, CemansacForm
 
 
-
+@login_required
 def principal(request):
     return render(request,'servicio/principal.html')
 
 # tabla principal editar , eliminar y crear brigadas
-
+@login_required
 def servicio(request):
     servicio = Brigada.objects.all()
     if request.method == 'POST':
@@ -40,6 +41,7 @@ def servicio(request):
     context = {'servicios':servicio, 'formulario': formularios}
     return render(request, 'servicio/index.html', context)
 
+@login_required
 def editar(request,brigada_id):
     elemento = Brigada.objects.get(id=brigada_id)
     if request.method == 'POST':
@@ -55,7 +57,7 @@ def editar(request,brigada_id):
     context = {'formulario': form}
     return render(request, 'servicio/editar.html', context)
 
-
+@login_required
 def eliminar(request, id):
     try:
         registro = Brigada.objects.get(id=id)
@@ -68,7 +70,7 @@ def eliminar(request, id):
 
 # cada brigada tiene unidades que a su vez tienen armamento y municiones pueden ver y editar 
 # aqui con este codigo muestra el resumen completo de la brigada y puede crear unidades de esas brigada de acuerdo a su id agregado
-        
+@login_required  
 def resumen(request, resumen_id):
     try:
         primero = Brigada.objects.get(id=resumen_id)
@@ -89,7 +91,7 @@ def resumen(request, resumen_id):
         formularios = BatallonForm()
     context = {'servicios': servicio,'primero': primero,'formulario': formularios,}
     return render(request, 'servicio/resumen.html', context)
-
+@login_required
 def batallon_edit(request, unidad_id):
     elemento = Batallones.objects.get(id=unidad_id)
     primero = Brigada.objects.get(id=elemento.primero.id)
@@ -111,7 +113,7 @@ def batallon_edit(request, unidad_id):
 
 # este codigo puede usted ver la informacion completa de las unidades y registrar armas y municiones
 # tambien ver la tabla completa de las armas y municiones registradas que dependen de esa unidad que a su vez depende de una brigada
-
+@login_required
 def info(request, unidad_id):
     try:
         batallon = Batallones.objects.get(id=unidad_id)
@@ -151,7 +153,7 @@ def info(request, unidad_id):
     }
     return render(request, 'batallon/info.html', context)
     
-    
+@login_required
 def armas_edit(request, arma_id):
     elemento = Armas.objects.get(id=arma_id)
     segundo = Batallones.objects.get(id=elemento.segundo.id)
@@ -168,7 +170,7 @@ def armas_edit(request, arma_id):
         formulario_armas = ArmaForm(instance=elemento)
     context = {'formulario_armas': formulario_armas, 'batallon': segundo}
     return  render(request,'batallon/batallon_armas_edit.html', context)
-
+@login_required
 def municion_edit(request,  municion_id):
     elemento = Municiones.objects.get(id=municion_id)
     tercero = Batallones.objects.get(id=elemento.tercero.id)
@@ -187,6 +189,7 @@ def municion_edit(request,  municion_id):
     return render(request, 'batallon/batallon_municion_edit.html',context)
     
 # tabla principal, crear, editar y eliminar personas 
+@login_required
 def persona_index(request):
     personas = Personas.objects.all()
     if request.method == 'POST':
@@ -668,3 +671,6 @@ def cemanblin(request):
         formulario_cemanblin = CemanblinForm()
     context = {'cemanblin': cemanblin, 'formulario_cemanblin': formulario_cemanblin}
     return render(request, 'centros/cemanblin_index.html', context)
+def exit(request):
+    logout(request)
+    return redirect('principal')

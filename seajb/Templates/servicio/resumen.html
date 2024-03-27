@@ -1,87 +1,95 @@
 {% extends "base.html" %}
 
 
-{% block titulo %} Principal {% endblock %} 
+{% block titulo %} Principal {% endblock %}
 
 
 {% block seccion %}
 <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h5 class="m-0">Panel de Brigadas</h5>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{% url 'servicio' %}">Lista</a></li>
-            <li class="breadcrumb-item active">Brigada</li>
-            <li class="breadcrumb-item active">Unidades</li>
-            <li class="breadcrumb-item active">Armamento</li>
-            <li class="breadcrumb-item active">Municiones</li>
-          </ol>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h5 class="m-0">Panel de Brigadas</h5>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'servicio' %}">Lista</a></li>
+          <li class="breadcrumb-item active">Brigada</li>
+          <li class="breadcrumb-item active">Unidades</li>
+          <li class="breadcrumb-item active">Armamento</li>
+          <li class="breadcrumb-item active">Municiones</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
 </div>
 {% endblock %}
 
 
 {% block contenido %}
 <div class="card card-dark card-outline">
-   <div class="card-header">
-      <div class="d-flex justify-content-between">
-        <h3 class="card-title m-0"></h3>
-        <p>{{primero.nombreB}} - {{primero.code}}</p>
-        <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i> Nuevo</a>
-      </div>
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <h3 class="card-title m-0"></h3>
+      <p>{{primero.nombreB}} - {{primero.code}}</p>
+      {% if perms.seajb.add._batallones %}
+      <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#exampleModal"><i
+          class="fas fa-plus-square"></i> Nuevo</a>
+      {% endif %}
     </div>
-        <div class="card-body">
-            <table id="example2" class="table table-bordered table-striped table-hover-blue">
-                <thead class="table-dark">
-                    <tr>
-                        <th class="text-center">FECHA-R</th>
-                        <th class="text-center">UNIDAD DE LA BRIGADA</th>
-                        <th class="text-center">COMANDANTE DE LA UNIDAD</th>
-                        <th class="text-center">TELEFONO</th>
-                        <th class="text-center">CORREO</th>
-                        <th class="text-center">UBICACIÓN</th>
-                        <th class="text-center">ACCIONES</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for datos in   servicios %}
-                    <tr>
-                      <td>{{datos.fecha|date:"dmY"}}</td>
-                        <td>{{datos.nombreB}} </td>
-                        <td>{{datos.comandante}} </td>
-                        <td>{{datos.telefono}} </td>
-                        <td>{{datos.correo}} </td>
-                        <td>{{datos.ubicacionB}} </td>
-                        <td>
-                            <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-sm"><i class="fas fa-solid fa-eye"></i></a> |
-                            <a href="{% url 'batallon_edit' datos.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+  </div>
+  <div class="card-body">
+    <table id="example2" class="table table-bordered table-striped table-hover-blue">
+      <thead class="table-dark">
+        <tr>
+          <th class="text-center">FECHA-R</th>
+          <th class="text-center">UNIDAD DE LA BRIGADA</th>
+          <th class="text-center">COMANDANTE DE LA UNIDAD</th>
+          <th class="text-center">TELEFONO</th>
+          <th class="text-center">CORREO</th>
+          <th class="text-center">UBICACIÓN</th>
+          <th class="text-center">ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for datos in servicios %}
+        <tr>
+          <td>{{datos.fecha|date:"dmY"}}</td>
+          <td>{{datos.nombreB}} </td>
+          <td>{{datos.comandante}} </td>
+          <td>{{datos.telefono}} </td>
+          <td>{{datos.correo}} </td>
+          <td>{{datos.ubicacionB}} </td>
+          <td>
+            {% if perms.seajb.view_batallones %}
+            <a href="{%url 'infor' datos.id %}" class="btn btn-success btn-sm"><i class="fas fa-solid fa-eye"></i></a> |
+            {% endif %}
+            {% if perms.seajb.change_batallones %}
+            <a href="{% url 'batallon_edit' datos.id %}" class="btn btn-info btn-sm"><i
+                class="fas fa-solid fa-marker"></i></a> |
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-dark ">
-          <h5 class="modal-title" id="exampleModalLabel">Formulario de la Unidad de la Brigada</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            {% include 'batallon/batallon_f.html' %}
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-dark ">
+        <h5 class="modal-title" id="exampleModalLabel">Formulario de la Unidad de la Brigada</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% include 'batallon/batallon_f.html' %}
       </div>
     </div>
+  </div>
 
-{% endblock %}
+  {% endblock %}
