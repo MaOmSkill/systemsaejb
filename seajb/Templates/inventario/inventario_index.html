@@ -25,13 +25,19 @@
 <div class="card card-dark card-outline">
   <div class="card-header">
     <div class="d-flex justify-content-between">
+    {% if perms.seajb.add_producto %}
       <h3 class="card-title m-0"><a href="{% url 'envio' %}" class="btn btn-warning"><i
             class="fas fa-hand-holding-usd fs-1"></i> ENVIO</a></h3>
-        
-              <a href="{% url 'pdf_ocho' %}" class="btn btn-danger"><i class="fas fa-file-pdf fs-1"></i> PDF</a>
-          
+      {% endif %}
+
+    {% if perms.seajb.view_producto %}
+        <a href="{% url 'pdf_ocho' %}" class="btn btn-danger"><i class="fas fa-file-pdf fs-1"></i> PDF</a>
+    {% endif %}
+
+      {% if perms.seajb.add_producto %}
       <a href="#" class="btn btn-success float-letf" data-toggle="modal" data-target="#modalInventario"><i
           class="fas fa-plus-square fs-1"></i> Nuevo</a>
+      {% endif %}
     </div>
   </div>
   <div class="card-body">
@@ -66,9 +72,15 @@
             <td>{{inventario.precio}}</td>
             <td>{{inventario.total}}</td>
             <td>
+            {% if perms.seajb.view_producto %}
             <a href="{% url 'pdf_sextimo' inventario.id %}" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf fs-1"></i></a> |
+            {% endif %}
+            {% if perms.seajb.change_producto %}
             <a href="{% url 'edit_in' inventario.id %}" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
+            {% endif %}
+            {% if perms.seajb.delete_producto %}
             <a href="#" class="btn btn-dark btn-sm" data-id="{{inventario.id}}"><i class="fas fa-solid fa-trash"></i></a>
+            {% endif %}
             </td>
           </tr>
           {% endfor %}

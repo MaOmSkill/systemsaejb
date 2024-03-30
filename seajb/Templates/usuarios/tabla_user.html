@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Usuarios y Permisos {% endblock %}
+
+{% block seccion %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h5 class="m-0">Panel de Control de Usuarios</h5>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Usuarios</a></li>
+          <li class="breadcrumb-item active">Permisos</li>
+          <li class="breadcrumb-item active">Grupos</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block contenido %}
+
+<div class="card card-dark card-outline">
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <h3 class="card-title m-0"> Usuarios</h3>
+
+      <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalUsuario"><i
+          class="fas fa-plus-square"></i> Nuevo</a>
+      
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive-lg">
+      <table class="table table-bordered table-striped  table-hover-blue">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">N°</th>
+            <th scope="col">Fecha de Acceso</th>
+            <th scope="col">Nombre Usuario</th>
+            <th scope="col">Nombres</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Condición</th>
+            <th scope="col">Ultimo Acceso</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for usuarios in usuarios %}
+          <tr class="">
+            <td>{{usuarios.id}}</td>
+            <td>{{usuarios.date_joined|date:"d/m/Y"}}</td>
+            <td>{{usuarios.username}}</td>
+            <td>{{usuarios.first_name}}</td>
+            <td>{{usuarios.last_name}}</td>
+            <td>{{usuarios.email}}</td>
+          <td><input type="checkbox" name="is_staff" id="is_staff" {% if usuarios.is_staff %}checked{% endif %} data-bootstrap-switch data-off-color="danger" data-on-color="success"></td>
+            <td>{{usuarios.last_login|date:"d/m/Y"}}</td>
+            <td>
+            <a href="{% url 'info_user' usuarios.id  %}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-eye"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalTituloUsuario" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-dark ">
+        <h5 class="modal-title" id="modalTituloUsuario">Formulario de la Brigada</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

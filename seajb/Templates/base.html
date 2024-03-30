@@ -128,10 +128,12 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
+            {% if perms.seajb.view_personas %}
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-user-edit"></i>
                 <p>Personal <i class="fas fa-angle-left right"></i><span class="badge badge-info right">1</span></p>
               </a>
+              {% endif %}
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="{% url 'personas' %}" class="nav-link"><i class="nav-icon fa fa-circle fa-xs"
@@ -142,15 +144,19 @@
               </ul>
             </li>
             <li class="nav-item">
+            {% if perms.seajb.view_brigada %}
               <a href="{% url 'servicio' %}" class="nav-link"><i class="nav-icon fas fa-campground"></i>
                 <p>Brigadas</p>
               </a>
+              {% endif %}
             </li>
             <li class="nav-item">
+            {% if perms.seajb.view_producto %}
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-solid fa-clipboard-list"></i>
                 <p>Inventario<i class="fas fa-angle-left right"></i><span class="badge badge-info right">2</span></p>
               </a>
+              {% endif %}
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="{% url 'inventario' %}" class="nav-link"><i class="fa fa-circle nav-icon"
@@ -164,15 +170,19 @@
               </ul>
             </li>
             <li class="nav-item">
+            {% if perms.seajb.view_abastecimiento %}
               <a href="{% url 'abastecimiento' %}" class="nav-link"><i class="nav-icon fas fa-poo-storm "></i>
                 <p>Abastecimiento</p>
               </a>
+              {% endif %}
             </li>
             <li class="nav-item">
+            {% if perms.seajb.view_cemantar %}
               <a href="#" class="nav-link">
                 <i class="nav-icon fa fa-wrench" aria-hidden="true"></i>
                 <p>Centros<i class="fas fa-angle-left right"></i><span class="badge badge-info right">3</span></p>
               </a>
+              {% endif %}
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="{% url 'cemantar'%}" class="nav-link"><i class="fa fa-circle nav-icon" style="font-size: 0.5rem;"></i>
@@ -188,9 +198,29 @@
               </ul>
             </li>
             <li class="nav-item">
+            {% if perms.seajb.view_brigadadigital %}
               <a href="{% url 'digital' %}" class="nav-link"><i class="nav-icon fas fa-solid fa-image"></i>
                 <p>Digitalización</p>
               </a>
+              {% endif %}
+            </li>
+            <li class="nav-item">
+            {% if perms.seajb.view_user %}
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-solid fa-user" aria-hidden="true"></i>
+                <p>Usuarios<i class="fas fa-angle-left right"></i><span class="badge badge-info right">2</span></p>
+              </a>
+                {% endif %}
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                <a href="{% url 'usuarios'%}" class="nav-link"><i class="fa fa-circle nav-icon" style="font-size: 0.5rem;"></i>
+                  <p>Tabla de Usuario</p>
+                </a>
+                  <a href="#" class="nav-link"><i class="fa fa-circle nav-icon" style="font-size: 0.5rem;"></i>
+                    <p>Historial</p>
+                  </a>
+                </li>
+              </ul>
             </li>
           </ul>
         </nav>
@@ -225,6 +255,8 @@
   <script src="/static/plugins/sweetalert2/sweetalert2.min.js"></script>
   <!-- Select2 -->
   <script src="/static/plugins/select2/js/select2.full.min.js"></script>
+  <!-- Bootstrap4 Duallistbox -->
+  <script src="/static/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
   <!-- date-range-picker -->
   <script src="/static/plugins/daterangepicker/daterangepicker.js"></script>
   <!-- bootstrap color picker -->
@@ -363,5 +395,6 @@
   </script>
   {% endfor %}
   {% endif %}
+
 </body>
 </html>

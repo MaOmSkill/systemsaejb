@@ -52,6 +52,11 @@ urlpatterns = [
      path('centros/cemansac_index', views.cemansac, name='cemansac'),
      path('centros/cemanblin_index', views.cemanblin, name='cemanblin'),
      
+     #rutas de usuario 
+     #path('usuarios/permisos',views.permisos,name ='permisos'),
+     path('usuarios/tabla_user',views.usuarios,name ='usuarios'),
+     path('usuarios/info_user/<int:user_id>',views.info_user,name ='info_user'),
+     
      #login
      path('logout/', views.exit, name='exit'),
      

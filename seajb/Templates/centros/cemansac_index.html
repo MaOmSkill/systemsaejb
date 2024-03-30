@@ -28,8 +28,10 @@
   <div class="card-header">
     <div class="d-flex justify-content-between">
       <h3 class="card-title m-0"></h3>
+      {% if perms.seajb.add_cemansac %}
       <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalCemansac"><i
           class="fas fa-plus-square"></i> Nuevo</a>
+        {% endif %}
     </div>
   </div>
 
@@ -62,9 +64,15 @@
           <td>{{cemansac.seriales}}</td>
           <td>{{cemansac.descripcion}}</td>
           <td>
+          {% if perms.saejb.view_cemansac %}
             <a href="#" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
+            {% endif %}
+            {% if perms.saejb.change_cemansac%}
             <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-file-pdf"></i></a> |
+            {% endif %}
+            {% if perms.saejb.delete.cemansac %}
             <a href="#" class="btn btn-danger btn-sm" data-id="#"><i class="fas fa-solid fa-trash"></i></a>
+            {% endif %}
           </td>
         </tr>
         {% endfor %}

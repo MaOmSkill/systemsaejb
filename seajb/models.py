@@ -313,4 +313,4 @@ class Cemansac(models.Model):
             
     def __str__(self):
         return f"{self.unidad}, {self.fechaE}, {self.reparado}, {self.seriales}, {self.descripcion}, {self.personauna}, {self.personados}, {self.personatres}, {self.equipo}"
-    
+

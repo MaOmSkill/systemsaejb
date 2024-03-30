@@ -28,8 +28,10 @@
   <div class="card-header">
     <div class="d-flex justify-content-between">
       <h3 class="card-title m-0"></h3>
+      {% if perms.seajb.add_cemablin %}
       <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalCemanblin"><i
           class="fas fa-plus-square"></i> Nuevo</a>
+        {% endif %}
     </div>
   </div>
 
@@ -59,12 +61,17 @@
         <td>{{cemanblin.seriales}}</td>
         <td>{{cemanblin.descripcion}}</td>
         <td>
+        {% if perms.seajb.change_cemanblin %}
         <a href="#" class="btn btn-info btn-sm"><i class="fas fa-solid fa-marker"></i></a> |
+        {% endif %}
+        {% if perms.seajb.view_cemanblin %}
         <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-file-pdf"></i></a> |
+        {% endif %}
+        {% if perms.seajb.delete_cemanblin %}
         <a href="#" class="btn btn-danger btn-sm" data-id="#"><i class="fas fa-solid fa-trash"></i></a>
+        {% endif %}
         </td>
         </tr>
-
           {% endfor %}
       </tbody>
     </table>

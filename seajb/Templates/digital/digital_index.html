@@ -7,11 +7,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h5 class="m-0">Panel de Control</h5>
+        <h5 class="m-0">Panel de Control Datos Digitalizados</h5>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Tabla</a></li>
+          <li class="breadcrumb-item"><a href="#">Información</a></li>
+          <li class="breadcrumb-item">Digital Escaneo por Brigadas y Unidades</li>
         </ol>
       </div>
     </div>
@@ -21,17 +22,19 @@
 
 
 {% block contenido %}
-<div class="card card-primary">
-  <div class="card-header border-0">
+<div class="card card-dark card-outline">
+  <div class="card-header">
     <div class="d-flex justify-content-between">
-      <h3 class="card-title"></h3>
-      <a href="#" class="btn btn-success float-left btn-xs" data-toggle="modal" data-target="#modalDigital">Agregar</a>
+      <h3 class="card-title m-0"></h3>
+      {% if perms.seajb.add_digital %} 
+      <a href="#" class="btn btn-success float-left" data-toggle="modal" data-target="#modalDigital"><i class="fas fa-plus-square"></i> Nuevo</a>
+      {% endif %}
     </div>
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table id="example1" class="table table-striped table-hover table-borderless table-primary align-middle">
-        <thead class="table-light">
+      <table id="example1" class="table table-bordered table-striped  table-hover-blue">
+        <thead class="table-dark">
           <tr>
             <th>N°</th>
             <th>ENTRADA</th>
@@ -39,17 +42,23 @@
             <th>ACCIONES</th>
           </tr>
         </thead>
-        <tbody class="table-group-divider">
+        <tbody>
 
         {% for dital in digitales  %}
-          <tr class="table-primary">
+          <tr>
             <td scope="row">{{dital.id}}</td>
             <td>{{dital.fecha_entrada}}</td>
             <td>{{dital.nombre}}</td>
             <td>
-            <a href="{% url 'infodig' dital.id %}" class="btn btn-success btn-xs"><i class="nav-icon fas fa-eye"></i></a> |
-            <a href="#" class="btn btn-info btn-xs"><i class="fas fa-solid fa-marker"></i></a> | 
-            <a href="#" class="btn btn-danger btn-xs"><i class="fas fa-solid fa-trash"></i></a> 
+            {% if perms.seajb.view_digital %}
+            <a href="{% url 'infodig' dital.id %}" class="btn btn-success"><i class="nav-icon fas fa-eye"></i></a> |
+            {% endif %}
+            {% if perms.seajb.change_digital %}
+            <a href="#" class="btn btn-info"><i class="fas fa-solid fa-marker"></i></a> |
+            {% endif %}
+            {% if perms.seajb.delete_digital %}
+            <a href="#" class="btn btn-danger"><i class="fas fa-solid fa-trash"></i></a>
+            {% endif %}
             </td>
           </tr>
            {% endfor %}

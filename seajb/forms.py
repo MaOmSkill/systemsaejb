@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import DateInput
+from django.contrib.auth.models import User, Permission
 from .models import Brigada, Batallones, Armas, Municiones, Personas,BrigadaDigital, UnidadDigital, Abastecimiento , Producto, ProductoAbastecimiento, ArmasDePersonas, Cemanblin, Cemantar, Cemansac
 
 
@@ -156,5 +157,12 @@ class CemansacForm(forms.ModelForm):
                   'equipo',
                   'unidad']       
         
+class EditUserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(), required=False)
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'password', 'is_active', 'is_staff', 'is_superuser' ,'user_permissions']
+        exclude = ('user_permissions',)
+        
 
-    
+   

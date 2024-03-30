@@ -207,6 +207,7 @@ def persona_index(request):
     context = {'personas':personas, 'formulario': formularios}
     return render(request, 'personas/persona_index.html', context) 
 
+@login_required
 def personas_editar(request,personas_id):
     personas = Personas.objects.get(id=personas_id)
     if request.method == 'POST':
@@ -222,6 +223,7 @@ def personas_editar(request,personas_id):
     context = {'formulario':formularios, 'personas':personas}
     return render(request, 'personas/personas_editar.html', context)
 
+@login_required
 def persona_informacion(request, persona_id):
     person = Personas.objects.get(pk=persona_id)  
     armas = ArmasDePersonas.objects.filter(persona=person)
@@ -240,7 +242,7 @@ def persona_informacion(request, persona_id):
     return render(request, 'personas/persona_informacion.html', context)
 
 # digitalización
-
+@login_required
 def digital_index(request):
     digitales = BrigadaDigital.objects.all()
     if request.method == 'POST':
@@ -256,6 +258,7 @@ def digital_index(request):
     context = {'digitales': digitales, 'formulario': formularios}
     return render(request, 'digital/digital_index.html', context)
 
+@login_required
 def digital_info(request, digital_id):
     digital = BrigadaDigital.objects.get(pk=digital_id)
     digitales = UnidadDigital.objects.filter(digital=digital)
@@ -276,6 +279,7 @@ def digital_info(request, digital_id):
     return render(request, 'digital/digital_info.html', context)
 
 #INVENTARIO
+@login_required
 def inventario_index(request):
     inventario = Producto.objects.all()
     if request.method == 'POST':
@@ -292,6 +296,7 @@ def inventario_index(request):
     return render(request, 'inventario/inventario_index.html', context) 
 
 
+@login_required
 def inventario_edit(request, in_id):
     inventario = Producto.objects.get(id=in_id)
     if request.method == 'POST':
@@ -307,7 +312,7 @@ def inventario_edit(request, in_id):
     context = {'formulario': formularios}
     return render(request, 'inventario/inventario_edit.html', context)
 
-
+@login_required
 def delete(request, id):
     try:
         registro = Producto.objects.get(id=id)
@@ -315,8 +320,9 @@ def delete(request, id):
         messages.success(request, "Registro eliminado correctamente.")
     except Producto.DoesNotExist:
         messages.error(request, 'Algo Salio Mal', timer=8000)
-    return redirect('inventario') 
+    return redirect('inventario')
 
+@login_required
 def inventario_enviar(request):
     producto = Producto.objects.all()
     punto = Abastecimiento.objects.all()
@@ -349,6 +355,7 @@ def inventario_enviar(request):
     context = {'formulario': formularios, 'producto': producto, 'punto': punto}
     return render(request, 'inventario/inventario_enviar.html', context)
 
+@login_required
 def abastecimiento(request):
     abasto = Abastecimiento.objects.all()
     if request.method == 'POST':
@@ -364,7 +371,7 @@ def abastecimiento(request):
 
     context = {'abasto': abasto, 'formulario': formularios}
     return render(request, 'abastecimiento/abas_index.html', context)
-
+@login_required
 def abas_info(request, punto_id):
     try:
         abastecimiento = Abastecimiento.objects.get(id=punto_id)
@@ -378,6 +385,7 @@ def abas_info(request, punto_id):
 
 # PDF IMPRIMIR REPORTES TODOS LOS PDf del MODULO DE PERSONAS, Y BRIGADAS,UNIDADES, MUNICIONES Y ARMAS
 
+@login_required
 def pdf_uno(request):
     try:
         year = request.GET.get('year', None)
@@ -404,7 +412,8 @@ def pdf_uno(request):
         return response
     except:
         return redirect('personas')
-    
+
+@login_required  
 def pdf_dos(request, pdf_id):
     try:
         person = Personas.objects.get(pk=pdf_id) 
@@ -432,7 +441,7 @@ def pdf_dos(request, pdf_id):
         messages.error(request, 'Persona no encontrada')
         return redirect('personas')
 
-
+@login_required
 def pdf_tres(request, pdf_id):
     try:
         fecha = datetime.now().date()
@@ -468,7 +477,7 @@ def pdf_tres(request, pdf_id):
         messages.error(request, 'PDF de Armas no Encontrada')
         return redirect('servicio')
   
-    
+@login_required
 def pdf_cuatro(request, pdf_id):
     try:
         fecha = datetime.now().date()
@@ -504,6 +513,7 @@ def pdf_cuatro(request, pdf_id):
         messages.error(request, 'PDF de Municion no Encontrada')
         return redirect('servicio')
     
+@login_required
 def pdf_cinco(request, pdf_id):
     try:
         fecha = datetime.now().date()
@@ -537,7 +547,7 @@ def pdf_cinco(request, pdf_id):
         sweetify.error(request, 'PDF de Brigada no Encontrada', timer=8000)
         return redirect('servicio')
     
-
+@login_required
 def pdf_sexto(request, id):
     try:
         fecha = datetime.now().date()
@@ -627,6 +637,7 @@ def pdf_ocho(request):
         return redirect('inventario')
     
 # AQUI ESTAN LOS CENTROS DE REPARACIONES
+@login_required
 def cemantar(request):
     cemantar = Cemantar.objects.all()
     if request.method == 'POST':
@@ -642,6 +653,7 @@ def cemantar(request):
     context = {'cemantar': cemantar, 'formulario_cemantar': formulario_cemantar}
     return render(request, 'centros/cemantar_index.html', context)
 
+@login_required
 def cemansac(request):
     cemansac = Cemansac.objects.all()
     if request.method == 'POST':
@@ -657,6 +669,7 @@ def cemansac(request):
     context = {'cemansac': cemansac, 'formulario_cemansac': formulario_cemansac}
     return render(request, 'centros/cemansac_index.html', context)
 
+@login_required
 def cemanblin(request):
     cemanblin = Cemanblin.objects.all()
     if request.method == 'POST':
@@ -671,6 +684,49 @@ def cemanblin(request):
         formulario_cemanblin = CemanblinForm()
     context = {'cemanblin': cemanblin, 'formulario_cemanblin': formulario_cemanblin}
     return render(request, 'centros/cemanblin_index.html', context)
+
+
+# USUARIOS Y RESGISTROS Y PERMISOS
+from django.contrib.auth.models import User, Permission
+from .forms import EditUserForm
+
+""" def permisos(request):
+    permissions = Permission.objects.all()
+    context = {'permissions': permissions}
+    return render(request, 'usuarios/permisos.html', context) """
+
+def usuarios(request):
+    usuarios = User.objects.all()
+    context = {'usuarios': usuarios}
+    return render(request, 'usuarios/tabla_user.html', context)
+
+def info_user(request, user_id):
+    info_user = get_object_or_404(User, id=user_id)
+    permissions = Permission.objects.all() # Obtiene todos los permisos disponibles
+    assigned_permissions_ids = info_user.user_permissions.values_list('id', flat=True)
+    
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=info_user)
+        if form.is_valid():
+            info_user = form.save(commit=False)
+            if form.cleaned_data['password']:
+                info_user.set_password(form.cleaned_data['password'])
+            info_user.save()
+            
+            # Asignar permisos seleccionados
+            selected_permissions_ids = request.POST.getlist('user_permissions')
+            selected_permissions = Permission.objects.filter(id__in=selected_permissions_ids)
+            info_user.user_permissions.set(selected_permissions)
+            messages.success(request, 'Se Actualizo con Éxito')
+            return redirect('usuarios')
+        else:
+            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
+    else:
+        form = EditUserForm(instance=info_user)
+    context = {'info_user': info_user, 'permissions': permissions, 'assigned_permissions_ids': assigned_permissions_ids, 'form': form}
+    return render(request, 'usuarios/info_user.html', context)
+
+
 def exit(request):
     logout(request)
     return redirect('principal')
