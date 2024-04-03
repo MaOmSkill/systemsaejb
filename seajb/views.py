@@ -688,16 +688,21 @@ def cemanblin(request):
 
 # USUARIOS Y RESGISTROS Y PERMISOS
 from django.contrib.auth.models import User, Permission
-from .forms import EditUserForm
-
-""" def permisos(request):
-    permissions = Permission.objects.all()
-    context = {'permissions': permissions}
-    return render(request, 'usuarios/permisos.html', context) """
+from .forms import EditUserForm, RegisterForm
 
 def usuarios(request):
     usuarios = User.objects.all()
-    context = {'usuarios': usuarios}
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Se Registro Usuario con Éxito')
+            return redirect('usuarios')
+        else:
+            messages.error(request, 'Faltan Campos por Rellenar o la Contraseña no Coinciden')
+    else:
+        form = RegisterForm()
+    context = {'usuarios': usuarios , 'form' : form }
     return render(request, 'usuarios/tabla_user.html', context)
 
 def info_user(request, user_id):

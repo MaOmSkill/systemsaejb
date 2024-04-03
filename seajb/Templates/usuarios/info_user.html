@@ -59,5 +59,18 @@
     $('.duallistbox').bootstrapDualListbox('refresh');
   });
 </script>
+
+  <script>
+    document.getElementById('togglePassword').addEventListener('click', function (e) {
+      var passwordInput = document.getElementById('password');
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        e.target.innerHTML = '<i class="fa fa-eye-slash"></i>';
+      } else {
+        passwordInput.type = "password";
+        e.target.innerHTML = '<i class="fa fa-eye"></i>';
+      }
+    });
+  </script>
 {% endblock %}
   

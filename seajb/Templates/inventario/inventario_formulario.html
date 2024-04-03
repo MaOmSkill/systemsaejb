@@ -4,7 +4,7 @@
   <div class="row">
     <div class="form-group col-md-12">
       <label for="nombre" class="form-label">{{formulario.nombre.label}}</label>
-      <input type="text" class="form-control" name="nombre" id="nombre" value="{{ formulario.nombre.value|default_if_none:'' }}"  placeholder="Producto">
+      <input type="text" class="form-control" name="nombre" id="nombre" value="{{formulario.nombre.value|default_if_none:'' }}"  placeholder="Producto">
       {% for error in formulario.nombre.errors %}
       <span class="error-message">{{ error }}</span>
       {% endfor %}

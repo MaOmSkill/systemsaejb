@@ -161,8 +161,24 @@ class EditUserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), required=False)
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password', 'is_active', 'is_staff', 'is_superuser' ,'user_permissions']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password', 'is_active', 'is_staff', 'is_superuser' ,'user_permissions' ]
         exclude = ('user_permissions',)
         
+        
+class RegisterForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    password1 = forms.CharField(widget=forms.PasswordInput)
+    first_name = forms.CharField(max_length=100, label='Nombre')
+    last_name= forms.CharField(max_length=100,label="Apellido")
 
-   
+    class Meta:
+        model = User
+        fields = ['username','first_name', 'last_name', 'password', 'password1']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password1 = cleaned_data.get("password1")
+
+        if password and password1 and password != password1:
+            raise forms.ValidationError("Las contraseñas no coinciden")
