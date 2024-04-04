@@ -159,15 +159,22 @@ class CemansacForm(forms.ModelForm):
         
 class EditUserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), required=False)
+    password1 = forms.CharField(widget=forms.PasswordInput)
     
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'is_active', 'password', 'is_staff', 'is_superuser' ,'user_permissions' ]
+        fields = ['username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser' ,'user_permissions' ]
         exclude = ('user_permissions',)
         
-   
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password1 = cleaned_data.get("password1")
+
+        if password and password1 and password != password1:
+            raise forms.ValidationError("Las contraseñas no coinciden")
         
-        
+
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password1 = forms.CharField(widget=forms.PasswordInput)

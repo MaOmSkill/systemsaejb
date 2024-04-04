@@ -701,7 +701,7 @@ def usuarios(request):
             messages.success(request, 'Se Registro Usuario con Éxito')
             return redirect('usuarios')
         else:
-            messages.error(request, 'Faltan Campos por Rellenar o la Contraseña no Coinciden')
+            messages.error(request, 'FaltanCampos por Rellenar o la Contraseña no Coinciden')
     else:
         form = RegisterForm()
     context = {'usuarios': usuarios , 'form' : form }
@@ -722,10 +722,11 @@ def info_user(request, user_id):
             else:
                 # Preserve existing password if not provided
                 user.password = info_user.password
-            user.save()
+
             selected_permissions_ids = request.POST.getlist('user_permissions')
             selected_permissions = Permission.objects.filter(id__in=selected_permissions_ids)
             info_user.user_permissions.set(selected_permissions)
+            user.save()
             messages.success(request, 'Se Actualizo con Éxito')
             return redirect('usuarios')
         else:
