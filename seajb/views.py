@@ -695,7 +695,9 @@ def usuarios(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False) # No guarda el usuario todavía
+            user.set_password(form.cleaned_data['password']) # Aplica el hash a la contraseña
+            user.save() # Ahora guarda el usuario con la contraseña hasheada
             messages.success(request, 'Se Registro Usuario con Éxito')
             return redirect('usuarios')
         else:
@@ -705,20 +707,22 @@ def usuarios(request):
     context = {'usuarios': usuarios , 'form' : form }
     return render(request, 'usuarios/tabla_user.html', context)
 
+
 def info_user(request, user_id):
     info_user = get_object_or_404(User, id=user_id)
-    permissions = Permission.objects.all() # Obtiene todos los permisos disponibles
+    permissions = Permission.objects.all() 
     assigned_permissions_ids = info_user.user_permissions.values_list('id', flat=True)
     
     if request.method == 'POST':
         form = EditUserForm(request.POST, instance=info_user)
         if form.is_valid():
-            info_user = form.save(commit=False)
+            user = form.save(commit=False)
             if form.cleaned_data['password']:
-                info_user.set_password(form.cleaned_data['password'])
-            info_user.save()
-            
-            # Asignar permisos seleccionados
+                user.set_password(form.cleaned_data['password'])
+            else:
+                # Preserve existing password if not provided
+                user.password = info_user.password
+            user.save()
             selected_permissions_ids = request.POST.getlist('user_permissions')
             selected_permissions = Permission.objects.filter(id__in=selected_permissions_ids)
             info_user.user_permissions.set(selected_permissions)

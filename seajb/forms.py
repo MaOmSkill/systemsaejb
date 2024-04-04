@@ -159,10 +159,13 @@ class CemansacForm(forms.ModelForm):
         
 class EditUserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), required=False)
+    
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password', 'is_active', 'is_staff', 'is_superuser' ,'user_permissions' ]
+        fields = ['username', 'email', 'first_name', 'last_name', 'is_active', 'password', 'is_staff', 'is_superuser' ,'user_permissions' ]
         exclude = ('user_permissions',)
+        
+   
         
         
 class RegisterForm(forms.ModelForm):
