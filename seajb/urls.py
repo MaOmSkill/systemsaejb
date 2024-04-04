@@ -56,6 +56,7 @@ urlpatterns = [
      #path('usuarios/permisos',views.permisos,name ='permisos'),
      path('usuarios/tabla_user',views.usuarios,name ='usuarios'),
      path('usuarios/info_user/<int:user_id>',views.info_user,name ='info_user'),
+     path('cambio_password/<int:id>',views.cambio_password,name ='cambio_password'),
      
      #login
      path('logout/', views.exit, name='exit'),

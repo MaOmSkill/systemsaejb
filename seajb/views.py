@@ -688,7 +688,7 @@ def cemanblin(request):
 
 # USUARIOS Y RESGISTROS Y PERMISOS
 from django.contrib.auth.models import User, Permission
-from .forms import EditUserForm, RegisterForm
+from .forms import EditUserForm, RegisterForm, CambioPasswordForm
 
 def usuarios(request):
     usuarios = User.objects.all()
@@ -701,7 +701,7 @@ def usuarios(request):
             messages.success(request, 'Se Registro Usuario con Éxito')
             return redirect('usuarios')
         else:
-            messages.error(request, 'FaltanCampos por Rellenar o la Contraseña no Coinciden')
+            messages.error(request, 'Faltan Campos por Rellenar o la Contraseña no Coinciden')
     else:
         form = RegisterForm()
     context = {'usuarios': usuarios , 'form' : form }
@@ -713,28 +713,39 @@ def info_user(request, user_id):
     permissions = Permission.objects.all() 
     assigned_permissions_ids = info_user.user_permissions.values_list('id', flat=True)
     
+
     if request.method == 'POST':
         form = EditUserForm(request.POST, instance=info_user)
         if form.is_valid():
-            user = form.save(commit=False)
-            if form.cleaned_data['password']:
-                user.set_password(form.cleaned_data['password'])
-            else:
-                # Preserve existing password if not provided
-                user.password = info_user.password
-
+            form.save()
             selected_permissions_ids = request.POST.getlist('user_permissions')
             selected_permissions = Permission.objects.filter(id__in=selected_permissions_ids)
             info_user.user_permissions.set(selected_permissions)
-            user.save()
             messages.success(request, 'Se Actualizo con Éxito')
             return redirect('usuarios')
         else:
-            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
+            messages.error(request, 'Faltaron campos 2 por rellenar en el Formulario')
     else:
         form = EditUserForm(instance=info_user)
     context = {'info_user': info_user, 'permissions': permissions, 'assigned_permissions_ids': assigned_permissions_ids, 'form': form}
     return render(request, 'usuarios/info_user.html', context)
+
+def cambio_password(request, id):
+    cambio = User.objects.get(pk=id)
+    if request.method == 'POST':
+        formulario = CambioPasswordForm(request.POST)
+        if  formulario.is_valid():
+            user = formulario.save(commit=False) 
+            user.set_password(formulario.cleaned_data['password']) 
+            user.save() 
+            messages.success(request, 'Se Cambio la Contraseña con Éxito')
+            return redirect('usuarios')
+        else:
+            messages.error(request, 'Faltan Campos 1 por Rellenar o la Contraseña no Coinciden')
+    else:
+        formulario = CambioPasswordForm()
+    context = {'formulario' : formulario, 'cambio':cambio }
+    return render(request, 'usuarios/cambio_password.html', context)
 
 
 def exit(request):
