@@ -8,7 +8,6 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.contrib.staticfiles import finders
 from xhtml2pdf import pisa
-from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
@@ -257,6 +256,24 @@ def digital_index(request):
         formularios = BrigadaDigitalForm()
     context = {'digitales': digitales, 'formulario': formularios}
     return render(request, 'digital/digital_index.html', context)
+
+#editar cada opcion de la lista de  digitalizaciones
+
+@login_required
+def digital_edit(request, digital_id):
+    digital = BrigadaDigital.objects.get(pk=digital_id)
+    if request.method == 'POST':
+        formularios = BrigadaDigitalForm(request.POST, instance=digital)
+        if formularios.is_valid():
+            formularios.save()
+            messages.info(request, "Los Datos se actualizaron Correctamente")
+            return redirect('digital_detail', digital_id=digital.id)
+        else:
+            messages.error(request, 'No se pudo Actualizar los Datos')
+    else:
+        formularios = BrigadaDigitalForm(instance=digital)
+    context = {"digital": digital , 'formularios':formularios}
+    return render(request,'digital/digital_edit.html',context)
 
 @login_required
 def digital_info(request, digital_id):
@@ -688,31 +705,37 @@ def cemanblin(request):
 
 # USUARIOS Y RESGISTROS Y PERMISOS
 from django.contrib.auth.models import User, Permission
-from .forms import EditUserForm, RegisterForm, CambioPasswordForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash, logout
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from .forms import EditUserForm, RegisterForm, CambioForm
+
+def exit(request):
+    logout(request)
+    return redirect('principal')
 
 def usuarios(request):
     usuarios = User.objects.all()
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False) # No guarda el usuario todavía
-            user.set_password(form.cleaned_data['password']) # Aplica el hash a la contraseña
-            user.save() # Ahora guarda el usuario con la contraseña hasheada
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
             messages.success(request, 'Se Registro Usuario con Éxito')
             return redirect('usuarios')
         else:
             messages.error(request, 'Faltan Campos por Rellenar o la Contraseña no Coinciden')
     else:
         form = RegisterForm()
-    context = {'usuarios': usuarios , 'form' : form }
+    context = {'usuarios': usuarios, 'form': form}
     return render(request, 'usuarios/tabla_user.html', context)
 
-
 def info_user(request, user_id):
-    info_user = get_object_or_404(User, id=user_id)
-    permissions = Permission.objects.all() 
+    info_user = User.objects.get(id=user_id)
+    permissions = Permission.objects.all()
     assigned_permissions_ids = info_user.user_permissions.values_list('id', flat=True)
-    
 
     if request.method == 'POST':
         form = EditUserForm(request.POST, instance=info_user)
@@ -727,27 +750,22 @@ def info_user(request, user_id):
             messages.error(request, 'Faltaron campos 2 por rellenar en el Formulario')
     else:
         form = EditUserForm(instance=info_user)
-    context = {'info_user': info_user, 'permissions': permissions, 'assigned_permissions_ids': assigned_permissions_ids, 'form': form}
+    context = {'info_user': info_user, 'permissions': permissions, 'form': form, 'assigned_permissions_ids': assigned_permissions_ids}
     return render(request, 'usuarios/info_user.html', context)
 
 def cambio_password(request, id):
-    cambio = User.objects.get(pk=id)
+    cambio = User.objects.get(id=id)
+    print(id)
     if request.method == 'POST':
-        formulario = CambioPasswordForm(request.POST)
-        if  formulario.is_valid():
-            user = formulario.save(commit=False) 
-            user.set_password(formulario.cleaned_data['password']) 
-            user.save() 
-            messages.success(request, 'Se Cambio la Contraseña con Éxito')
-            return redirect('usuarios')
+        formulario_cambio = CambioForm(request.POST, instance=cambio)
+        if formulario_cambio.is_valid():
+            user = formulario_cambio.save(commit=False)
+            user.set_password(formulario_cambio.cleaned_data['password'])
+            user.save()
+            messages.success(request, "Contraseña Cambiada Correctamente")
+            return redirect('info_user', user_id=cambio.id)
         else:
-            messages.error(request, 'Faltan Campos 1 por Rellenar o la Contraseña no Coinciden')
+            messages.error(request, 'Las Contrasenas no Coinciden o no cumplen las normas de seguridad')
     else:
-        formulario = CambioPasswordForm()
-    context = {'formulario' : formulario, 'cambio':cambio }
-    return render(request, 'usuarios/cambio_password.html', context)
-
-
-def exit(request):
-    logout(request)
-    return redirect('principal')
+        formulario_cambio = CambioForm(instance=cambio)
+    return render(request, 'usuarios/cambio_password.html', {'formulario_cambio': formulario_cambio , 'cambio':cambio})

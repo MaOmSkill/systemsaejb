@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import DateInput
 from django.contrib.auth.models import User, Permission
+from django.contrib.auth.forms import UserChangeForm
 from .models import Brigada, Batallones, Armas, Municiones, Personas,BrigadaDigital, UnidadDigital, Abastecimiento , Producto, ProductoAbastecimiento, ArmasDePersonas, Cemanblin, Cemantar, Cemansac
 
 
@@ -165,24 +166,6 @@ class EditUserForm(forms.ModelForm):
         exclude = ('user_permissions',)
         
    
-class CambioPasswordForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    password1 = forms.CharField(widget=forms.PasswordInput)
-    
-    class Meta:
-        model = User
-        fields = ['password', 'password1']
-        
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password1 = cleaned_data.get("password1")
-
-        if password and password1 and password != password1:
-            raise forms.ValidationError("Las contraseñas no coinciden")
-        
-        
-    
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password1 = forms.CharField(widget=forms.PasswordInput)
@@ -200,3 +183,21 @@ class RegisterForm(forms.ModelForm):
 
         if password and password1 and password != password1:
             raise forms.ValidationError("Las contraseñas no coinciden")
+
+class CambioForm(forms.ModelForm):
+
+    password = forms.CharField(widget=forms.PasswordInput)
+    password1 = forms.CharField(widget=forms.PasswordInput)
+    
+    class Meta:
+        model = User
+        fields = ['password', 'password1']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password1 = cleaned_data.get("password1")
+
+        if password and password1 and password != password1:
+            raise forms.ValidationError("Las contraseñas no coinciden")
+ 

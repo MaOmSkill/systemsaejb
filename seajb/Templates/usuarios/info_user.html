@@ -26,9 +26,11 @@
 <div class="card card-default w-80">
   <div class="card-header">
     <div class="d-flex justify-content-between">
+   
       <h3 class="card-title m-0"> Usuarios {{info_user.username}} </h3>
   
-      <a href="#" class="btn btn-success float-left password" data-id="{{ info_user.id }}"><i
+    
+      <a  href="{%url 'cambio_password' info_user.id %}" class="btn btn-success float-left"><i
           class="fas fa-plus-square"></i> Nueva Contraseña</a>
     </div>
   <div class="card-body">
@@ -37,49 +39,10 @@
 </div>
 </div>
 
-
-<div class="modal fade" id="contraseña">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-dark ">
-        <h5 class="modal-title">Cambiar la Contraseña</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-      </div>
-    </div>
-  </div>
-</div>
-
 {% endblock %}
 
 
-
 {% block js %}
-<script>
-$(document).ready(function() {
-   $('.password').click(function () {
-    let id = $(this).data('id');
-    console.log(id);
-    $.ajax({
-      url: '/cambio_password/' + id,
-      type: 'GET',
-      success: function (response) {
-
-        $('#contraseña .modal-body').html(response);
-        $('#contraseña').modal('show');
-      }
-    });
-  });
-});
-
-</script>
-
-
-
 <script>
   $(document).ready(function () {
     $('.duallistbox').bootstrapDualListbox({

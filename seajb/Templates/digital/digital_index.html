@@ -54,7 +54,7 @@
             <a href="{% url 'infodig' dital.id %}" class="btn btn-success"><i class="nav-icon fas fa-eye"></i></a> |
             {% endif %}
             {% if perms.seajb.change_digital %}
-            <a href="#" class="btn btn-info"><i class="fas fa-solid fa-marker"></i></a> |
+            <a href="{% url 'digital_edit' dital.id %}" class="btn btn-info"><i class="fas fa-solid fa-marker"></i></a> |
             {% endif %}
             {% if perms.seajb.delete_digital %}
             <a href="#" class="btn btn-danger"><i class="fas fa-solid fa-trash"></i></a>
@@ -71,7 +71,7 @@
 <div class="modal fade" id="modalDigital" tabindex="-1" aria-labelledby="modalTituloDigital" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header bg-primary ">
+      <div class="modal-header bg-dark ">
         <h5 class="modal-title" id="modalTituloDigital">Formulario Digital</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -86,3 +86,6 @@
 
 
 {% endblock%}
+
+
+
