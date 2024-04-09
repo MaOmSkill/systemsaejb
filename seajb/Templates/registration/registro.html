@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAEJB | Inicio de Sesión</title>
+
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+</head>
+
+<body class="hold-transition login-page">
+  <div class="login-box">
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center">
+        <a href="#" class="h1"><b>REGISTRO</b></a>
+      </div>
+      <div class="card-body">
+
+        <form action="#" method="post">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="username">{{form.username.label}}</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Nombre de Usuario">
+          </div>
+
+          <div class="form-group">
+            <label for="email">{{form.email.label}}</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Correo Electronico">
+          </div>
+
+          <div class="form-group">
+            <label for="password">{{form.password.label}}</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña">
+          </div>
+
+         <div class="form-group">
+            <label for="password_confirmation">{{form.password_confirmation.label}}</label>
+            <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirmar Contraseña">
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <div class="icheck-primary d-inline">
+                <input type="checkbox" id="checkboxPrimary1" name="is_active">
+                <label for="checkboxPrimary1">{{form.is_active.label}}</label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="icheck-primary d-inline">
+                <input type="checkbox" id="checkboxPrimary2" name="is_staff">
+                <label for="checkboxPrimary2">Staff</label>
+              </div>
+            </div>
+
+            <div class="col-3">
+              <div class="icheck-primary d-inline">
+                <input type="checkbox" id="checkboxPrimary3" name="is_superuser">
+                <label for="checkboxPrimary3">Super</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-md-2">
+                <input type="submit" class="btn btn-primary" value="Resgistrarse">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/plugins/jquery/jquery.min.js"></script>
+  <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/dist/js/adminlte.min.js"></script>
+</body>
+
+</html>

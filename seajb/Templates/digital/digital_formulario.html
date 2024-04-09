@@ -3,7 +3,7 @@
 
   <div class="form-group">
     <label for="nombre" class="form-label">{{formularios.nombre.label}} </label>
-    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre">
+    <input type="text" class="form-control" name="nombre" id="nombre"   value="{{ formularios.nombre.value|default_if_none:'' }}" placeholder="Nombre">
     {% for error in formularios.errors.nombre %}
     <span class="error">{{ error }}</span>
     {% endfor %}

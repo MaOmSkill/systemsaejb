@@ -57,7 +57,7 @@
             <a href="{% url 'digital_edit' dital.id %}" class="btn btn-info"><i class="fas fa-solid fa-marker"></i></a> |
             {% endif %}
             {% if perms.seajb.delete_digital %}
-            <a href="#" class="btn btn-danger"><i class="fas fa-solid fa-trash"></i></a>
+            <a href="{% url 'suprimir' dital.id %}" class="btn btn-danger"><i class="fas fa-solid fa-trash"></i></a>
             {% endif %}
             </td>
           </tr>

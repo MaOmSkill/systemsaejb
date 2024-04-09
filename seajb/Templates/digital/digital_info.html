@@ -49,7 +49,7 @@
             <td>{{digital.descripcion}}</td>
             <td><a href="{{digital.img.url}}" target="_blank">Descargar</a></td>
             <td>
-            <a href="#" class="btn btn-info"><i class="fas fa-solid fa-marker"></i></a> 
+            <a href="{% url 'edit_info' digital.id %}" class="btn btn-info"><i class="fas fa-solid fa-marker"></i></a> 
             </td>
           </tr>
           {% endfor %}
@@ -62,7 +62,7 @@
 <div class="modal fade" id="modalDigital" tabindex="-1" aria-labelledby="modalTituloDigital" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header bg-primary ">
+      <div class="modal-header bg-dark ">
         <h5 class="modal-title" id="modalTituloDigital">Formulario Digital</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>

@@ -46,7 +46,9 @@ urlpatterns = [
      # rutas de digitalización
      path('digital/digital_index', views.digital_index, name='digital'),
      path('digital/digital_edit/<int:digital_id>', views.digital_edit, name='digital_edit'),
+     path("suprimir/<int:id>", views.suprimir, name="suprimir"),
      path('digital/digital_info/<int:digital_id>', views.digital_info, name='infodig'),
+     path('digital/digital_info_edit/<int:digital_id>', views.edit_info, name='edit_info'),
      
      # rutas de los centros
      path('centros/cemantar_index', views.cemantar, name='cemantar'),
@@ -58,6 +60,7 @@ urlpatterns = [
      path('usuarios/tabla_user',views.usuarios,name ='usuarios'),
      path('usuarios/info_user/<int:user_id>',views.info_user,name ='info_user'),
      path('usuarios/cambio_password/<int:id>',views.cambio_password,name ='cambio_password'),
+     path('registration/registro',views.registro, name ='registro'),
      
      #login
      path('logout/', views.exit, name='exit'),

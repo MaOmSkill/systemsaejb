@@ -4,7 +4,10 @@
     <div class="form-group col-md-12">
       <label for="digital">Brigada A Digitalizar</label>
       <select class="form-control" id="digital" name="digital">
-          <option value="{{digital.id}}">{{digital.id}} - {{digital.nombre}} </option>
+      {% for digital in digital %}
+        <option value="{{digital.id}}">{{digital.id}} - {{digital.nombre}} </option>
+      {% endfor %}
+      
       </select>
       {% for error in formulario.errors.digital %}
       <span class="error">{{ error }}</span>
@@ -13,7 +16,7 @@
   
     <div class="form-group col-md-12">
       <label for="nombreU" class="form-label">{{formulario.nombreU.label}} </label>
-      <input type="text" class="form-control" name="nombreU" id="nombreU" placeholder="Nombre">
+      <input type="text" class="form-control" name="nombreU" id="nombreU" value="{{ formularios.nombreU.value|default_if_none:'' }}" placeholder="Nombre">
       {% for error in formulario.errors.nombreU %}
       <span class="error">{{ error }}</span>
       {% endfor %}
@@ -22,7 +25,7 @@
     <div class="form-group col-md-12">
       <label for="descripcion" class="form-label">{{formulario.descripcion.label}} </label>
       <textarea class="form-control" name="descripcion" id="descripcion" rows="3"
-        placeholder="Describe el Material"></textarea>
+        placeholder="Describe el Material">{{ formularios.descripcion.value|default_if_none:'' }}</textarea>
       {% for error in formulario.errors.descripcion %}
       <span class="error">{{ error }}</span>
       {% endfor %}
@@ -36,6 +39,9 @@
       {% endfor %}
     </div>
 
+      <img src="{{digitales.img.url}}" alt="Imagen actual" width="100px" height="100px">
+  
+    
   </div>
   <div class="modal-footer">
     <button type="button" id="cerrarBoton" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

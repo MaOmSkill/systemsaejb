@@ -63,7 +63,7 @@ def eliminar(request, id):
         registro.delete()
         messages.success(request, "Registro eliminado correctamente.")
     except Brigada.DoesNotExist:
-        messages.error(request, 'Algo Salio Mal', timer=8000)
+        messages.error(request, 'Algo Salio Mal')
     return redirect('servicio')
      
 
@@ -254,7 +254,7 @@ def digital_index(request):
             messages.error(request, 'Revisa el Formulario algo salio mal')
     else:
         formularios = BrigadaDigitalForm()
-    context = {'digitales': digitales, 'formulario': formularios}
+    context = {'digitales': digitales, 'formularios': formularios}
     return render(request, 'digital/digital_index.html', context)
 
 #editar cada opcion de la lista de  digitalizaciones
@@ -267,7 +267,7 @@ def digital_edit(request, digital_id):
         if formularios.is_valid():
             formularios.save()
             messages.info(request, "Los Datos se actualizaron Correctamente")
-            return redirect('digital_detail', digital_id=digital.id)
+            return redirect('digital')
         else:
             messages.error(request, 'No se pudo Actualizar los Datos')
     else:
@@ -275,10 +275,20 @@ def digital_edit(request, digital_id):
     context = {"digital": digital , 'formularios':formularios}
     return render(request,'digital/digital_edit.html',context)
 
+def suprimir(request, id):
+    try:
+        digital = BrigadaDigital.objects.get(id=id)
+        digital.delete()
+        messages.success(request, "Se Elimino Correctamente")
+        return redirect('digital')
+    except:
+        messages.error(request, "No se pudo Eliminar")
+        return redirect('digital')
+
 @login_required
 def digital_info(request, digital_id):
-    digital = BrigadaDigital.objects.get(pk=digital_id)
-    digitales = UnidadDigital.objects.filter(digital=digital)
+    digital = BrigadaDigital.objects.filter(id=digital_id)
+    digitales = UnidadDigital.objects.filter(id=digital_id)
     
     if request.method == 'POST':
         formularios = UnidadDigitalForm(request.POST, request.FILES)
@@ -294,6 +304,30 @@ def digital_info(request, digital_id):
         formularios = UnidadDigitalForm()
     context = {'digital': digital, 'digito': digitales, 'formulario': formularios}
     return render(request, 'digital/digital_info.html', context)
+
+@login_required
+def edit_info(request, digital_id):
+    try:
+        digital = BrigadaDigital.objects.filter(id=digital_id)
+    except BrigadaDigital.DoesNotExist:
+        messages.error(request, 'BrigadaDigital no existe')
+        return redirect('digital') 
+
+    digitales = UnidadDigital.objects.get(id=digital_id)
+    
+    if request.method == 'POST':
+        formularios = UnidadDigitalForm(request.POST, request.FILES, instance=digitales)
+        if formularios.is_valid():
+            formularios.save()
+            messages.info(request, "Los Datos se actualizaron Correctamente")
+            return redirect('infodig', digital_id=digitales.id)
+        else:
+            messages.error(request, 'No se pudo Actualizar los Datos')
+    else:
+        formularios = UnidadDigitalForm(instance=digitales)
+    context = {"digital": digital , 'digitales':digitales , 'formularios':formularios}
+    return render(request,'digital/digital_info_edit.html',context)
+
 
 #INVENTARIO
 @login_required
@@ -705,11 +739,11 @@ def cemanblin(request):
 
 # USUARIOS Y RESGISTROS Y PERMISOS
 from django.contrib.auth.models import User, Permission
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import update_session_auth_hash, logout
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from .forms import EditUserForm, RegisterForm, CambioForm
+from .forms import EditUserForm, RegisterForm, CambioForm, RegistroForm
 
 def exit(request):
     logout(request)
@@ -769,3 +803,30 @@ def cambio_password(request, id):
     else:
         formulario_cambio = CambioForm(instance=cambio)
     return render(request, 'usuarios/cambio_password.html', {'formulario_cambio': formulario_cambio , 'cambio':cambio})
+
+def registro(request):
+    registro_super= User.objects.all()
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            # Obtener los datos del formulario
+            password = form.cleaned_data.get('password')
+            password_confirmation = request.POST.get('password_confirmation')
+            is_active = request.POST.get('is_active', False)
+            is_staff = request.POST.get('is_staff', False)
+
+            # Validar que las contraseñas coincidan
+            if password != password_confirmation:
+                form.add_error('password', 'Las contraseñas no coinciden')
+            else:
+                # Crear el usuario
+                user = form.save()
+                user.is_active = is_active
+                user.is_staff = is_staff
+                user.save()
+                return redirect('login')
+    else:
+        form = RegistroForm()
+    context = {'form': form, 'registro_super':registro_super}
+    return render(request, 'registration/registro.html', context)
+   
