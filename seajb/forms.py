@@ -206,6 +206,9 @@ class RegistroForm(forms.ModelForm):
 
     password = forms.CharField(widget=forms.PasswordInput)
     password_confirmation = forms.CharField(widget=forms.PasswordInput)
+    is_active = forms.BooleanField(required=False, initial=True)
+    is_superuser = forms.BooleanField(required=False, initial=True)
+    is_staff = forms.BooleanField(required=False, initial=True)
     
     class Meta:
         model = User
@@ -218,4 +221,9 @@ class RegistroForm(forms.ModelForm):
 
         if password and password_confirmation and password != password_confirmation:
             raise forms.ValidationError("Las contraseñas no coinciden")
+        
+    def clean_checkbox(self):
+        is_active = self.cleaned_data.get('checkbox')
+        # Convert 'on' to True, and any other value to False
+        return is_active == 'on'
  

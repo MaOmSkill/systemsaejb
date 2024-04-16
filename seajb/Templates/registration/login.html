@@ -18,7 +18,7 @@
   <div class="login-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="#" class="h1"><b>SAEJB</b></a>
+        <a  class="h1"><b>SAEJB</b> <img src="/static/imagenes/dos.png" alt="logo" height="50" width="50"></a>
       </div>
       <div class="card-body">
         <p class="login-box-msg">Coloca tu Usuario para Iniciar tu Sesión</p>
@@ -34,7 +34,7 @@
         <form action="#" method="post">
         {% csrf_token %}
           <div class="input-group mb-3">
-            <input type="text" class="form-control" name="username" id=""  placeholder="Usuario">
+            <input type="text" class="form-control" name="username" id="username_id"  placeholder="Usuario">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-solid fa-user"></span>
@@ -50,9 +50,11 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6">
-             <a href="{% url 'registro' %}" class="btn btn-dark btn-block">Registrarse</a>
-            </div>
+            {% if not request.user.is_superuser %}
+            <div class="col-3">
+              <!-- <a href="{% url 'registro' %}" class="btn btn-dark btn-block">Registrarse</a> -->
+            </div> 
+            {% endif %}
             <div class="col-6">
               <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
             </div>

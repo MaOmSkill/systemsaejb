@@ -14,14 +14,10 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, FileResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, FileResponse, HttpRequest
 from .models import Brigada, Batallones, Armas, Municiones, Personas, BrigadaDigital, UnidadDigital, Abastecimiento,  Producto,ProductoAbastecimiento, ArmasDePersonas, Cemanblin, Cemantar, Cemansac
 from .forms import BrigadaForm, BatallonForm, ArmaForm, MunicionForm, PersonaForm, BrigadaDigitalForm, UnidadDigitalForm, EnviarProductoForm, ProductoForm, AbastecimientoForm, ArmasDePersonasForm, CemanblinForm, CemantarForm, CemansacForm
 
-
-@login_required
-def principal(request):
-    return render(request,'servicio/principal.html')
 
 # tabla principal editar , eliminar y crear brigadas
 @login_required
@@ -37,7 +33,7 @@ def servicio(request):
            messages.error(request, 'Faltaron campos por rellenar en el Formulario')
     else:
         formularios = BrigadaForm()
-    context = {'servicios':servicio, 'formulario': formularios}
+    context = {'servicios':servicio , 'formulario': formularios}
     return render(request, 'servicio/index.html', context)
 
 @login_required
@@ -288,7 +284,7 @@ def suprimir(request, id):
 @login_required
 def digital_info(request, digital_id):
     digital = BrigadaDigital.objects.filter(id=digital_id)
-    digitales = UnidadDigital.objects.filter(id=digital_id)
+    digitales = UnidadDigital.objects.filter(digital=digital_id)
     
     if request.method == 'POST':
         formularios = UnidadDigitalForm(request.POST, request.FILES)
@@ -738,17 +734,20 @@ def cemanblin(request):
 
 
 # USUARIOS Y RESGISTROS Y PERMISOS
-from django.contrib.auth.models import User, Permission
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import update_session_auth_hash, logout
-from django.shortcuts import redirect, render
-from django.contrib import messages
-from .forms import EditUserForm, RegisterForm, CambioForm, RegistroForm
 
+from django.contrib.auth.models import User, Permission
+from django.contrib.auth import logout
+from .forms import EditUserForm, RegisterForm, CambioForm, RegistroForm
+import datetime
+
+
+@login_required
 def exit(request):
     logout(request)
-    return redirect('principal')
+    return redirect('servicio')
 
+
+@login_required
 def usuarios(request):
     usuarios = User.objects.all()
     if request.method == 'POST':
@@ -766,6 +765,7 @@ def usuarios(request):
     context = {'usuarios': usuarios, 'form': form}
     return render(request, 'usuarios/tabla_user.html', context)
 
+@login_required
 def info_user(request, user_id):
     info_user = User.objects.get(id=user_id)
     permissions = Permission.objects.all()
@@ -787,6 +787,7 @@ def info_user(request, user_id):
     context = {'info_user': info_user, 'permissions': permissions, 'form': form, 'assigned_permissions_ids': assigned_permissions_ids}
     return render(request, 'usuarios/info_user.html', context)
 
+@login_required
 def cambio_password(request, id):
     cambio = User.objects.get(id=id)
     print(id)
@@ -805,7 +806,7 @@ def cambio_password(request, id):
     return render(request, 'usuarios/cambio_password.html', {'formulario_cambio': formulario_cambio , 'cambio':cambio})
 
 def registro(request):
-    registro_super= User.objects.all()
+    registro_super = User.objects.all()
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
@@ -820,13 +821,12 @@ def registro(request):
                 form.add_error('password', 'Las contraseñas no coinciden')
             else:
                 # Crear el usuario
-                user = form.save()
-                user.is_active = is_active
-                user.is_staff = is_staff
-                user.save()
+                user = form.save(commit=False) # No guardar aún
+                user.set_password(password) # Establecer la contraseña
+                user.save() # Ahora sí guardar el usuario
                 return redirect('login')
     else:
         form = RegistroForm()
-    context = {'form': form, 'registro_super':registro_super}
+    context = {'form': form, 'registro_super': registro_super}
     return render(request, 'registration/registro.html', context)
-   
+

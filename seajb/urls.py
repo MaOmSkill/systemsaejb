@@ -6,8 +6,8 @@ from django.conf.urls.static import static
 urlpatterns = [
    
     #vista principal de las brigadas, eliminar, editar y ver unidades
-    path("", views.principal, name="principal"),
-    path("servicio/index", views.servicio, name="servicio"),
+    path("", views.servicio, name="servicio"),
+  
     path("servicio/editar/<int:brigada_id>", views.editar, name="editar"),
     path("eliminar/<int:id>", views.eliminar, name="eliminar"),
     path("servicio/resumen/<int:resumen_id>", views.resumen, name="resumen"),
@@ -65,9 +65,5 @@ urlpatterns = [
      #login
      path('logout/', views.exit, name='exit'),
      
-     
-     
-      
-   
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
