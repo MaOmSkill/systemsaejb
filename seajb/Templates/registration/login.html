@@ -21,6 +21,12 @@
         <a  class="h1"><b>SAEJB</b> <img src="/static/imagenes/dos.png" alt="logo" height="50" width="50"></a>
       </div>
       <div class="card-body">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+
         <p class="login-box-msg">Coloca tu Usuario para Iniciar tu Sesión</p>
           
           {% if form.errors %}
@@ -67,6 +73,8 @@
   <script src="/static/plugins/jquery/jquery.min.js"></script>
   <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/static/dist/js/adminlte.min.js"></script>
-</body>
 
+
+
+</body>
 </html>

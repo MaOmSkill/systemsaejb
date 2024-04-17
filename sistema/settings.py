@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-77dy70cm#9jggc=**fi30=tkvso8%2fr7ql(p2v-@)pn+fd9k0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -151,7 +151,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/'
 
-SESSION_EXPIRE_SECONDS = 100 # Expire después de 5 minutos
+
+SESSION_EXPIRE_SECONDS = 200 # Expire después de 5 minutos
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

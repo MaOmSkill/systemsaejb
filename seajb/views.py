@@ -743,9 +743,10 @@ import datetime
 
 @login_required
 def exit(request):
+    if request.session.is_empty():
+        messages.error(request, "Su sesión ha expirado. Por favor, inicie sesión nuevamente para continuar.")
     logout(request)
-    return redirect('servicio')
-
+    return redirect(reverse('login'))
 
 @login_required
 def usuarios(request):
